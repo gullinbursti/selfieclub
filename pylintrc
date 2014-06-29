@@ -1,0 +1,5 @@
+[MESSAGES CONTROL]
+; Letting the pep8 checker handle the following:
+;   - line-too-long
+disable=missing-docstring,line-too-long
+
