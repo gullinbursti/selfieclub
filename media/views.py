@@ -8,10 +8,12 @@ from rest_framework.views import APIView
 
 class UploadInstructions(APIView):
     def post(self, request, format=None):
-        serializer = UploadInstructionsRequestSerializer(data=request.DATA)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        request_serializer = UploadInstructionsRequestSerializer(data=request.DATA)
+        if not request_serializer.is_valid():
+            return Response(request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        tdt = UploadInstructionsService().process(**serializer.data)
-        something = UploadInstructionsResponseSerializer(tdt)
-        return Response(something.data, status=status.HTTP_201_CREATED)
+        response = UploadInstructionsService().process(**request_serializer.data)
+        response_serializer = UploadInstructionsResponseSerializer(response)
+        rest_response = Response(response_serializer.data, status=status.HTTP_200_OK)
+
+        return rest_response
