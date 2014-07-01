@@ -58,8 +58,11 @@ WSGI_APPLICATION = 'selfieclub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'tmp.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/var/deploy/selfieclub-conf/django-default-mysql.cnf',
+            'init_command': 'SET storage_engine=INNODB',
+        },
     }
 }
 
@@ -81,6 +84,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+#STATICFILES_DIRS = (
+    #'/var/deploy/selfieclub/.virtualenv/lib/python2.7/site-packages/rest_framework/static',
+#)
 
 try:
     from local_settings import *

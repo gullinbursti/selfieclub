@@ -54,4 +54,7 @@ __pycache__/
 .swp
 .*.swp
 
-.virtualenv/
+# Other #
+#########
+/.virtualenv/
+/static/
