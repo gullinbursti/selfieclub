@@ -11,13 +11,15 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+CONFIG_DIR = os.path.join(os.path.dirname(BASE_DIR), 'selfieclub-config')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gtf_xg&cu&mgl(*_m+^zxtqko)#&e1q604-c8n(ngi^6s3@tp#'
+# 'SECRET_KEY' is in 'local_settings'
+# SECRET_KEY =
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -60,7 +62,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': '/var/deploy/selfieclub-conf/django-default-mysql.cnf',
+            'read_default_file': os.path.join(CONFIG_DIR, 'django-default-mysql.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
     }
@@ -85,11 +87,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-#STATICFILES_DIRS = (
-    #'/var/deploy/selfieclub/.virtualenv/lib/python2.7/site-packages/rest_framework/static',
-#)
 
+AWS_S3_DIRECT_CLIENT_UPLOAD = {
+    'bucket': 'volley-test',
+    'acl': 'public-read',
+    'url': 'https://volley-test.s3.amazonaws.com/',
+    'expiry_minutes': 10
+}
+
+
+# Things that need to be in 'local_settings':
+#     - SECRET_KEY
+#     - AWS_CREDENTIALS
 try:
     from local_settings import *
 except ImportError:
     pass
+
