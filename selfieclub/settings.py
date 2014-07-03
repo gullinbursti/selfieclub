@@ -65,6 +65,13 @@ DATABASES = {
             'read_default_file': os.path.join(CONFIG_DIR, 'django-default-mysql.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
+    },
+    'selfieclub': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': os.path.join(CONFIG_DIR, 'django-selfieclub-mysql.cnf'),
+            'init_command': 'SET storage_engine=INNODB',
+        },
     }
 }
 
@@ -95,7 +102,6 @@ AWS_S3_DIRECT_CLIENT_UPLOAD = {
     'expiry_minutes': 10
 }
 
-
 # Things that need to be in 'local_settings':
 #     - SECRET_KEY
 #     - AWS_CREDENTIALS
@@ -103,4 +109,3 @@ try:
     from local_settings import *
 except ImportError:
     pass
-
