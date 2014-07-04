@@ -19,7 +19,6 @@ class BaseDbRouter(object):
         return None
 
     def allow_syncdb(self, current_db, model):
-        print "WTF ==> {} == {}".format(current_db, model._meta.app_label)
         if current_db == self.__class__.CONFIG_NAME \
                 and self.isManagedApp(model._meta.app_label):
             return True
@@ -39,8 +38,8 @@ class SelfieClubDbRouter(BaseDbRouter):
     )
 
 
-class AuthDbRouter(BaseDbRouter):
-    CONFIG_NAME = 'auth_db'
+class DjangoDbRouter(BaseDbRouter):
+    CONFIG_NAME = 'django'
     APP_LABELS = (
         'admin',
         'auth',

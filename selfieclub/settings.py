@@ -61,17 +61,17 @@ WSGI_APPLICATION = 'selfieclub.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'auth_db': {
+    'django': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(CONFIG_DIR, 'django-auth-mysql.cnf'),
+            'read_default_file': os.path.join(CONFIG_DIR, 'mysql-django.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
     },
     'selfieclub': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(CONFIG_DIR, 'django-selfieclub-mysql.cnf'),
+            'read_default_file': os.path.join(CONFIG_DIR, 'mysql-selfieclub.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
     },
@@ -89,7 +89,7 @@ DATABASES = {
 
 
 DATABASE_ROUTERS = [
-    'selfieclub.dbrouters.AuthDbRouter',
+    'selfieclub.dbrouters.DjangoDbRouter',
     'selfieclub.dbrouters.SelfieClubDbRouter',
     'selfieclub.dbrouters.FailDbRouter'
 ]
