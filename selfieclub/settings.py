@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'media',
+    'activity',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,10 +61,10 @@ WSGI_APPLICATION = 'selfieclub.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'auth_db': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(CONFIG_DIR, 'django-default-mysql.cnf'),
+            'read_default_file': os.path.join(CONFIG_DIR, 'django-auth-mysql.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
     },
@@ -72,8 +74,25 @@ DATABASES = {
             'read_default_file': os.path.join(CONFIG_DIR, 'django-selfieclub-mysql.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
-    }
+    },
+    # Leave this blank, we do not want a 'default' database defined.  Doing this as a safety so things dop not end up
+    # strange places by accident.
+    'default': {
+        'ENGINE': '',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    },
 }
+
+
+DATABASE_ROUTERS = [
+    'selfieclub.dbrouters.AuthDbRouter',
+    'selfieclub.dbrouters.SelfieClubDbRouter',
+    'selfieclub.dbrouters.FailDbRouter'
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
