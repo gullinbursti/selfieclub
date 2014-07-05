@@ -1,21 +1,36 @@
-from media.serializers import UploadInstructionsRequestSerializer
-from media.serializers import UploadInstructionsResponseSerializer
-from media.services import UploadInstructionsService
+from activity import models
+from activity import serializers
+from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
 class User(APIView):
-    def get(self, request, user_id, format=None):
-        # request_serializer = UploadInstructionsRequestSerializer(data=request.DATA)
-        # if not request_serializer.is_valid():
-        #     return Response(request_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        #
-        # response = UploadInstructionsService().process(**request_serializer.data)
-        # response_serializer = UploadInstructionsResponseSerializer(response)
-        # rest_response = Response(response_serializer.data, status=status.HTTP_200_OK)
+    def get_object(self, id):
+        try:
+            return models.Activity.objects.get(pk=id)
+        except models.Activity.DoesNotExist:
+            raise Http404
 
-        rest_response = Response(None, status=status.HTTP_200_OK)
+    def get(self, request, id=None, format=None):
+        if id is not None:
+            activity = self.get_object(id=id)
+            serializer = serializers.Activity(activity)
+            return Response(serializer.data)
+        else:
+            activities = models.Activity.objects.all()
+            serializer = serializers.Activity(activities, many=True)
+            return Response(serializer.data)
 
-        return rest_response
+    def post(self, request, format=None):
+        serializer = serializers.Activity(data=request.DATA)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request, id, format=None):
+        activity = self.get_object(id)
+        activity.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

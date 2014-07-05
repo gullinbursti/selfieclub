@@ -15,11 +15,10 @@ ACTIVITY_TYPES = (
 
 class Activity(models.Model):
     activity_type = models.PositiveSmallIntegerField(choices=ACTIVITY_TYPES, max_length=3)
-    post_id = models.IntegerField(max_length=10, db_index=True)
+    selfie_id = models.IntegerField(max_length=10, db_index=True)
     # TODO: more
     user_id = models.IntegerField(max_length=10, db_index=True)
     club_id = models.IntegerField(max_length=11, db_index=True)
-    club_name = models.CharField(max_length=255)
     time = models.DateTimeField()
 
     class Meta:
