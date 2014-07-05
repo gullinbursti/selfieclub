@@ -34,3 +34,11 @@ class User(APIView):
         activity = self.get_object(id)
         activity.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, id, format=None):
+        activity = self.get_object(id)
+        serializer = serializers.Activity(activity, data=request.DATA)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
