@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from activity import models
+from rest_framework import serializers
 
 
 class Activity(serializers.ModelSerializer):
