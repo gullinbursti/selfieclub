@@ -124,7 +124,4 @@ AWS_S3_DIRECT_CLIENT_UPLOAD = {
 # Things that need to be in 'local_settings':
 #     - SECRET_KEY
 #     - AWS_CREDENTIALS
-try:
-    from local_settings import *
-except ImportError:
-    pass
+from local_settings import *
