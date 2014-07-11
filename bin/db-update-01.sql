@@ -1,5 +1,5 @@
 
-INSERT INTO tbl_newsfeed_user_event_type (`id`, `name`, `description`, `updated`, `created`) VALUES
+INSERT INTO tbl_newsfeed_member_event_type (`id`, `name`, `description`, `updated`, `created`) VALUES
     (1, "ALL", "All newsfeed types", NOW(), NOW()),
     (2, "VERIFIED", "Verified (likes/upvotes has surpassed threshold)", NOW(), NOW()),
     (3, "RECEIVED_UPVOTE", "Received an upvote / like on a photo submission", NOW(), NOW()),

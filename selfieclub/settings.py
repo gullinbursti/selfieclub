@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'media',
-    'newsfeed_user',
+    'newsfeed_member',
     'member',
     'club',
     'selfie',

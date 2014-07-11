@@ -1,5 +1,5 @@
-from newsfeed_user import serializers
-from newsfeed_user import models
+from newsfeed_member import serializers
+from newsfeed_member import models
 from rest_framework import viewsets
 
 

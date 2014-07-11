@@ -1,4 +1,4 @@
-from newsfeed_user import models
+from newsfeed_member import models
 from rest_framework import serializers
 from member import serializers as member_serializers
 

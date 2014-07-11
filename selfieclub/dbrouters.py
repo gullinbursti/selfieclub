@@ -34,7 +34,7 @@ class SelfieClubDbRouter(BaseDbRouter):
     CONFIG_NAME = 'selfieclub'
     APP_LABELS = (
         'media',
-        'newsfeed_user',
+        'newsfeed_member',
         'member',
         'club',
         'selfie',

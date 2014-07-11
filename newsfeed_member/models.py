@@ -8,7 +8,7 @@ class NewsfeedType(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'tbl_newsfeed_user_event_type'
+        db_table = 'tbl_newsfeed_member_event_type'
 
 
 # TODO - ForeignKey on club_id not created in DB
@@ -23,4 +23,4 @@ class Newsfeed(models.Model):
 
     class Meta:
         ordering = ['time']
-        db_table = 'tbl_newsfeed_user_event'
+        db_table = 'tbl_newsfeed_member_event'
