@@ -8,4 +8,4 @@ class Member(serializers.ModelSerializer):
 
     class Meta:
         model = models.Member
-        fields = ('id', 'avatar_url', 'username')
+        fields = ('id', 'avatar_url', 'name')

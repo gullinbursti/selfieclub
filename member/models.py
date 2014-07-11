@@ -7,7 +7,7 @@ from django.db import models
 # with MySQL schema
 class Member(models.Model):
     id = models.IntegerField(primary_key=True)
-    username = models.CharField(unique=True, max_length=255)
+    name = models.CharField(unique=True, max_length=255, db_column='username')
     device_token = models.CharField(max_length=64, blank=True)
     fb_id = models.CharField(max_length=255)
     gender = models.CharField(max_length=1)
