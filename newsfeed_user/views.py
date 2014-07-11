@@ -8,6 +8,6 @@ class NewsfeedType(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.NewsfeedType
 
 
-class NewsfeedEvent(viewsets.ModelViewSet):
+class NewsfeedEvent(viewsets.ReadOnlyModelViewSet):
     queryset = models.NewsfeedEvent.objects.all()
     serializer_class = serializers.NewsfeedEvent
