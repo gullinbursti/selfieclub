@@ -9,5 +9,12 @@ class NewsfeedType(viewsets.ReadOnlyModelViewSet):
 
 
 class Newsfeed(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Newsfeed.objects.all()
     serializer_class = serializers.Newsfeed
+    model = models.Newsfeed
+
+    def get_queryset(self):
+        queryset = models.Newsfeed.objects.all()
+        member_id = self.request.QUERY_PARAMS.get('member_id', None)
+        if member_id is not None:
+            queryset = queryset.filter(user_id=member_id)
+        return queryset
