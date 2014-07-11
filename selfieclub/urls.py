@@ -9,6 +9,7 @@ from club import views as club_views
 admin.autodiscover()
 
 router = DefaultRouter()
+router.register(r'^club', club_views.Club)
 router.register(r'^club/type', club_views.ClubType)
 router.register(r'^newsfeed/user/type', newsfeed_user_views.NewsfeedType)
 router.register(r'^newsfeed/user/event', newsfeed_user_views.NewsfeedEvent)
