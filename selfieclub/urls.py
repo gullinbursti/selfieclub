@@ -14,7 +14,7 @@ router.register(r'^selfie', selfie_views.Selfie)
 router.register(r'^club', club_views.Club)
 router.register(r'^club/type', club_views.ClubType)
 router.register(r'^newsfeed/user/type', newsfeed_user_views.NewsfeedType)
-router.register(r'^newsfeed/user/event', newsfeed_user_views.NewsfeedEvent)
+router.register(r'^newsfeed/user', newsfeed_user_views.Newsfeed)
 router.register(r'^member', member_views.Member)
 
 urlpatterns = patterns(
