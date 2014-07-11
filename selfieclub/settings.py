@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'media',
     'activity',
+    'newsfeed_user',
 )
 
 MIDDLEWARE_CLASSES = (
