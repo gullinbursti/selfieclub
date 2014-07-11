@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'newsfeed_user',
     'member',
     'club',
+    'selfie',
 )
 
 MIDDLEWARE_CLASSES = (

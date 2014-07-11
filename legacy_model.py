@@ -137,28 +137,29 @@ class Tblchallengevotes(models.Model):
         managed = False
         db_table = 'tblChallengeVotes'
 
-class Tblchallenges(models.Model):
-    id = models.IntegerField(primary_key=True)
-    status_id = models.IntegerField()
-    subject_id = models.IntegerField()
-    creator_id = models.IntegerField()
-    creator_img = models.CharField(max_length=255)
-    haspreviewed = models.CharField(db_column='hasPreviewed', max_length=1) # Field name made lowercase.
-    votes = models.IntegerField()
-    updated = models.DateTimeField()
-    started = models.DateTimeField()
-    added = models.DateTimeField()
-    is_private = models.CharField(max_length=1)
-    expires = models.IntegerField()
-    creator_likes = models.IntegerField()
-    subject = models.CharField(max_length=255)
-    is_verify = models.IntegerField()
-    is_explore = models.IntegerField(blank=True, null=True)
-    recent_likes = models.TextField()
-    club_id = models.IntegerField()
-    class Meta:
-        managed = False
-        db_table = 'tblChallenges'
+# Moved to /selfie/
+# class Tblchallenges(models.Model):
+#     id = models.IntegerField(primary_key=True)
+#     status_id = models.IntegerField()
+#     subject_id = models.IntegerField()
+#     creator_id = models.IntegerField()
+#     creator_img = models.CharField(max_length=255)
+#     haspreviewed = models.CharField(db_column='hasPreviewed', max_length=1) # Field name made lowercase.
+#     votes = models.IntegerField()
+#     updated = models.DateTimeField()
+#     started = models.DateTimeField()
+#     added = models.DateTimeField()
+#     is_private = models.CharField(max_length=1)
+#     expires = models.IntegerField()
+#     creator_likes = models.IntegerField()
+#     subject = models.CharField(max_length=255)
+#     is_verify = models.IntegerField()
+#     is_explore = models.IntegerField(blank=True, null=True)
+#     recent_likes = models.TextField()
+#     club_id = models.IntegerField()
+#     class Meta:
+#         managed = False
+#         db_table = 'tblChallenges'
 
 # Moved to /club/
 # ----

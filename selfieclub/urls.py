@@ -4,11 +4,13 @@ from rest_framework.routers import DefaultRouter
 from newsfeed_user import views as newsfeed_user_views
 from member import views as member_views
 from club import views as club_views
+from selfie import views as selfie_views
 
 
 admin.autodiscover()
 
 router = DefaultRouter()
+router.register(r'^selfie', selfie_views.Selfie)
 router.register(r'^club', club_views.Club)
 router.register(r'^club/type', club_views.ClubType)
 router.register(r'^newsfeed/user/type', newsfeed_user_views.NewsfeedType)
