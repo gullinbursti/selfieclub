@@ -12,9 +12,9 @@ class NewsfeedType(models.Model):
 
 
 class NewsfeedEvent(models.Model):
-    user = models.ForeignKey('member.Member')
-    club = models.ForeignKey('club.Club')
-    event_type = models.ForeignKey('NewsfeedType')
+    user_id = models.ForeignKey('member.Member', db_column='user_id')
+    club_id = models.ForeignKey('club.Club', db_column='club_id')
+    event_type_id = models.ForeignKey('NewsfeedType', db_column='event_type_id')
     selfie_id = models.IntegerField(max_length=10)
     time = models.DateTimeField()
     updated = models.DateTimeField(auto_now=True)
