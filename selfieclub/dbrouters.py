@@ -33,7 +33,6 @@ class BaseDbRouter(object):
 class SelfieClubDbRouter(BaseDbRouter):
     CONFIG_NAME = 'selfieclub'
     APP_LABELS = (
-        'activity',
         'media',
         'newsfeed_user',
         'member',
