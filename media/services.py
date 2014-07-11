@@ -12,7 +12,7 @@ class UploadInstructionsService(object):
     UPLOAD_FORM_FIELD = 'file'
     DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
-    def process(self, user_id, content_type, file_name, size, club_id=None):
+    def process(self, member_id, content_type, file_name, size, club_id=None):
         # Pull in configuration information
         aws_key = settings.AWS_CREDENTIALS['key']
         aws_secret = settings.AWS_CREDENTIALS['secret']

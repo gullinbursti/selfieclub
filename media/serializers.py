@@ -4,7 +4,7 @@ from drf_compound_fields.fields import ListField
 
 class UploadInstructionsRequestSerializer(serializers.Serializer):
     club_id = serializers.IntegerField(required=False)
-    user_id = serializers.IntegerField(required=True)
+    member_id = serializers.IntegerField(required=True)
     content_type = serializers.CharField(required=True, max_length=100)
     file_name = serializers.CharField(required=True, max_length=100)
     size = serializers.IntegerField(required=True)
