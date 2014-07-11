@@ -115,6 +115,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+REST_FRAMEWORK = {
+    'PAGINATE_BY': 10,
+    'PAGINATE_BY_PARAM': 'page_size',
+    'MAX_PAGINATE_BY': 100
+}
+
 AWS_S3_DIRECT_CLIENT_UPLOAD = {
     'bucket': 'volley-test',
     'acl': 'public-read',
