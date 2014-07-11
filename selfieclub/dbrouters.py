@@ -37,6 +37,7 @@ class SelfieClubDbRouter(BaseDbRouter):
         'media',
         'newsfeed_user',
         'member',
+        'club',
     )
 
 

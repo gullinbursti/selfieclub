@@ -3,11 +3,13 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from newsfeed_user import views as newsfeed_user_views
 from member import views as member_views
+from club import views as club_views
 
 
 admin.autodiscover()
 
 router = DefaultRouter()
+router.register(r'^club/type', club_views.ClubType)
 router.register(r'^newsfeed/user/type', newsfeed_user_views.NewsfeedType)
 router.register(r'^newsfeed/user/event', newsfeed_user_views.NewsfeedEvent)
 router.register(r'^member', member_views.Member)
