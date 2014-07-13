@@ -41,10 +41,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'media',
-    'newsfeed_member',
-    'member',
     'club',
+    'media',
+    'member',
+    'newsfeed_common',
+    'newsfeed_member',
     'selfie',
 )
 
@@ -131,6 +132,8 @@ AWS_S3_DIRECT_CLIENT_UPLOAD = {
     'url': 'https://volley-test.s3.amazonaws.com/',
     'expiry_minutes': 10
 }
+
+CELERY_ACCEPT_CONTENT = ['json']
 
 # Things that need to be in 'local_settings':
 #     - SECRET_KEY
