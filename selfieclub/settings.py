@@ -24,9 +24,8 @@ CONFIG_DIR = os.path.join(os.path.dirname(BASE_DIR), 'selfieclub-config')
 # SECRET_KEY =
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -44,7 +43,6 @@ INSTALLED_APPS = (
     'club',
     'media',
     'member',
-    'newsfeed_common',
     'newsfeed_member',
     'selfie',
 )
