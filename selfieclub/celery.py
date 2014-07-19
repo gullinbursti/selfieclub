@@ -6,7 +6,12 @@ import os
 import sys
 
 base_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-config_dir = os.path.join(os.path.dirname(base_dir), 'selfieclub-config')
+
+if 'SELFIECLUB_CONFIG_DIR' in os.environ:
+    config_dir = os.environ.get('SELFIECLUB_CONFIG_DIR')
+else:
+    config_dir = os.path.join(os.path.dirname(base_dir), 'selfieclub-config')
+
 sys.path.append(config_dir)
 
 # set the default Django settings module for the 'celery' program.
