@@ -1,8 +1,8 @@
-from selfie import models
+from statusupdate import models
 from rest_framework import serializers
 
 
-class Selfie(serializers.ModelSerializer):
+class StatusUpdate(serializers.ModelSerializer):
     class Meta:
-        model = models.Selfie
+        model = models.StatusUpdate
         fields = ('id', 'creator_id', 'is_private', 'votes', 'added')

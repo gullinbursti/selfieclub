@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'media',
     'member',
     'newsfeed_member',
-    'selfie',
+    'statusupdate',
 )
 
 MIDDLEWARE_CLASSES = (

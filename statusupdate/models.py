@@ -7,7 +7,7 @@ from django.db import models
 #    - The status_id, subject_id, creator_id, club_id, and maybe others, need to be made
 #      ForeignKey(s) here and in the DB.
 #    - Need to double check many other things
-class Selfie(models.Model):
+class StatusUpdate(models.Model):
     id = models.IntegerField(primary_key=True)
     status_id = models.IntegerField()
     subject_id = models.IntegerField()
