@@ -1,5 +1,5 @@
-from statusupdate import serializers
-from statusupdate import models
+from status import serializers
+from status import models
 from rest_framework import viewsets
 
 

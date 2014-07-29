@@ -1,4 +1,4 @@
-from statusupdate import models
+from status import models
 from rest_framework import serializers
 
 
