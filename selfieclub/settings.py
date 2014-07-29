@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-CONFIG_DIR = os.path.join(os.path.dirname(BASE_DIR), 'selfieclub-config')
+if 'SELFIECLUB_CONFIG_DIR' in os.environ:
+    CONFIG_DIR = os.environ.get('SELFIECLUB_CONFIG_DIR')
+else:
+    CONFIG_DIR = os.path.join(os.path.dirname(BASE_DIR), 'selfieclub-config')
 
 
 # Quick-start development settings - unsuitable for production
