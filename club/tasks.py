@@ -1,13 +1,13 @@
 from __future__ import absolute_import
 
 from celery import shared_task
+from celery.utils.log import get_task_logger
 import member
 import club
-import logging
 import newsfeed_member
 
 
-logger = logging.getLogger(__name__)
+logger = get_task_logger(__name__)
 
 
 @shared_task
