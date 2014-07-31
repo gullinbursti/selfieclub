@@ -10,9 +10,9 @@ class NewsfeedType(serializers.ModelSerializer):
 
 
 class Newsfeed(serializers.ModelSerializer):
-    event_type = serializers.SlugRelatedField(source='event_type_id', slug_field='name', read_only=False)
-    member = member_serializers.Member(source='member_id')
+    event_type = serializers.SlugRelatedField(source='event_type', slug_field='name', read_only=False)
+    member = member_serializers.Member(source='member')
 
     class Meta:
         model = models.Newsfeed
-        fields = ('id', 'member', 'club_id', 'event_type', 'selfie_id', 'time')
+        fields = ('id', 'member', 'club', 'event_type', 'status_update_id', 'time')
