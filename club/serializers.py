@@ -1,4 +1,5 @@
 from club import models
+from django.forms import widgets
 from rest_framework import serializers
 
 
@@ -15,8 +16,13 @@ class Club(serializers.ModelSerializer):
 
 
 class ClubLabel(serializers.ModelSerializer):
-    club = serializers.PrimaryKeyRelatedField(many=True)
+    club_ids = serializers.SlugRelatedField(
+        source='club',
+        slug_field='id',
+        many=True,
+        widget=widgets.TextInput, help_text='Comma delimited array of club_ids.'
+    )
 
     class Meta:
         model = models.ClubLabel
-        fields = ('id', 'name', 'description', 'club', 'updated', 'created')
+        fields = ('id', 'name', 'description', 'club_ids', 'updated', 'created')
