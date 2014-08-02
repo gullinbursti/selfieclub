@@ -31,10 +31,9 @@ class Club(models.Model):
 
 
 class ClubLabel(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=32)
     description = models.CharField(max_length=64)
-    club = models.ManyToManyField('Club', db_constraint=True)
+    club = models.ManyToManyField('Club')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
