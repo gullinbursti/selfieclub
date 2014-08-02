@@ -28,3 +28,15 @@ class Club(models.Model):
     class Meta:
         managed = False
         db_table = 'club'
+
+
+class ClubLabel(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(unique=True, max_length=32)
+    description = models.CharField(max_length=64)
+    club = models.ManyToManyField('Club', db_constraint=True)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'tbl_club_label'

@@ -11,6 +11,8 @@ admin.autodiscover()
 
 router = DefaultRouter()
 router.register(r'^status/update', status_views.StatusUpdate)
+router.register(r'^club/label/name', club_views.ClubLabelByName)
+router.register(r'^club/label', club_views.ClubLabel)
 router.register(r'^club/type', club_views.ClubType)
 router.register(r'^club', club_views.Club)
 router.register(r'^newsfeed/member/type', newsfeed_member_views.NewsfeedType)
