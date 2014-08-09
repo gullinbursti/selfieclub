@@ -18,7 +18,7 @@ class Club(serializers.ModelSerializer):
 class ClubSummary(serializers.ModelSerializer):
     class Meta:
         model = models.Club
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'img')
 
 
 class ClubLabel(serializers.ModelSerializer):
