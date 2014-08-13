@@ -15,4 +15,4 @@ class Newsfeed(serializers.ModelSerializer):
 
     class Meta:
         model = models.Newsfeed
-        fields = ('id', 'member', 'club', 'event_type', 'status_update_id', 'time')
+        fields = ('id', 'member', 'club_id', 'event_type', 'status_update_id', 'time')
