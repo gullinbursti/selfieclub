@@ -16,7 +16,7 @@ class Newsfeed(models.Model):
     member = models.ForeignKey('member.Member')
     club = models.ForeignKey('club.Club')
     event_type = models.ForeignKey('NewsfeedType')
-    status_update_id = models.ForeignKey('status.StatusUpdate', db_column='status_update_id')
+    status_update = models.ForeignKey('status.StatusUpdate')
     time = models.DateTimeField()
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)

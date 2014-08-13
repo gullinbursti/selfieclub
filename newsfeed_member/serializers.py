@@ -13,6 +13,7 @@ class Newsfeed(serializers.ModelSerializer):
     event_type = serializers.SlugRelatedField(source='event_type', slug_field='name', read_only=False)
     member = member_serializers.Member(source='member')
     club_id = serializers.Field(source='club.id')
+    status_update_id = serializers.Field(source='status_update.id')
 
     class Meta:
         model = models.Newsfeed
