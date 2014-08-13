@@ -14,7 +14,7 @@ class NewsfeedType(models.Model):
 # TODO - ForeignKey on club_id not created in DB
 class Newsfeed(models.Model):
     member = models.ForeignKey('member.Member')
-    club_id = models.ForeignKey('club.Club', db_column='club_id')
+    club = models.ForeignKey('club.Club')
     event_type = models.ForeignKey('NewsfeedType')
     status_update_id = models.ForeignKey('status.StatusUpdate', db_column='status_update_id')
     time = models.DateTimeField()
