@@ -41,8 +41,27 @@ def invitation_sent(club_id, actor_member_id, invitee_member_id, when):
 
 @shared_task
 def joined(club_id, actor_member_id, when):
-    logger.info("Event received: joined")
-    pass
+    logger.info("Event received: joined({}, {}, {})"
+                .format(club_id, actor_member_id, when))
+
+    if not club_exists(club_id):
+        logger.debug("Club '{}' does not exist".format(club_id))
+        return
+
+    if not user_exists(actor_member_id):
+        logger.debug("Actor '{}' does not exist".format(actor_member_id))
+        return
+
+    # TODO - Check datetime
+
+    event = newsfeed_member.models.Newsfeed(
+        member_id=actor_member_id,
+        club_id=club_id,
+        event_type_id=3,  # TODO - CLUB_JOINED
+        time=when
+    )
+
+    event.save()
 
 
 @shared_task
