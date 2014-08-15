@@ -82,15 +82,11 @@ DATABASES = {
             'init_command': 'SET storage_engine=INNODB',
         },
     },
-    # Leave this blank, we do not want a 'default' database defined.  Doing this as a safety so things dop not end up
-    # strange places by accident.
+    # The 'default' database is required for unit tests.
+    # Using sqlite3 to avoid a mysql dependency for testing
     'default': {
-        'ENGINE': '',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     },
 }
 
