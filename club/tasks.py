@@ -4,6 +4,7 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 import member
 import club
+import messaging
 import newsfeed_member
 
 
@@ -35,8 +36,9 @@ def invitation_sent(club_id, actor_member_id, invitee_member_id, when):
         event_type_id=2,  # TODO - CLUB_INVITE_RECEIVED
         time=when
     )
-
     event.save()
+
+    messaging.tasks.send_sms_invitation.delay(club_id, actor_member_id, invitee_member_id, when);
 
 
 @shared_task

@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'club',
     'media',
     'member',
+    'messaging',
     'newsfeed_member',
     'status',
 )
