@@ -1,11 +1,8 @@
 from __future__ import absolute_import
-
-from django.conf import settings
-from nexmomessage import NexmoMessage
 from urllib import quote_plus
-
 from celery import shared_task
 from celery.utils.log import get_task_logger
+from .utils import send_sms_message
 import club
 import member
 
@@ -41,23 +38,3 @@ def send_sms_invitation(club_id, actor_member_id, invitee_member_id, when):
     message = "{0} has invited you to {1}! http://joinselfie.club/{0}/{2} Reply YES to receive updates".format(sendingMember.name, clubToJoin.name, clubNameForUrl)
     send_sms_message(to, message)
     logger.info("Event handled: send_sms_message({}, {})" .format(to, message))
-
-
-def send_sms_message(to, message):
-    """Shortcut to send a sms using libnexmo api.
-
-    Usage:
-
-    >>> send_message('+33612345678', 'My sms message body')
-    """
-    params = {
-        'api_key': settings.NEXMO_USERNAME,
-        'api_secret': settings.NEXMO_PASSWORD,
-        'type': 'text',
-        'from': '19189620405',
-        'to': to,
-        'text': message.encode('utf-8'),
-    }
-    sms = NexmoMessage(params)
-    response = sms.send_request()
-    return response

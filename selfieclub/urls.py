@@ -24,5 +24,6 @@ urlpatterns = patterns(
     url(r'^', include(router.urls)),
     url(r'^media/', include('media.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^messaging/', include('messaging.urls'))
     )
