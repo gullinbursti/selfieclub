@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from urllib import quote_plus
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from .utils import send_sms_message
+from .nexmo import send_sms_message
 import club
 import member
 
