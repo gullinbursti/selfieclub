@@ -1,41 +1,63 @@
 from __future__ import absolute_import
 
+from django.conf import settings
+from nexmomessage import NexmoMessage
+from urllib import quote_plus
+
 from celery import shared_task
 from celery.utils.log import get_task_logger
-import member
 import club
-import messaging
-import newsfeed_member
+import member
 
 
 logger = get_task_logger(__name__)
+
 
 @shared_task
 def send_sms_invitation(club_id, actor_member_id, invitee_member_id, when):
     logger.info("Event received: send_sms_invitation({}, {}, {}, {})"
                 .format(club_id, actor_member_id, invitee_member_id, when))
 
-    if not club_exists(club_id):
+    clubToJoin = club.models.Club.objects.get(pk=club_id)
+    if not clubToJoin:
         logger.debug("Club '{}' does not exist".format(club_id))
         return
 
-    if not user_exists(actor_member_id):
+    sendingMember = member.models.Member.objects.get(pk=actor_member_id)
+    if not sendingMember:
         logger.debug("Actor '{}' does not exist".format(actor_member_id))
         return
 
-    if not user_exists(invitee_member_id):
+    receivingMember = member.models.Member.objects.get(pk=invitee_member_id)
+    if not receivingMember:
         logger.debug("Invitee '{}' does not exist".format(invitee_member_id))
         return
 
     # TODO - Check datetime
 
-    # TODO: Actually call Nexmo
+    clubNameForUrl = quote_plus(clubToJoin.name)
+    # TODO: Get SMS number from invitee_member_id
+    to = '+12144029466'
+    message = "{0} has invited you to {1}! http://joinselfie.club/{0}/{2} Reply YES to receive updates".format(sendingMember.name, clubToJoin.name, clubNameForUrl)
+    send_sms_message(to, message)
+    logger.info("Event handled: send_sms_message({}, {})" .format(to, message))
 
 
+def send_sms_message(to, message):
+    """Shortcut to send a sms using libnexmo api.
 
-def user_exists(pk):
-    return member.models.Member.objects.filter(pk=pk).exists()
+    Usage:
 
-
-def club_exists(pk):
-    return club.models.Club.objects.filter(pk=pk).exists()
+    >>> send_message('+33612345678', 'My sms message body')
+    """
+    params = {
+        'api_key': settings.NEXMO_USERNAME,
+        'api_secret': settings.NEXMO_PASSWORD,
+        'type': 'text',
+        'from': '19189620405',
+        'to': to,
+        'text': message.encode('utf-8'),
+    }
+    sms = NexmoMessage(params)
+    response = sms.send_request()
+    return response
