@@ -8,6 +8,7 @@ celery==3.1.13
 djangorestframework==2.3.14
 drf-compound-fields==0.2.1
 kombu==3.0.21
+git+https://github.com/marcuz/libpynexmo.git#egg=nexmomessage
 pep8==1.5.7
 pyflakes==0.8.1
 pytz==2014.4

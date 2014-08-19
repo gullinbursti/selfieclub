@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'club',
     'media',
     'member',
+    'messaging',
     'newsfeed_member',
     'status',
 )
@@ -131,6 +132,8 @@ AWS_S3_DIRECT_CLIENT_UPLOAD = {
 }
 
 CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 # Things that need to be in 'local_settings':
 #     - SECRET_KEY
