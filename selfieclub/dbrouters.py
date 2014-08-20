@@ -35,6 +35,7 @@ class SelfieClubDbRouter(BaseDbRouter):
     APP_LABELS = (
         'media',
         'newsfeed_member',
+        'messaging',
         'member',
         'club',
         'status',
