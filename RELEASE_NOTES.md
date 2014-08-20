@@ -6,6 +6,8 @@
 
         ./manage.py syncdb --database=selfieclub
 
+- On api servers, update `selfieclub-config/localsettings.py`, removing everything added last release
+
 
 ## SC0001
 
