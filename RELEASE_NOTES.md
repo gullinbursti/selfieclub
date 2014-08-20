@@ -2,9 +2,23 @@
 
 ## SC0002
 
-- On celery servers, in `/opt/built-in-menlo/selfieclub` run:
+- DB change:
 
-        ./manage.py syncdb --database=selfieclub
+        CREATE TABLE `tbl_messaging_callback` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `message_id` varchar(16) NOT NULL,
+          `status_id` varchar(9) DEFAULT NULL,
+          `error_id` smallint(6) DEFAULT NULL,
+          `source_number` varchar(18) NOT NULL,
+          `source_network` varchar(6) DEFAULT NULL,
+          `destination_number` varchar(18) NOT NULL,
+          `text` varchar(255) NOT NULL,
+          `callback_timestamp` datetime NOT NULL,
+          `created` datetime NOT NULL,
+          `updated` datetime NOT NULL,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `message_id` (`message_id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 - On api servers, update `selfieclub-config/localsettings.py`, removing everything added last release
 
