@@ -4,7 +4,7 @@
 
 - On celery servers, in `/opt/built-in-menlo/selfieclub` run:
 
-    pip install boto
+        ./manage.py syncdb --database=selfieclub
 
 
 ## SC0001
@@ -13,10 +13,10 @@
 
 - On celery servers, update `selfieclub-celery-config/localsettings.py`, adding (with the real API Key and Secret from Nexmo.com):
 
-    # -----------------------------------------------------------------------------
-    # Nexmo
-    NEXMO_USERNAME = 'XXXXXXXX'
-    NEXMO_PASSWORD = 'XXXXXXXX' 
+        # -----------------------------------------------------------------------------
+        # Nexmo
+        NEXMO_USERNAME = 'XXXXXXXX'
+        NEXMO_PASSWORD = 'XXXXXXXX' 
 
 - On api servers, update `selfieclub-config/localsettings.py`:
 
@@ -37,10 +37,6 @@
             'propagate': False
         },
 
-- On api servers, in `/opt/built-in-menlo/selfieclub` run:
-
-    pip install -e git+https://github.com/marcuz/libpynexmo.git#egg=nexmomessage
-
 - DB change:
 
-    ALTER TABLE `tbl_newsfeed_member_event` ADD `subject_member_id` int(11) DEFAULT NULL AFTER status_update_id;
+        ALTER TABLE `tbl_newsfeed_member_event` ADD `subject_member_id` int(11) DEFAULT NULL AFTER status_update_id;
