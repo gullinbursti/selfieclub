@@ -1,5 +1,12 @@
 # Release notes
 
+## SC0002
+
+- On celery servers, in `/opt/built-in-menlo/selfieclub` run:
+
+    pip install boto
+
+
 ## SC0001
 
 - Starting specific selfieclub release notes, unrelated to vollyapi
