@@ -30,6 +30,10 @@
             'propagate': False
         },
 
+- On api servers, in `/opt/built-in-menlo/selfieclub` run:
+
+    pip install -e git+https://github.com/marcuz/libpynexmo.git#egg=nexmomessage
+
 - DB change:
 
     ALTER TABLE `tbl_newsfeed_member_event` ADD `subject_member_id` int(11) DEFAULT NULL AFTER status_update_id;
