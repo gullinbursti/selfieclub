@@ -38,7 +38,10 @@ def invitation_sent(club_id, actor_member_id, invitee_member_id, when):
     )
     event.save()
 
-    messaging.tasks.send_sms_invitation.delay(club_id, actor_member_id, invitee_member_id, when);
+    messaging.tasks.send_sms_invitation.delay(
+        club_id, actor_member_id, invitee_member_id, when)
+    messaging.tasks.send_push_invitation.delay(
+        club_id, actor_member_id, invitee_member_id, when)
 
 
 @shared_task
