@@ -33,20 +33,22 @@ class BootConf(models.Model):
 #         managed = False
 #         db_table = 'club'
 
-class ClubMember(models.Model):
-    club = models.ForeignKey(Club)
-    extern_name = models.CharField(max_length=255, blank=True)
-    mobile_number = models.CharField(max_length=25, blank=True)
-    email = models.CharField(max_length=255, blank=True)
-    pending = models.IntegerField(blank=True, null=True)
-    blocked = models.IntegerField()
-    user = models.ForeignKey('Tblusers', blank=True, null=True)
-    invited = models.DateTimeField()
-    joined = models.DateTimeField()
-    blocked_date = models.DateTimeField()
-    class Meta:
-        managed = False
-        db_table = 'club_member'
+# Moved to /member/
+# ----
+# class ClubMember(models.Model):
+#     club = models.ForeignKey(Club)
+#     extern_name = models.CharField(max_length=255, blank=True)
+#     mobile_number = models.CharField(max_length=25, blank=True)
+#     email = models.CharField(max_length=255, blank=True)
+#     pending = models.IntegerField(blank=True, null=True)
+#     blocked = models.IntegerField()
+#     user = models.ForeignKey('Tblusers', blank=True, null=True)
+#     invited = models.DateTimeField()
+#     joined = models.DateTimeField()
+#     blocked_date = models.DateTimeField()
+#     class Meta:
+#         managed = False
+#         db_table = 'club_member'
 
 class ExploreIds(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -227,21 +229,23 @@ class Tblshoutouts(models.Model):
         managed = False
         db_table = 'tblShoutouts'
 
-class Tbluserphones(models.Model):
-    id = models.IntegerField(primary_key=True)
-    user = models.ForeignKey('Tblusers')
-    phone_number_enc = models.CharField(unique=True, max_length=64)
-    verified = models.IntegerField(blank=True, null=True)
-    verified_date = models.DateTimeField(blank=True, null=True)
-    verify_code = models.CharField(max_length=10, blank=True)
-    verify_count_down = models.IntegerField(blank=True, null=True)
-    verify_count_total = models.IntegerField(blank=True, null=True)
-    verify_last_attempt = models.DateTimeField(blank=True, null=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    class Meta:
-        managed = False
-        db_table = 'tblUserPhones'
+# moved to /member/
+# ----
+#class Tbluserphones(models.Model):
+#    id = models.IntegerField(primary_key=True)
+#    user = models.ForeignKey('Tblusers')
+#    phone_number_enc = models.CharField(unique=True, max_length=64)
+#    verified = models.IntegerField(blank=True, null=True)
+#    verified_date = models.DateTimeField(blank=True, null=True)
+#    verify_code = models.CharField(max_length=10, blank=True)
+#    verify_count_down = models.IntegerField(blank=True, null=True)
+#    verify_count_total = models.IntegerField(blank=True, null=True)
+#    verify_last_attempt = models.DateTimeField(blank=True, null=True)
+#    created = models.DateTimeField()
+#    updated = models.DateTimeField()
+#    class Meta:
+#        managed = False
+#        db_table = 'tblUserPhones'
 
 class Tbluserpokes(models.Model):
     id = models.IntegerField(primary_key=True)
