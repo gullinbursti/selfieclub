@@ -26,7 +26,8 @@ def invitation_sent(club_id, actor_member_id,
         logger.debug("Actor '{}' does not exist".format(actor_member_id))
         return
 
-    if not user_exists(invitee_member_id):
+    receivingMember = member.models.Member.objects.get(pk=invitee_member_id)
+    if not receivingMember:
         logger.debug("Invitee '{}' does not exist".format(invitee_member_id))
         return
 
@@ -41,10 +42,12 @@ def invitation_sent(club_id, actor_member_id,
     event.save()
 
     # Celery's .delay() just means .queue() or .submit() immediately
-    messaging.tasks.send_push_invitation.delay(
-        club_id, actor_member_id, invitee_member_id, when)
-    messaging.tasks.send_sms_invitation.delay(
-        club_id, actor_member_id, invitee_phone, when)
+    if receivingMember.device_token:
+        messaging.tasks.send_push_invitation.delay(
+            club_id, actor_member_id, invitee_member_id, when)
+    elif invitee_phone:
+        messaging.tasks.send_sms_invitation.delay(
+            club_id, actor_member_id, invitee_phone, when)
 
 
 @shared_task
