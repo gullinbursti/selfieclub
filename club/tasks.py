@@ -11,10 +11,12 @@ import newsfeed_member
 logger = get_task_logger(__name__)
 
 
+# TODO: Decrypt invitee_phone from the invitee Member object, stop passing it
 @shared_task
-def invitation_sent(club_id, actor_member_id, invitee_member_id, when):
-    logger.info("Event received: invitation_sent({}, {}, {}, {})"
-                .format(club_id, actor_member_id, invitee_member_id, when))
+def invitation_sent(club_id, actor_member_id,
+                    invitee_member_id, invitee_phone, when):
+    logger.info("Event received: invitation_sent({}, {}, {}, {}, {})".format(
+        club_id, actor_member_id, invitee_member_id, invitee_phone, when))
 
     if not club_exists(club_id):
         logger.debug("Club '{}' does not exist".format(club_id))
@@ -24,7 +26,8 @@ def invitation_sent(club_id, actor_member_id, invitee_member_id, when):
         logger.debug("Actor '{}' does not exist".format(actor_member_id))
         return
 
-    if not user_exists(invitee_member_id):
+    receivingMember = member.models.Member.objects.get(pk=invitee_member_id)
+    if not receivingMember:
         logger.debug("Invitee '{}' does not exist".format(invitee_member_id))
         return
 
@@ -39,10 +42,12 @@ def invitation_sent(club_id, actor_member_id, invitee_member_id, when):
     event.save()
 
     # Celery's .delay() just means .queue() or .submit() immediately
-    messaging.tasks.send_sms_invitation.delay(
-        club_id, actor_member_id, invitee_member_id, when)
-    messaging.tasks.send_push_invitation.delay(
-        club_id, actor_member_id, invitee_member_id, when)
+    if receivingMember.device_token:
+        messaging.tasks.send_push_invitation.delay(
+            club_id, actor_member_id, invitee_member_id, when)
+    elif invitee_phone:
+        messaging.tasks.send_sms_invitation.delay(
+            club_id, actor_member_id, invitee_phone, when)
 
 
 @shared_task

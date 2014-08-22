@@ -30,3 +30,21 @@ class Member(models.Model):
     class Meta:
         managed = False
         db_table = 'tblUsers'
+
+
+class MemberPhone(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey('member.Member')
+    phone_number_enc = models.CharField(unique=True, max_length=64)
+    verified = models.IntegerField(null=True)
+    verified_date = models.DateTimeField(null=True)
+    verify_code = models.CharField(max_length=10, null=True)
+    verify_count_down = models.IntegerField(null=True)
+    verify_count_total = models.IntegerField(null=True)
+    verify_last_attempt = models.DateTimeField(null=True)
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'tblUserPhones'
