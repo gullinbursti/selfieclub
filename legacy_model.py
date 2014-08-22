@@ -33,22 +33,20 @@ class BootConf(models.Model):
 #         managed = False
 #         db_table = 'club'
 
-# Moved to /member/
-# ----
-# class ClubMember(models.Model):
-#     club = models.ForeignKey(Club)
-#     extern_name = models.CharField(max_length=255, blank=True)
-#     mobile_number = models.CharField(max_length=25, blank=True)
-#     email = models.CharField(max_length=255, blank=True)
-#     pending = models.IntegerField(blank=True, null=True)
-#     blocked = models.IntegerField()
-#     user = models.ForeignKey('Tblusers', blank=True, null=True)
-#     invited = models.DateTimeField()
-#     joined = models.DateTimeField()
-#     blocked_date = models.DateTimeField()
-#     class Meta:
-#         managed = False
-#         db_table = 'club_member'
+class ClubMember(models.Model):
+    club = models.ForeignKey('club.Club')
+    user = models.ForeignKey('member.Member', null=True)
+    extern_name = models.CharField(max_length=255, null=True)
+    mobile_number = models.CharField(max_length=25, null=True)
+    email = models.CharField(max_length=255, null=True)
+    pending = models.IntegerField()
+    blocked = models.IntegerField()
+    invited = models.DateTimeField()
+    joined = models.DateTimeField()
+    blocked_date = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'club_member'
 
 class ExploreIds(models.Model):
     id = models.IntegerField(primary_key=True)
