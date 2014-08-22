@@ -1,5 +1,13 @@
 # Release notes
 
+## SC0003
+
+- On celery servers, update `selfieclub-celery-config/localsettings.py`:
+
+    Near the AWS credentials, add this:
+
+        AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:Selfieclub_SMS_Dev'
+
 ## SC0002
 
 - DB change:

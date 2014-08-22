@@ -35,6 +35,7 @@ def send_sms_invitation(club_id, actor_member_id, invitee_sms_number, when):
     # TODO - Check datetime
 
     clubNameForUrl = quote_plus(clubToJoin.name)
+    # TODO: Localize
     message = '{0} has invited you to {1}! http://joinselfie.club/{0}/{2} ' \
         .format(sendingMember.name, clubToJoin.name, clubNameForUrl) + \
         'Reply YES to receive updates'
@@ -64,7 +65,8 @@ def send_push_invitation(club_id, actor_member_id, invitee_member_id, when):
         return
 
     # TODO - Check datetime
-    to = 'arn:aws:sns:us-east-1:892810128873:Selfieclub_SMS_Dev'
+    to = receivingMember.device_token
+    # TODO: Localize
     message = '{} has invited you to join {}!'.format(
         sendingMember.name, clubToJoin.name)
     result = send_push_message(to, message)
