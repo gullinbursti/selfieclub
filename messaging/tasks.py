@@ -40,7 +40,23 @@ def send_sms_invitation(club_id, actor_member_id, invitee_sms_number, when):
         .format(sendingMember.name, clubToJoin.name, clubNameForUrl) + \
         'Reply YES to receive updates'
     result = send_sms_message(to, message)
-    logger.info("Event handled: send_sms_message({}, {}) {}" .format(
+    logger.info("Event handled: send_sms_invitation({}, {}) {}" .format(
+        to, message, result))
+
+
+@shared_task
+def send_sms_thanks(thankee_sms_number):
+    logger.info("Event received: send_sms_thanks({})", thankee_sms_number)
+
+    to = validate_sms_number(thankee_sms_number)
+    if not to:
+        logger.debug("SMS target '{}' is invalid", thankee_sms_number)
+        return
+
+    message = 'Thank you for subscribing to Selfieclub updates! ' \
+        'Reply NO to opt out. Download the app http://sel.club'
+    result = send_sms_message(to, message)
+    logger.info("Event handled: sms_thanks({}, {}) {}".format(
         to, message, result))
 
 
@@ -69,6 +85,35 @@ def send_push_invitation(club_id, actor_member_id, invitee_member_id, when):
     # TODO: Localize
     message = '{} has invited you to join {}!'.format(
         sendingMember.name, clubToJoin.name)
+    result = send_push_message(to, message)
+    logger.info("Event handled: send_push_message({}, {}) = {}".format(
+        to, message, result))
+
+
+@shared_task
+def send_push_joined(club_id, sender_member_id, receiver_member_id):
+    logger.info("Event received: send_joined_notice({}, {}, {}, {})",
+                club_id, sender_member_id, receiver_member_id)
+
+    joinedClub = club.models.Club.objects.get(pk=club_id)
+    if not joinedClub:
+        logger.debug("Club '{}' does not exist".format(club_id))
+        return
+
+    sendingMember = member.models.Member.objects.get(pk=sender_member_id)
+    if not sendingMember:
+        logger.debug("Sender '{}' does not exist".format(sender_member_id))
+        return
+
+    receivingMember = member.models.Member.objects.get(pk=receiver_member_id)
+    if not receivingMember:
+        logger.debug("Receiver '{}' does not exist".format(receiver_member_id))
+        return
+
+    to = receivingMember.device_token
+    # TODO: Localize
+    message = '{} has joined your {} club!'.format(
+        sendingMember.name, joinedClub.name)
     result = send_push_message(to, message)
     logger.info("Event handled: send_push_message({}, {}) = {}".format(
         to, message, result))
