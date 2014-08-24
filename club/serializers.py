@@ -22,11 +22,6 @@ class ClubSummary(serializers.ModelSerializer):
 
 
 class ClubLabel(serializers.ModelSerializer):
-    clubs = ClubSummary(
-        many=True,
-        source='club',
-        read_only=True
-    )
     club_ids = serializers.SlugRelatedField(
         source='club',
         slug_field='id',
@@ -37,4 +32,4 @@ class ClubLabel(serializers.ModelSerializer):
 
     class Meta:
         model = models.ClubLabel
-        fields = ('id', 'name', 'description', 'clubs', 'club_ids', 'updated', 'created')
+        fields = ('id', 'name', 'description', 'club_ids', 'updated', 'created')
