@@ -1,6 +1,11 @@
 # Release notes
 
-## v1.0.0
+## v01.01.00
+
+- **TODO** - FIll me in...
+
+
+## v01.00.00
 
 - On celery servers, update `selfieclub-celery-config/localsettings.py`, adding (with the real API Key and Secret from Nexmo.com):
 
