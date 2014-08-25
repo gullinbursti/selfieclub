@@ -17,7 +17,7 @@ def callback(request):
     response_carrier = None
     if 'network-code' in request.GET:
         response_carrier = request.GET.get('network-code')
-    response_text = request.GET.get('text')
+    response_text = request.GET.get('text').strip()
     response_timestamp = request.GET.get('message-timestamp')
     response_destination = request.GET.get('to')
 
@@ -32,6 +32,9 @@ def callback(request):
         callback_timestamp=response_timestamp
     )
     callback.save()
+
+    if response_source and (response_text == 'YES'):
+        messaging.tasks.send_sms_thanks.delay(response_source)
 
     # Nexmo expects a 200 response code
     return HttpResponse('')
