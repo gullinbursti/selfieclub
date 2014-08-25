@@ -17,7 +17,7 @@ def callback(request):
     response_carrier = None
     if 'network-code' in request.GET:
         response_carrier = request.GET.get('network-code')
-    response_text = request.GET.get('text')
+    response_text = request.GET.get('text').strip()
     response_timestamp = request.GET.get('message-timestamp')
     response_destination = request.GET.get('to')
 
