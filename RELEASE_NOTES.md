@@ -1,8 +1,36 @@
 # Release notes
 
-## v01.01.00
+## v01.02.00
 
 - **TODO** - FIll me in...
+
+
+## v01.01.00
+
+- DB change 1:
+
+        CREATE TABLE `tbl_nexmo_source` (
+          `id` int(11) NOT NULL,
+          `phone_number` varchar(12) NOT NULL,
+          `created` datetime NOT NULL,
+          `updated` datetime NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+        
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('1', '19189620405', NOW(), NOW());
+
+- DB change 2:
+
+        CREATE TABLE `tbl_counter` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `name` varchar(32) NOT NULL,
+          `description` varchar(64) NOT NULL,
+          `counter` int(11) NOT NULL,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `name` (`name`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        
+        INSERT INTO `tbl_counter` (`name`, `description`, `counter`) VALUE ('NEXMO_PHONE_SEQ', 'Counter used in modulo operation to get next phone number', 0);
 
 
 ## v01.00.00
