@@ -1,6 +1,18 @@
 # Release notes
 
-## SC0003
+## v01.01.00
+
+- **TODO** - FIll me in...
+
+
+## v01.00.00
+
+- On celery servers, update `selfieclub-celery-config/localsettings.py`, adding (with the real API Key and Secret from Nexmo.com):
+
+        # -----------------------------------------------------------------------------
+        # Nexmo
+        NEXMO_USERNAME = 'XXXXXXXX'
+        NEXMO_PASSWORD = 'XXXXXXXX' 
 
 - On celery servers, update `selfieclub-celery-config/localsettings.py`:
 
@@ -8,9 +20,11 @@
 
         AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:Selfieclub_SMS_Dev'
 
-## SC0002
+- DB change 1:
 
-- DB change:
+        ALTER TABLE `tbl_newsfeed_member_event` ADD `subject_member_id` int(11) DEFAULT NULL AFTER status_update_id;
+
+- DB change 2:
 
         CREATE TABLE `tbl_messaging_callback` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -27,40 +41,3 @@
           PRIMARY KEY (`id`),
           UNIQUE KEY `message_id` (`message_id`)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-- On api servers, update `selfieclub-config/localsettings.py`, removing everything added last release
-
-
-## SC0001
-
-- Starting specific selfieclub release notes, unrelated to vollyapi
-
-- On celery servers, update `selfieclub-celery-config/localsettings.py`, adding (with the real API Key and Secret from Nexmo.com):
-
-        # -----------------------------------------------------------------------------
-        # Nexmo
-        NEXMO_USERNAME = 'XXXXXXXX'
-        NEXMO_PASSWORD = 'XXXXXXXX' 
-
-- On api servers, update `selfieclub-config/localsettings.py`:
-
-    In the `LOGGING` array, in the `handlers` key, add a new item:
-
-        'nexmologfile': {
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': '/var/opt/log/selfieclub/nexmo.log',
-            'formatter': 'verbose',
-        },
-
-    In the same array, in the `loggers` key, add a new item:
-
-        # Log Nexmo callback calls to a specific Nexmo log
-        'nexmo': {
-            'handlers': ['nexmologfile'],
-            'level': 'INFO',
-            'propagate': False
-        },
-
-- DB change:
-
-        ALTER TABLE `tbl_newsfeed_member_event` ADD `subject_member_id` int(11) DEFAULT NULL AFTER status_update_id;

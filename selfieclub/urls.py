@@ -9,8 +9,10 @@ from status import views as status_views
 
 admin.autodiscover()
 
+# Keep in mind that order is relavant, more exact names should be at the top
 router = DefaultRouter()
 router.register(r'^status/update', status_views.StatusUpdate)
+router.register(r'^club/labeled/(?P<label>[^/]+)', club_views.ClubsWithLabelByLabelName)
 router.register(r'^club/label/name', club_views.ClubLabelByName)
 router.register(r'^club/label', club_views.ClubLabel)
 router.register(r'^club/type', club_views.ClubType)
