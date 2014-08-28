@@ -36,6 +36,11 @@
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8
         
         INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('1', '19189620405', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('2', '12132633816', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('3', '12132633822', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('4', '12132633823', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('5', '12134657627', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('6', '12525573328', NOW(), NOW());
 
 - DB change 2:
 
