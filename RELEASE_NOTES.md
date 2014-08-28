@@ -7,15 +7,7 @@
 
 ## v01.01.00
 
-- On celery (and api?) server, update `selfieclub-config/localsettings.py`, adding:
-
-        AMAZON_SNS_ENV = 'APNS'
-
-    or, on devint:
-
-        AMAZON_SMS_ENV = 'APNS_SANDBOX'
-
-- On celery (and api?) server, update `selfieclub-config/localsettings.py`, changing:
+- On celery server, update `selfieclub-celery-config/localsettings.py`, updating existing `AMAZON_SNS_ARN` value:
 
         AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS/' + \
             'Selfieclub-APNS'
@@ -25,6 +17,16 @@
         AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS_SANDBOX/' + \
             'Selfieclub-APNS_SANDBOX'
 
+- On celery server, update `selfieclub-celery-config/localsettings.py`, adding below `AWS_CREDENTIALS`:
+
+        AMAZON_SNS_ENV = 'APNS'
+
+    or, on devint:
+
+        AMAZON_SMS_ENV = 'APNS_SANDBOX'
+
+- Repeat the above two changes on api server in `selfieclub-config/localsettings.py`
+
 - DB change 1:
 
         CREATE TABLE `tbl_nexmo_source` (
@@ -33,7 +35,7 @@
           `created` datetime NOT NULL,
           `updated` datetime NOT NULL,
           PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         
         INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('1', '19189620405', NOW(), NOW());
         INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('2', '12132633816', NOW(), NOW());
