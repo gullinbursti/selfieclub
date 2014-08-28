@@ -17,3 +17,26 @@ class Callback(models.Model):
 
     class Meta:
         db_table = 'tbl_messaging_callback'
+
+
+class SourceNumber(models.Model):
+    id = models.IntegerField(primary_key=True)
+    phone_number = models.CharField(unique=True, max_length=12)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tbl_nexmo_source'
+
+
+class PoolCounter(models.Model):
+    """Not the best place for this, but so far this is the only counter"""
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=32)
+    description = models.CharField(max_length=64)
+    counter = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'tbl_counter'

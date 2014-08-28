@@ -1,4 +1,5 @@
 import messaging
+from messaging import tasks
 from django.http import HttpResponse
 
 
@@ -33,8 +34,8 @@ def callback(request):
     )
     callback.save()
 
-    if response_source and (response_text == 'YES'):
-        messaging.tasks.send_sms_thanks.delay(response_source)
+    if response_source and (response_text.upper() == 'YES'):
+        tasks.send_sms_thanks.delay(response_source)
 
     # Nexmo expects a 200 response code
     return HttpResponse('')

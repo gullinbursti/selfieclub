@@ -38,7 +38,7 @@ def send_sms_invitation(club_id, actor_member_id, invitee_sms_number, when):
     # TODO: Localize
     message = '{0} has invited you to {1}! http://joinselfie.club/{0}/{2} ' \
         .format(sendingMember.name, clubToJoin.name, clubNameForUrl) + \
-        'Reply YES to receive updates'
+        'or Reply YES to join.'
     result = send_sms_message(to, message)
     logger.info("Event handled: send_sms_invitation({}, {}) {}" .format(
         to, message, result))
@@ -53,8 +53,7 @@ def send_sms_thanks(thankee_sms_number):
         logger.debug("SMS target '{}' is invalid", thankee_sms_number)
         return
 
-    message = 'Thank you for subscribing to Selfieclub updates! ' \
-        'Reply NO to opt out. Download the app http://sel.club'
+    message = 'Thank you for joining Selfieclub! Download now http://sel.club'
     result = send_sms_message(to, message)
     logger.info("Event handled: sms_thanks({}, {}) {}".format(
         to, message, result))
@@ -83,7 +82,7 @@ def send_push_invitation(club_id, actor_member_id, invitee_member_id, when):
     # TODO - Check datetime
     to = receivingMember.device_token
     # TODO: Localize
-    message = '{} has invited you to join {}!'.format(
+    message = '{} has invited you to {}! Tap or swipe to join.'.format(
         sendingMember.name, clubToJoin.name)
     result = send_push_message(to, message)
     logger.info("Event handled: send_push_message({}, {}) = {}".format(

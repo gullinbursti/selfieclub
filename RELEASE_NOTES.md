@@ -1,8 +1,59 @@
 # Release notes
 
-## v01.01.00
+## v01.02.00
 
 - **TODO** - FIll me in...
+
+
+## v01.01.00
+
+- On celery (and api?) server, update `selfieclub-config/localsettings.py`, adding:
+
+        AMAZON_SNS_ENV = 'APNS'
+
+    or, on devint:
+
+        AMAZON_SMS_ENV = 'APNS_SANDBOX'
+
+- On celery (and api?) server, update `selfieclub-config/localsettings.py`, changing:
+
+        AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS/' + \
+            'Selfieclub-APNS'
+
+    or, on devint:
+
+        AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS_SANDBOX/' + \
+            'Selfieclub-APNS_SANDBOX'
+
+- DB change 1:
+
+        CREATE TABLE `tbl_nexmo_source` (
+          `id` int(11) NOT NULL,
+          `phone_number` varchar(12) NOT NULL,
+          `created` datetime NOT NULL,
+          `updated` datetime NOT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+        
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('1', '19189620405', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('2', '12132633816', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('3', '12132633822', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('4', '12132633823', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('5', '12134657627', NOW(), NOW());
+        INSERT INTO `tbl_nexmo_source` (`id`, `phone_number`, `created`, `updated`) VALUE ('6', '12525573328', NOW(), NOW());
+
+- DB change 2:
+
+        CREATE TABLE `tbl_counter` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `name` varchar(32) NOT NULL,
+          `description` varchar(64) NOT NULL,
+          `counter` int(11) NOT NULL,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `name` (`name`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        
+        INSERT INTO `tbl_counter` (`name`, `description`, `counter`) VALUE ('NEXMO_PHONE_SEQ', 'Counter used in modulo operation to get next phone number', 0);
 
 
 ## v01.00.00
@@ -14,7 +65,7 @@
         NEXMO_USERNAME = 'XXXXXXXX'
         NEXMO_PASSWORD = 'XXXXXXXX' 
 
-- On celery servers, update `selfieclub-celery-config/localsettings.py`:
+- On celery and api servers, update `selfieclub-celery-config/localsettings.py`:
 
     Near the AWS credentials, add this:
 
