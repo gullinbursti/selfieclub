@@ -34,7 +34,7 @@ def callback(request):
     )
     callback.save()
 
-    if response_source and (response_text == 'YES'):
+    if response_source and (response_text.upper() == 'YES'):
         tasks.send_sms_thanks.delay(response_source)
 
     # Nexmo expects a 200 response code
