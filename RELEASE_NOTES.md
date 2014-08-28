@@ -23,7 +23,7 @@
 
     or, on devint:
 
-        AMAZON_SMS_ENV = 'APNS_SANDBOX'
+        AMAZON_SNS_ENV = 'APNS_SANDBOX'
 
 - Repeat the above two changes on api server in `selfieclub-config/localsettings.py`
 
