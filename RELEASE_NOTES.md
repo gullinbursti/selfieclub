@@ -7,6 +7,14 @@
 
 ## v01.01.00
 
+- On celery (and api?) server, update `selfieclub-config/localsettings.py`, adding:
+
+        AMAZON_SNS_ENV = 'APNS'
+
+- On celery (and api?) server, update `selfieclub-config/localsettings.py`, changing:
+
+        AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS/Selfieclub-APNS'
+
 - DB change 1:
 
         CREATE TABLE `tbl_nexmo_source` (
@@ -42,7 +50,7 @@
         NEXMO_USERNAME = 'XXXXXXXX'
         NEXMO_PASSWORD = 'XXXXXXXX' 
 
-- On celery servers, update `selfieclub-celery-config/localsettings.py`:
+- On celery and api servers, update `selfieclub-celery-config/localsettings.py`:
 
     Near the AWS credentials, add this:
 

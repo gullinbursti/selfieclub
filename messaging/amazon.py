@@ -2,6 +2,7 @@ from django.conf import settings
 from boto import sns
 import json
 
+environment = settings.AMAZON_SNS_ENV
 platform_arn = settings.AMAZON_SNS_ARN
 amazonsns = sns.SNSConnection(settings.AWS_CREDENTIALS['key'],
                               settings.AWS_CREDENTIALS['secret'])
@@ -22,7 +23,7 @@ def send_push_message(device_token, message_text):
         'EndpointArn']
     apns_dict = {'aps': {'alert': message_text, 'sound': 'default'}}
     apns_string = json.dumps(apns_dict, ensure_ascii=False)
-    message = {'default': message_text, 'APNS': apns_string}
+    message = {'default': message_text, environment: apns_string}
     messageJSON = json.dumps(message, ensure_ascii=False)
 
     response = amazonsns.publish(
