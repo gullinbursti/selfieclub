@@ -84,8 +84,6 @@ def send_push_invitation(club_id, actor_member_id, invitee_member_id, when):
     # TODO: Localize
     message = '{} has invited you to {}! Tap or swipe to join.'.format(
         sendingMember.name, clubToJoin.name)
-    logger.info("About to do send_push_message({}, {})".format(
-        to, message))
     result = send_push_message(to, message)
     logger.info("Event handled: send_push_message({}, {}) = {}".format(
         to, message, result))
