@@ -11,9 +11,19 @@
 
         AMAZON_SNS_ENV = 'APNS'
 
+    or, on devint:
+
+        AMAZON_SMS_ENV = 'APNS_SANDBOX'
+
 - On celery (and api?) server, update `selfieclub-config/localsettings.py`, changing:
 
-        AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS/Selfieclub-APNS'
+        AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS/' + \
+            'Selfieclub-APNS'
+
+    or, on devint:
+
+        AMAZON_SNS_ARN = 'arn:aws:sns:us-east-1:892810128873:app/APNS_SANDBOX/' + \
+            'Selfieclub-APNS_SANDBOX'
 
 - DB change 1:
 
