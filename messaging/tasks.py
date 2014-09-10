@@ -118,6 +118,32 @@ def send_push_joined(club_id, sender_member_id, receiver_member_id):
         to, message, result))
 
 
+@shared_task
+def send_moji_sms_invitation(actor_member_id, emoji, invitee_sms_number, when):
+    logger.info("Event received: send_moji_sms_invitation({}, {}, {}, {})"
+                .format(actor_member_id, emoji, invitee_sms_number, when))
+
+    to = validate_sms_number(invitee_sms_number)
+    if not to:
+        logger.debug("SMS target '{}' is invalid".format(invitee_sms_number))
+        return
+
+    sendingMember = member.models.Member.objects.get(pk=actor_member_id)
+    if not sendingMember:
+        logger.debug("Actor '{}' does not exist".format(actor_member_id))
+        return
+
+    # TODO - Check datetime
+
+    # TODO: Localize
+    # emoji = '\xf0\x9f\x98\x84'
+    message = u'{0}: {1} - getmoji.me'.format(
+        sendingMember.name, quote_plus(emoji))
+    result = send_sms_message(to, message, mtype='unicode')
+    logger.info("Event handled: send_moji_sms_invitation({}, {}) {}" .format(
+        to, message, result))
+
+
 def validate_sms_number(sms_number):
     """Expects numeric, with an optional leading + symbol, which it returns"""
     match = re.match("^(\+?)(\d+)$", sms_number)
