@@ -2,9 +2,11 @@ from django.db.models import F
 from django.conf import settings
 from nexmomessage import NexmoMessage
 import models
+from celery.utils.log import get_task_logger
+logger = get_task_logger(__name__)
 
 
-def send_sms_message(to, message):
+def send_sms_message(to, message, mtype='text'):
     """Shortcut to send a sms using libnexmo api and a pool of souce numbers
 
     Usage:
@@ -24,7 +26,7 @@ def send_sms_message(to, message):
     params = {
         'api_key': settings.NEXMO_USERNAME,
         'api_secret': settings.NEXMO_PASSWORD,
-        'type': 'text',
+        'type': mtype,
         'from': source.phone_number,
         'to': to,
         'text': message.encode('utf-8'),
