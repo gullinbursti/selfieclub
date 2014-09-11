@@ -13,5 +13,6 @@ git+https://github.com/marcuz/libpynexmo.git#egg=nexmomessage
 pep8==1.5.7
 pyflakes==0.8.1
 pytz==2014.4
+requests=2.4.1
 rope==0.10.2
 wsgiref==0.1.2

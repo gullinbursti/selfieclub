@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from urllib import quote_plus
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from .nexmo import send_sms_message
+from .nexmo import send_sms_message, send_unicode_message
 from .amazon import send_push_message
 import club
 import member
@@ -136,10 +136,8 @@ def send_moji_sms_invitation(actor_member_id, emoji, invitee_sms_number, when):
     # TODO - Check datetime
 
     # TODO: Localize
-    # emoji = '\xf0\x9f\x98\x84'
-    message = u'{0}: {1} - getmoji.me'.format(
-        sendingMember.name, quote_plus(emoji))
-    result = send_sms_message(to, message, mtype='unicode')
+    message = u'{}: {} - getmoji.me'.format(sendingMember.name, emoji)
+    result = send_unicode_message(to, message)
     logger.info("Event handled: send_moji_sms_invitation({}, {}) {}" .format(
         to, message, result))
 
