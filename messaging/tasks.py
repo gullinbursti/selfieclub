@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from urllib import quote_plus
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from .nexmo import send_sms_message
+from .nexmo import send_sms_message, send_unicode_message
 from .amazon import send_push_message
 import club
 import member
@@ -115,6 +115,30 @@ def send_push_joined(club_id, sender_member_id, receiver_member_id):
         sendingMember.name, joinedClub.name)
     result = send_push_message(to, message)
     logger.info("Event handled: send_push_message({}, {}) = {}".format(
+        to, message, result))
+
+
+@shared_task
+def send_moji_sms_invitation(actor_member_id, emoji, invitee_sms_number, when):
+    logger.info("Event received: send_moji_sms_invitation({}, {}, {}, {})"
+                .format(actor_member_id, emoji, invitee_sms_number, when))
+
+    to = validate_sms_number(invitee_sms_number)
+    if not to:
+        logger.debug("SMS target '{}' is invalid".format(invitee_sms_number))
+        return
+
+    sendingMember = member.models.Member.objects.get(pk=actor_member_id)
+    if not sendingMember:
+        logger.debug("Actor '{}' does not exist".format(actor_member_id))
+        return
+
+    # TODO - Check datetime
+
+    # TODO: Localize
+    message = u'{}: {} - getmoji.me'.format(sendingMember.name, emoji)
+    result = send_unicode_message(to, message)
+    logger.info("Event handled: send_moji_sms_invitation({}, {}) {}" .format(
         to, message, result))
 
 
