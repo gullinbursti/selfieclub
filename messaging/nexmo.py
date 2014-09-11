@@ -3,8 +3,6 @@ from django.conf import settings
 from nexmomessage import NexmoMessage
 import models
 import requests
-from celery.utils.log import get_task_logger
-logger = get_task_logger(__name__)
 
 
 def send_sms_message(to, message, mtype='text'):
@@ -14,21 +12,11 @@ def send_sms_message(to, message, mtype='text'):
 
     >>> send_message('+33612345678', 'My sms message body')
     """
-    # TODO: How frequently should we check pool size?
-    poolSize = models.SourceNumber.objects.count()
-
-    # TODO: Make one atomic query. Had some trouble returning the value
-    models.PoolCounter.objects.filter(
-        name='NEXMO_PHONE_SEQ').update(counter=F('counter')+1)
-    sourcePool = models.PoolCounter.objects.get(name='NEXMO_PHONE_SEQ')
-    key = (sourcePool.counter % poolSize) + 1
-    source = models.SourceNumber.objects.get(pk=key)
-
     params = {
         'api_key': settings.NEXMO_USERNAME,
         'api_secret': settings.NEXMO_PASSWORD,
         'type': mtype,
-        'from': source.phone_number,
+        'from': getSourceNumber(),
         'to': to,
         'text': message.encode('utf-8'),
     }
@@ -44,22 +32,24 @@ def send_unicode_message(to, message):
 
     >>> send_message('+33612345678', 'My unicode message body')
     """
-    # TODO: How frequently should we check pool size?
-    poolSize = models.SourceNumber.objects.count()
+    restUrl = 'http://rest.nexmo.com/sms/xml'
+    payload = {'type': 'unicode',
+               'api_key': settings.NEXMO_USERNAME,
+               'api_secret': settings.NEXMO_PASSWORD,
+               'from': getSourceNumber(),
+               'to': to,
+               'text': message.decode('unicode_escape')}
+    response = requests.get(restUrl, params=payload)
+    return response
 
+
+def getSourceNumber():
+    # TODO: Should we cache this count?
+    poolSize = models.SourceNumber.objects.count()
     # TODO: Make one atomic query. Had some trouble returning the value
     models.PoolCounter.objects.filter(
         name='NEXMO_PHONE_SEQ').update(counter=F('counter')+1)
     sourcePool = models.PoolCounter.objects.get(name='NEXMO_PHONE_SEQ')
     key = (sourcePool.counter % poolSize) + 1
     source = models.SourceNumber.objects.get(pk=key)
-
-    restUrl = 'http://rest.nexmo.com/sms/xml'
-    payload = {'type': 'unicode',
-               'api_key': settings.NEXMO_USERNAME,
-               'api_secret': settings.NEXMO_PASSWORD,
-               'from': source.phone_number,
-               'to': to,
-               'text': message.decode('unicode_escape')}
-    response = requests.get(restUrl, params=payload)
-    return response
+    return source.phone_number
