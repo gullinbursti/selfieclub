@@ -1,8 +1,13 @@
 # Release notes
 
-## v01.02.00
+## v01.03.00
 
 - **TODO** - FIll me in...
+
+
+## v01.02.00
+
+- On api server, pip install requests
 
 
 ## v01.01.00
