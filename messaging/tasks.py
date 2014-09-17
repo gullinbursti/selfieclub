@@ -1,7 +1,7 @@
 from __future__ import absolute_import
-from urllib import quote_plus
 from celery import shared_task
 from celery.utils.log import get_task_logger
+from django.conf import settings
 from .nexmo import send_sms_message, send_unicode_message
 from .amazon import send_push_message
 import club
@@ -34,11 +34,8 @@ def send_sms_invitation(club_id, actor_member_id, invitee_sms_number, when):
 
     # TODO - Check datetime
 
-    clubNameForUrl = quote_plus(clubToJoin.name)
     # TODO: Localize
-    message = '{0} has invited you to {1}! http://joinselfie.club/{0}/{2} ' \
-        .format(sendingMember.name, clubToJoin.name, clubNameForUrl) + \
-        'or Reply YES to join.'
+    message = settings.SMS_INVITE_TEXT.format(sendingMember.name)
     result = send_sms_message(to, message)
     logger.info("Event handled: send_sms_invitation({}, {}) {}" .format(
         to, message, result))
@@ -53,7 +50,7 @@ def send_sms_thanks(thankee_sms_number):
         logger.debug("SMS target '{}' is invalid", thankee_sms_number)
         return
 
-    message = 'Thank you for joining Selfieclub! Download now http://sel.club'
+    message = settings.SMS_THANKS_TEXT
     result = send_sms_message(to, message)
     logger.info("Event handled: sms_thanks({}, {}) {}".format(
         to, message, result))
@@ -82,8 +79,7 @@ def send_push_invitation(club_id, actor_member_id, invitee_member_id, when):
     # TODO - Check datetime
     to = receivingMember.device_token
     # TODO: Localize
-    message = '{} has invited you to {}! Tap or swipe to join.'.format(
-        sendingMember.name, clubToJoin.name)
+    message = settings.PUSH_INVITE_TEXT.format(sendingMember.name)
     result = send_push_message(to, message)
     logger.info("Event handled: send_push_message({}, {}) = {}".format(
         to, message, result))
@@ -111,7 +107,7 @@ def send_push_joined(club_id, sender_member_id, receiver_member_id):
 
     to = receivingMember.device_token
     # TODO: Localize
-    message = '{} has joined your {} club!'.format(
+    message = settings.PUSH_JOIN_TEXT.format(
         sendingMember.name, joinedClub.name)
     result = send_push_message(to, message)
     logger.info("Event handled: send_push_message({}, {}) = {}".format(
@@ -136,7 +132,8 @@ def send_moji_sms_invitation(actor_member_id, emoji, invitee_sms_number, when):
     # TODO - Check datetime
 
     # TODO: Localize
-    message = u'{}: {} - getmoji.me'.format(sendingMember.name, emoji)
+    message = settings.MOJI_SMS_INVITE_TEXT.format(
+        sendingMember.name, emoji)
     result = send_unicode_message(to, message)
     logger.info("Event handled: send_moji_sms_invitation({}, {}) {}" .format(
         to, message, result))

@@ -1,8 +1,24 @@
 # Release notes
 
-## v01.03.00
+## v01.04.00
 
 - **TODO** - FIll me in...
+
+
+## v01.03.00
+
+- On celery server, update `selfieclub-celery-config/localsettings.py`, adding these values:
+
+        # -----------------------------------------------------------------------------
+        # Messaging
+        SMS_INVITE_TEXT = '{} has invited you to a club. http://sel.club' + \
+            ' Reply YES to receive SMS alerts.'
+        SMS_THANKS_TEXT = 'Thanks for signing up. Download Selfieclub now' + \
+            ' http://sel.club'
+        PUSH_INVITE_TEXT = '{} has invited you to a club.'
+        PUSH_JOIN_TEXT = '{} has joined your {} club!'
+        PUSH_UPDATE_TEXT = '{} has updated their status.'
+        MOJI_SMS_INVITE_TEXT = u'{}: {} - getmoji.me'
 
 
 ## v01.02.00
