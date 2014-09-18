@@ -10,7 +10,7 @@ amazonsns = sns.SNSConnection(settings.AWS_CREDENTIALS['key'],
                               settings.AWS_CREDENTIALS['secret'])
 
 
-def send_push_message(device_token, message_text):
+def send_push_message(device_token, message_text, payload=None):
     """Shortcut to send a push message using Amazon's SNS API
 
     Usage:
@@ -26,6 +26,8 @@ def send_push_message(device_token, message_text):
         'CreatePlatformEndpointResult'][
         'EndpointArn']
     apns_dict = {'aps': {'alert': message_text, 'sound': 'default'}}
+    for key, value in payload.items():
+        apns_dict['aps'][key] = value
     apns_string = json.dumps(apns_dict, ensure_ascii=False)
     message = {'default': message_text, environment: apns_string}
     messageJSON = json.dumps(message, ensure_ascii=False)

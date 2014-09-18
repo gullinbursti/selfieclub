@@ -45,9 +45,11 @@ def invitation_sent(club_id, actor_member_id,
     if receivingMember.device_token:
         messaging.tasks.send_push_invitation.delay(
             club_id, actor_member_id, invitee_member_id, when)
+        logger.info("sending push invitation to %s", (invitee_member_id))
     elif invitee_phone:
         messaging.tasks.send_sms_invitation.delay(
             club_id, actor_member_id, invitee_phone, when)
+        logger.info("sending SMS invitation to %s", (invitee_phone))
 
 
 @shared_task
