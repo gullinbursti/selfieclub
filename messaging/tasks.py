@@ -117,6 +117,37 @@ def send_push_joined(club_id, sender_member_id, receiver_member_id):
 
 
 @shared_task
+def send_push_status_update(club_id, sender_member_id, receiver_member_id,
+                            when):
+    logger.info("Event received: send_push_status_update(%s, %s, %s, %s)",
+                (club_id, sender_member_id, receiver_member_id, when))
+
+    updatedClub = club.models.Club.objects.get(pk=club_id)
+    if not updatedClub:
+        logger.debug("Club '%s' does not exist", (club_id))
+        return
+
+    sendingMember = member.models.Member.objects.get(pk=sender_member_id)
+    if not sendingMember:
+        logger.debug("Sender '%s' does not exist", (sender_member_id))
+        return
+
+    receivingMember = member.models.Member.objects.get(pk=receiver_member_id)
+    if not receivingMember:
+        logger.debug("Receiver '%s' does not exist", (receiver_member_id))
+        return
+
+    to = receivingMember.device_token
+    # TODO: Localize
+    message = settings.PUSH_UPDATE_TEXT.format(sendingMember.name)
+    payload = {'owner_id': sender_member_id,
+               'club_id': club_id}
+    result = send_push_message(to, message, payload)
+    logger.info("Event handled: send_push_message(%s, %s, %s) = %s",
+                (to, message, payload, result))
+
+
+@shared_task
 def send_moji_sms_invitation(actor_member_id, emoji, invitee_sms_number, when):
     logger.info("Event received: send_moji_sms_invitation({}, {}, {}, {})"
                 .format(actor_member_id, emoji, invitee_sms_number, when))

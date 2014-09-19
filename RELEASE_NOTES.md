@@ -1,8 +1,15 @@
 # Release notes
 
-## v01.04.00
+## v01.05.00
 
 - **TODO** - FIll me in...
+
+
+## v01.04.00
+
+- In MySQL, hotornot-dev, insert a new row:
+
+        insert into tbl_newsfeed_member_event_type (name, description, created, updated) values ('STATUS_UPDATE_CREATED', 'Someone has posted a status update in a club.', NOW(), NOW());
 
 
 ## v01.03.00
