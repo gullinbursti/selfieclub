@@ -1,31 +1,28 @@
 # Release notes
 
-## v01.05.00
+## v01.04.00
 
 - **TODO** - FIll me in...
 
 
-## v01.04.00
+## v01.03.00
 
 - In MySQL, hotornot-dev, insert a new row:
 
         insert into tbl_newsfeed_member_event_type (name, description, created, updated) values ('STATUS_UPDATE_CREATED', 'Someone has posted a status update in a club.', NOW(), NOW());
 
-
-## v01.03.00
-
 - On celery server, update `selfieclub-celery-config/localsettings.py`, adding these values:
 
         # -----------------------------------------------------------------------------
         # Messaging
-        SMS_INVITE_TEXT = '{} has invited you to a club. http://sel.club' + \
+        SMS_INVITE_TEXT = '$senderName has invited you to a club. http://sel.club' + \
             ' Reply YES to receive SMS alerts.'
         SMS_THANKS_TEXT = 'Thanks for signing up. Download Selfieclub now' + \
             ' http://sel.club'
-        PUSH_INVITE_TEXT = '{} has invited you to a club.'
-        PUSH_JOIN_TEXT = '{} has joined your {} club!'
-        PUSH_UPDATE_TEXT = '{} has updated their status.'
-        MOJI_SMS_INVITE_TEXT = u'{}: {} - getmoji.me'
+        PUSH_INVITE_TEXT = '$senderName has invited you to a club.'
+        PUSH_JOIN_TEXT = '$senderName has joined your $clubName club!'
+        PUSH_UPDATE_TEXT = '$senderName has updated their status.'
+        MOJI_SMS_INVITE_TEXT = u'$senderName: $emoji - getmoji.me'
 
 
 ## v01.02.00
