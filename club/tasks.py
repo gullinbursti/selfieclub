@@ -15,20 +15,20 @@ logger = get_task_logger(__name__)
 @shared_task
 def invitation_sent(club_id, actor_member_id,
                     invitee_member_id, invitee_phone, when):
-    logger.info("Event received: invitation_sent({}, {}, {}, {}, {})".format(
-        club_id, actor_member_id, invitee_member_id, invitee_phone, when))
+    logger.info("Event received: invitation_sent(%s, %s, %s, %s, %s)",
+        club_id, actor_member_id, invitee_member_id, invitee_phone, when)
 
     if not club_exists(club_id):
-        logger.debug("Club '{}' does not exist".format(club_id))
+        logger.debug("Club '%s' does not exist", club_id)
         return
 
     if not user_exists(actor_member_id):
-        logger.debug("Actor '{}' does not exist".format(actor_member_id))
+        logger.debug("Actor '%s' does not exist", actor_member_id)
         return
 
     receivingMember = member.models.Member.objects.get(pk=invitee_member_id)
     if not receivingMember:
-        logger.debug("Invitee '{}' does not exist".format(invitee_member_id))
+        logger.debug("Invitee '%s' does not exist", invitee_member_id)
         return
 
     # TODO - Check datetime
@@ -45,25 +45,25 @@ def invitation_sent(club_id, actor_member_id,
     if receivingMember.device_token:
         messaging.tasks.send_push_invitation.delay(
             club_id, actor_member_id, invitee_member_id, when)
-        logger.info("sending push invitation to %s", (invitee_member_id))
+        logger.info("sending push invitation to %s", invitee_member_id)
     elif invitee_phone:
         messaging.tasks.send_sms_invitation.delay(
             club_id, actor_member_id, invitee_phone, when)
-        logger.info("sending SMS invitation to %s", (invitee_phone))
+        logger.info("sending SMS invitation to %s", invitee_phone)
 
 
 @shared_task
 def joined(club_id, actor_member_id, when):
-    logger.info("Event received: joined({}, {}, {})"
-                .format(club_id, actor_member_id, when))
+    logger.info("Event received: joined(%s, %s, %s)",
+                club_id, actor_member_id, when)
 
     joined_club = club.models.Club.objects.get(pk=club_id)
     if not joined_club:
-        logger.debug("Club '{}' does not exist".format(club_id))
+        logger.debug("Club '%s' does not exist", club_id)
         return
 
     if not user_exists(actor_member_id):
-        logger.debug("Actor '{}' does not exist".format(actor_member_id))
+        logger.debug("Actor '%s' does not exist", actor_member_id)
         return
 
     # TODO - Check datetime
