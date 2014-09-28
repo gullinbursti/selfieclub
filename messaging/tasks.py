@@ -89,7 +89,8 @@ def send_push_invitation(club_id, actor_member_id, invitee_member_id, when):
                                   clubName=clubToJoin.name,
                                   clubUrlName=quote_plus(clubToJoin.name))
     payload = {'owner_id': actor_member_id,
-               'club_id': club_id}
+               'club_id': club_id,
+               'type': 'invite'}
     result = send_push_message(to, message, payload)
     logger.info("Event handled: send_push_message(%s, %s, %s) = %s",
                 (to, message, payload, result))
@@ -154,7 +155,8 @@ def send_push_status_update(club_id, sender_member_id, receiver_member_id,
                                   clubName=updatedClub.name,
                                   clubUrlName=quote_plus(updatedClub.name))
     payload = {'owner_id': sender_member_id,
-               'club_id': club_id}
+               'club_id': club_id,
+               'type': 'update'}
     result = send_push_message(to, message, payload)
     logger.info("Event handled: send_push_message(%s, %s, %s) = %s",
                 (to, message, payload, result))
