@@ -3,6 +3,8 @@ from newsfeed_member.models import Newsfeed, NewsfeedType
 
 
 class NewsfeedTestCase(TestCase):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods
     def setUp(self):
         NewsfeedType.objects.create(id=1, name='CLUB_INVITE_RECEIVED')
         NewsfeedType.objects.create(id=2, name='CLUB_JOINED')
@@ -24,7 +26,7 @@ class NewsfeedTestCase(TestCase):
         Newsfeed items should have valid event type IDs that link to other
         objects.
         """
-        inviteItem = Newsfeed.objects.get(member_id=14866)
-        self.assertEqual(inviteItem.event_type.name, 'CLUB_INVITE_RECEIVED')
-        inviteItem = Newsfeed.objects.get(member_id=2466)
-        self.assertEqual(inviteItem.event_type.name, 'CLUB_JOINED')
+        invite_item = Newsfeed.objects.get(member_id=14866)
+        self.assertEqual(invite_item.event_type.name, 'CLUB_INVITE_RECEIVED')
+        invite_item = Newsfeed.objects.get(member_id=2466)
+        self.assertEqual(invite_item.event_type.name, 'CLUB_JOINED')
