@@ -80,7 +80,8 @@ DATABASES = {
     'selfieclub': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(CONFIG_DIR, 'mysql-selfieclub.cnf'),
+            'read_default_file': os.path.join(
+                CONFIG_DIR, 'mysql-selfieclub.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
     },
@@ -139,4 +140,4 @@ CELERY_RESULT_SERIALIZER = 'json'
 # Things that need to be in 'local_settings':
 #     - SECRET_KEY
 #     - AWS_CREDENTIALS
-from local_settings import *
+from local_settings import *  # noqa - required to load local_settings

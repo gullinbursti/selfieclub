@@ -12,7 +12,8 @@ admin.autodiscover()
 # Keep in mind that order is relavant, more exact names should be at the top
 router = DefaultRouter()
 router.register(r'^status/update', status_views.StatusUpdate)
-router.register(r'^club/labeled/(?P<label>[^/]+)', club_views.ClubsWithLabelByLabelName)
+router.register(r'^club/labeled/(?P<label>[^/]+)',
+                club_views.ClubsWithLabelByLabelName)
 router.register(r'^club/label/name', club_views.ClubLabelByName)
 router.register(r'^club/label', club_views.ClubLabel)
 router.register(r'^club/type', club_views.ClubType)
@@ -26,6 +27,7 @@ urlpatterns = patterns(
     url(r'^', include(router.urls)),
     url(r'^media/', include('media.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
     url(r'^messaging/', include('messaging.urls'))
     )
