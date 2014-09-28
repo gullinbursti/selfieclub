@@ -14,7 +14,7 @@ logger = get_task_logger(__name__)
 @shared_task
 def post_status_update(club_id, actor_member_id, invitee_member_id, when):
     logger.info("Event received: invitation_sent(%s, %s, %s, %s)",
-                (club_id, actor_member_id, invitee_member_id, when))
+                club_id, actor_member_id, invitee_member_id, when)
 
     if not club_exists(club_id):
         logger.debug("Club '%s' does not exist", (club_id))
@@ -44,7 +44,7 @@ def post_status_update(club_id, actor_member_id, invitee_member_id, when):
     if receivingMember.device_token:
         messaging.tasks.send_push_status_update.delay(
             club_id, actor_member_id, invitee_member_id, when)
-        logger.info("sending push notification to %s", (invitee_member_id))
+        logger.info("sending push notification to %s", invitee_member_id)
 
 
 def user_exists(pk):
