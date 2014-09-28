@@ -140,4 +140,4 @@ CELERY_RESULT_SERIALIZER = 'json'
 # Things that need to be in 'local_settings':
 #     - SECRET_KEY
 #     - AWS_CREDENTIALS
-from local_settings import *  # noqa - required to load local_settings
+from local_settings import *  # noqa # pylint: disable=wildcard-import, import-error
