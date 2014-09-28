@@ -6,6 +6,7 @@ from rest_framework import serializers
 class Member(serializers.ModelSerializer):
     avatar_url = serializers.URLField(source='img_url', read_only=True)
 
-    class Meta:
+    class Meta(object):
+        # pylint: disable=too-few-public-methods
         model = models.Member
         fields = ('id', 'avatar_url', 'name')
