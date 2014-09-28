@@ -1,15 +1,22 @@
 class BaseDbRouter(object):
+    # (TODO: pt-79657238) # pylint: disable=protected-access, no-member
     def db_for_read(self, model, **hints):
-        if self.isManagedApp(model._meta.app_label):
+        # 'hints' is required
+        # pylint: disable=unused-argument
+        if self.is_managed_app(model._meta.app_label):
             return self.__class__.CONFIG_NAME
         return None
 
     def db_for_write(self, model, **hints):
-        if self.isManagedApp(model._meta.app_label):
+        # 'hints' is required
+        # pylint: disable=unused-argument
+        if self.is_managed_app(model._meta.app_label):
             return self.__class__.CONFIG_NAME
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
+        # 'hints' is required
+        # pylint: disable=unused-argument
         """
         Allow relations if both models are in the same DB
         """
@@ -20,13 +27,13 @@ class BaseDbRouter(object):
 
     def allow_syncdb(self, current_db, model):
         if current_db == self.__class__.CONFIG_NAME \
-                and self.isManagedApp(model._meta.app_label):
+                and self.is_managed_app(model._meta.app_label):
             return True
-        elif self.isManagedApp(model._meta.app_label):
+        elif self.is_managed_app(model._meta.app_label):
             return False
         return None
 
-    def isManagedApp(self, label):
+    def is_managed_app(self, label):
         return label in self.__class__.APP_LABELS
 
 
@@ -43,6 +50,7 @@ class SelfieClubDbRouter(BaseDbRouter):
 
 
 class DjangoDbRouter(BaseDbRouter):
+    # (TODO: pt-79657238) # pylint: disable=protected-access
     CONFIG_NAME = 'django'
     APP_LABELS = (
         'admin',
@@ -55,13 +63,14 @@ class DjangoDbRouter(BaseDbRouter):
         """
         Allow relations if a model in the auth app is involved.
         """
-        if self.isManagedApp(obj1._meta.app_label) \
-                or self.isManagedApp(obj2._meta.app_label):
+        if self.is_managed_app(obj1._meta.app_label) \
+                or self.is_managed_app(obj2._meta.app_label):
             return True
         return None
 
 
 class FailDbRouter(object):
+    # noqa (TODO: pt-79657238) # pylint: disable=protected-access, abstract-class-not-used
     def db_for_read(self, model, **hints):
         raise NotImplementedError(
             "Unknown application '{}'".format(model._meta.app_label))
