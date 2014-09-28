@@ -27,7 +27,8 @@ class ClubLabelByName(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     lookup_field = 'name'
 
 
-class ClubsWithLabelByLabelName(mixins.ListModelMixin, viewsets.GenericViewSet):
+class ClubsWithLabelByLabelName(mixins.ListModelMixin,
+                                viewsets.GenericViewSet):
     # model = models.Club
     queryset = models.Club.objects.all()
     serializer_class = serializers.ClubSummary

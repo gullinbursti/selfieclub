@@ -15,7 +15,8 @@ logger = get_task_logger(__name__)
 @shared_task
 def invitation_sent(club_id, actor_member_id,
                     invitee_member_id, invitee_phone, when):
-    logger.info("Event received: invitation_sent(%s, %s, %s, %s, %s)",
+    logger.info(
+        "Event received: invitation_sent(%s, %s, %s, %s, %s)",
         club_id, actor_member_id, invitee_member_id, invitee_phone, when)
 
     if not club_exists(club_id):

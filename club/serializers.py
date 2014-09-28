@@ -12,7 +12,8 @@ class ClubType(serializers.ModelSerializer):
 class Club(serializers.ModelSerializer):
     class Meta:
         model = models.Club
-        fields = ('id', 'name', 'club_type', 'owner', 'description', 'img', 'added')
+        fields = ('id', 'name', 'club_type', 'owner', 'description', 'img',
+                  'added')
 
 
 class ClubSummary(serializers.ModelSerializer):
@@ -27,9 +28,11 @@ class ClubLabel(serializers.ModelSerializer):
         slug_field='id',
         many=True,
         write_only=True,
-        widget=widgets.TextInput, help_text='Comma delimited array of club_ids.'
+        widget=widgets.TextInput,
+        help_text='Comma delimited array of club_ids.'
     )
 
     class Meta:
         model = models.ClubLabel
-        fields = ('id', 'name', 'description', 'club_ids', 'updated', 'created')
+        fields = ('id', 'name', 'description', 'club_ids', 'updated',
+                  'created')
