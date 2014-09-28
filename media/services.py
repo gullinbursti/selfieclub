@@ -22,7 +22,8 @@ class UploadInstructionsService(object):
         expiry_minutes = settings.AWS_S3_DIRECT_CLIENT_UPLOAD['expiry_minutes']
 
         # Prepare
-        expiry = datetime.datetime.utcnow() + datetime.timedelta(minutes=expiry_minutes)
+        expiry = datetime.datetime.utcnow() \
+            + datetime.timedelta(minutes=expiry_minutes)
         expiry_iso = expiry.strftime(self.DATETIME_FORMAT)
 
         policy = {
