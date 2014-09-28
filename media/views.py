@@ -7,6 +7,14 @@ from rest_framework.views import APIView
 
 
 class UploadInstructions(APIView):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
+    #
+    # The following is a mess and will get cleaned up when we start using this
+    # endpoint for image uploads:
+    # TODO # pylint: disable=no-self-use, redefined-builtin, unused-argument
+    # TODO # pylint: disable=no-value-for-parameter, no-value-for-parameter
+    # TODO # pylint: disable=unexpected-keyword-arg, no-member
     def post(self, request, format=None):
         request_serializer = UploadInstructionsRequestSerializer(
             data=request.DATA)
