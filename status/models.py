@@ -4,7 +4,8 @@ from django.db import models
 
 
 # TODO - In need of serious love:
-#    - The status_id, subject_id, creator_id, club_id, and maybe others, need to be made
+#    - The status_id, subject_id, creator_id, club_id, and maybe others, need
+#      to be made
 #      ForeignKey(s) here and in the DB.
 #    - Need to double check many other things
 class StatusUpdate(models.Model):
