@@ -72,17 +72,21 @@ class DjangoDbRouter(BaseDbRouter):
 class FailDbRouter(object):
     # noqa (TODO: pt-79657238) # pylint: disable=protected-access, abstract-class-not-used
     def db_for_read(self, model, **hints):
-        raise NotImplementedError(
+        # pylint: disable=unused-argument, no-self-use
+        raise Exception(
             "Unknown application '{}'".format(model._meta.app_label))
 
     def db_for_write(self, model, **hints):
-        raise NotImplementedError(
+        # pylint: disable=unused-argument, no-self-use
+        raise Exception(
             "Unknown application '{}'".format(model._meta.app_label))
 
     def allow_relation(self, obj1, obj2, **hints):
-        raise NotImplementedError("Unknown relationship")
+        # pylint: disable=unused-argument, no-self-use
+        raise Exception("Unknown relationship")
 
     def allow_syncdb(self, current_db, model):
-        raise NotImplementedError(
+        # pylint: disable=unused-argument, no-self-use
+        raise Exception(
             "Unknown application '{}' while updating '{}'"
             .format(model._meta.app_label, current_db))

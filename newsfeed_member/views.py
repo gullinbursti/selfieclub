@@ -4,11 +4,15 @@ from rest_framework import viewsets
 
 
 class NewsfeedType(viewsets.ReadOnlyModelViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
     queryset = models.NewsfeedType.objects.all()
     serializer_class = serializers.NewsfeedType
 
 
 class Newsfeed(viewsets.ReadOnlyModelViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
     serializer_class = serializers.Newsfeed
     model = models.Newsfeed
 

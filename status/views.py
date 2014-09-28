@@ -8,3 +8,6 @@ class StatusUpdate(viewsets.ReadOnlyModelViewSet):
     # pylint: disable=too-many-public-methods, too-many-ancestors
     queryset = models.StatusUpdate.objects.all()
     serializer_class = serializers.StatusUpdate
+
+    def get_queryset(self):
+        pass

@@ -19,8 +19,8 @@ class Club(serializers.ModelSerializer):
 
 
 class ClubSummary(serializers.ModelSerializer):
-    # pylint: disable=too-few-public-methods
     class Meta(object):
+        # pylint: disable=too-few-public-methods
         model = models.Club
         fields = ('id', 'name', 'img', 'owner')
 
