@@ -8,25 +8,25 @@ import messaging
 import newsfeed_member
 
 
-logger = get_task_logger(__name__)
+LOGGER = get_task_logger(__name__)
 
 
 @shared_task
 def post_status_update(club_id, actor_member_id, invitee_member_id, when):
-    logger.info("Event received: invitation_sent(%s, %s, %s, %s)",
+    LOGGER.info("Event received: invitation_sent(%s, %s, %s, %s)",
                 club_id, actor_member_id, invitee_member_id, when)
 
     if not club_exists(club_id):
-        logger.debug("Club '%s' does not exist", (club_id))
+        LOGGER.debug("Club '%s' does not exist", (club_id))
         return
 
     if not user_exists(actor_member_id):
-        logger.debug("Actor '%s' does not exist", (actor_member_id))
+        LOGGER.debug("Actor '%s' does not exist", (actor_member_id))
         return
 
-    receivingMember = member.models.Member.objects.get(pk=invitee_member_id)
-    if not receivingMember:
-        logger.debug("Invitee '%s' does not exist", (invitee_member_id))
+    receiving_member = member.models.Member.objects.get(pk=invitee_member_id)
+    if not receiving_member:
+        LOGGER.debug("Invitee '%s' does not exist", (invitee_member_id))
         return
 
     # TODO - Check datetime
@@ -41,15 +41,15 @@ def post_status_update(club_id, actor_member_id, invitee_member_id, when):
     event.save()
 
     # Celery's .delay() just means .queue() or .submit() immediately
-    if receivingMember.device_token:
+    if receiving_member.device_token:
         messaging.tasks.send_push_status_update.delay(
             club_id, actor_member_id, invitee_member_id, when)
-        logger.info("sending push notification to %s", invitee_member_id)
+        LOGGER.info("sending push notification to %s", invitee_member_id)
 
 
-def user_exists(pk):
-    return member.models.Member.objects.filter(pk=pk).exists()
+def user_exists(user_id):
+    return member.models.Member.objects.filter(pk=user_id).exists()
 
 
-def club_exists(pk):
-    return club.models.Club.objects.filter(pk=pk).exists()
+def club_exists(club_id):
+    return club.models.Club.objects.filter(pk=club_id).exists()
