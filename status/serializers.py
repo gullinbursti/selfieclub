@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 
 class StatusUpdate(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
+        # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
         fields = ('id', 'creator_id', 'is_private', 'votes', 'added')
