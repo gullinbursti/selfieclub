@@ -22,10 +22,7 @@ class NewsfeedTestCase(TestCase):
             time='2014-08-14T19:42:30Z')
 
     def test_event_type_foreign_keys_are_valid(self):
-        """
-        Newsfeed items should have valid event type IDs that link to other
-        objects.
-        """
+        """Newsfeed event type IDs link to other objects."""
         invite_item = Newsfeed.objects.get(member_id=14866)
         self.assertEqual(invite_item.event_type.name, 'CLUB_INVITE_RECEIVED')
         invite_item = Newsfeed.objects.get(member_id=2466)

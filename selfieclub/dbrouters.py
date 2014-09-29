@@ -17,9 +17,7 @@ class BaseDbRouter(object):
     def allow_relation(self, obj1, obj2, **hints):
         # 'hints' is required
         # pylint: disable=unused-argument
-        """
-        Allow relations if both models are in the same DB
-        """
+        """Allow relations if both models are in the same DB."""
         if obj1._state.db == self.__class__.CONFIG_NAME \
                 and obj2._state.db == self.__class__.CONFIG_NAME:
             return True
@@ -60,9 +58,7 @@ class DjangoDbRouter(BaseDbRouter):
     )
 
     def allow_relation(self, obj1, obj2, **hints):
-        """
-        Allow relations if a model in the auth app is involved.
-        """
+        """Allow relations if a model in the auth app is involved."""
         if self.is_managed_app(obj1._meta.app_label) \
                 or self.is_managed_app(obj2._meta.app_label):
             return True
