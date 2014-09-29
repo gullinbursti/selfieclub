@@ -207,8 +207,8 @@ warning messages.
 
 For more information:
 
-  - [PY3KWARN - Pypi][PY3KWARN-PYPI]
-  - [PY3KWARN - documentation][PY3KWARN-RTD]
+  - [py3kwarn - Pypi][PY3KWARN-PYPI]
+  - [py3kwarn - documentation][PY3KWARN-RTD]
 
 
 ### pep257
