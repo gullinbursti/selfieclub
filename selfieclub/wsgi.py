@@ -22,7 +22,11 @@ sys.path.append(CONFIG_DIR)
 
 ACTIVATE_THIS = os.path.join(BASE_DIR, '.virtualenv', 'bin',
                              'activate_this.py')
-execfile(ACTIVATE_THIS, dict(__file__=ACTIVATE_THIS))
+
+# exec-used - py3 compatability.  Reading from secure file.  Should be OK?
+exec(  # pylint: disable=exec-used
+    compile(open(ACTIVATE_THIS).read(), ACTIVATE_THIS, 'exec'),
+    dict(__file__=ACTIVATE_THIS))
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "selfieclub.settings")
 
