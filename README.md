@@ -47,6 +47,7 @@ Add the following to you `~/.vimrc` file:
 
 ```
 let g:syntastic_python_checkers = ['python', 'flake8', 'pylint', 'py3kwarn', 'pep257']
+let g:syntastic_python_pep257_args="--ignore D100,D101,D102,D103"
 ```
 
 Note that the checkers are executed in order.  Feel free to modify as you like.
