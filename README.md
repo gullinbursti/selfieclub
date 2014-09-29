@@ -15,20 +15,6 @@ $ pip install --process-dependency-links -r requirements.txt
 ```
 
 
-### Useful commands
-
-#### Django
-
-To run the built in development server:
-
-```
-$./manage.py runserver
-```
-
-#### Celery
-
-***TODO***
-
 ### Before you commit/push!
 
 Before you commit/push those changes you made:
@@ -137,6 +123,31 @@ function py-deactivate-env ()
     export __VIRTUAL_ENV_LOC VIRTUAL_ENV_DISABLE_PROMPT PYLINTRC
 }
 ```
+
+
+### Useful commands
+
+#### Tox
+
+
+Force recreation of Tox's virtual environments.
+
+```
+$ tox --recreate
+```
+
+
+#### Django
+
+To run the built in development server:
+
+```
+$ ./manage.py runserver
+```
+
+#### Celery
+
+***TODO***
 
 
 ## Continuous integration
