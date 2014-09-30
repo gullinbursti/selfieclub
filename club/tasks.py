@@ -89,7 +89,7 @@ def joined(club_id, actor_member_id, when):
 
     # Celery's .delay() just means .queue() or .submit() immediately
     messaging.tasks.send_push_joined.delay(
-        joined_club.name, joined_club.owner.id, actor_member_id)
+        club_id, joined_club.owner.id, actor_member_id)
 
 
 @shared_task
