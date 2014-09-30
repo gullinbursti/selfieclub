@@ -1,23 +1,20 @@
+"""Send messages via the Nexmo SMS service."""
+
 from django.db.models import F
 from django.conf import settings
 from nexmomessage import NexmoMessage
-import models
+from messaging import models
 import requests
 
 
-def send_sms_message(to, message, mtype='text'):
-    """Shortcut to send a sms using libnexmo api and a pool of souce numbers
-
-    Usage:
-
-    >>> send_message('+33612345678', 'My sms message body')
-    """
+def send_sms_message(recipient, message, mtype='text'):
+    """Shortcut to send sms using libnexmo api and a pool of source numbers."""
     params = {
         'api_key': settings.NEXMO_USERNAME,
         'api_secret': settings.NEXMO_PASSWORD,
         'type': mtype,
         'from': getSourceNumber(),
-        'to': to,
+        'to': recipient,
         'text': message.encode('utf-8'),
     }
     sms = NexmoMessage(params)
@@ -25,31 +22,27 @@ def send_sms_message(to, message, mtype='text'):
     return response
 
 
-def send_unicode_message(to, message):
-    """Shortcut to send a sms using libnexmo api and a pool of souce numbers
-
-    Usage:
-
-    >>> send_message('+33612345678', 'My unicode message body')
-    """
-    restUrl = 'http://rest.nexmo.com/sms/xml'
+def send_unicode_message(recipient, message):
+    """Shortcut to send sms using libnexmo api and a pool of source numbers."""
+    rest_url = 'http://rest.nexmo.com/sms/xml'
     payload = {'type': 'unicode',
                'api_key': settings.NEXMO_USERNAME,
                'api_secret': settings.NEXMO_PASSWORD,
                'from': getSourceNumber(),
-               'to': to,
+               'to': recipient,
                'text': message.decode('unicode_escape')}
-    response = requests.get(restUrl, params=payload)
+    response = requests.get(rest_url, params=payload)
     return response
 
 
 def getSourceNumber():
+    """Helper to rotate through pool of SMS source numbers."""
     # TODO: Should we cache this count?
-    poolSize = models.SourceNumber.objects.count()
+    pool_size = models.SourceNumber.objects.count()
     # TODO: Make one atomic query. Had some trouble returning the value
     models.PoolCounter.objects.filter(
         name='NEXMO_PHONE_SEQ').update(counter=F('counter')+1)
-    sourcePool = models.PoolCounter.objects.get(name='NEXMO_PHONE_SEQ')
-    key = (sourcePool.counter % poolSize) + 1
+    source_pool = models.PoolCounter.objects.get(name='NEXMO_PHONE_SEQ')
+    key = (source_pool.counter % pool_size) + 1
     source = models.SourceNumber.objects.get(pk=key)
     return source.phone_number

@@ -6,28 +6,39 @@ from rest_framework import permissions
 
 
 class ClubType(viewsets.ModelViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
     queryset = models.ClubType.objects.all()
     serializer_class = serializers.ClubType
 
 
 class Club(viewsets.ReadOnlyModelViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
     queryset = models.Club.objects.all()
     serializer_class = serializers.Club
 
 
 class ClubLabel(viewsets.ModelViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = models.ClubLabel.objects.all()
     serializer_class = serializers.ClubLabel
 
 
 class ClubLabelByName(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
     model = models.ClubLabel
     serializer_class = serializers.ClubLabel
     lookup_field = 'name'
 
 
-class ClubsWithLabelByLabelName(mixins.ListModelMixin, viewsets.GenericViewSet):
+class ClubsWithLabelByLabelName(mixins.ListModelMixin,
+                                viewsets.GenericViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-public-methods, too-many-ancestors
     # model = models.Club
     queryset = models.Club.objects.all()
     serializer_class = serializers.ClubSummary

@@ -1,3 +1,5 @@
+"""Provide for the conversion of Nexmo return codes to English messages."""
+
 from django.utils.translation import ugettext as _
 
 

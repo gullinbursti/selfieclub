@@ -1,14 +1,12 @@
 from __future__ import absolute_import
 
-"""
-Django settings for selfieclub project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
+# Django settings for selfieclub project.
+#
+# For more information on this file, see
+# https://docs.djangoproject.com/en/1.6/topics/settings/
+#
+# For the full list of settings and their values, see
+# https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -80,7 +78,8 @@ DATABASES = {
     'selfieclub': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(CONFIG_DIR, 'mysql-selfieclub.cnf'),
+            'read_default_file': os.path.join(
+                CONFIG_DIR, 'mysql-selfieclub.cnf'),
             'init_command': 'SET storage_engine=INNODB',
         },
     },
@@ -139,4 +138,4 @@ CELERY_RESULT_SERIALIZER = 'json'
 # Things that need to be in 'local_settings':
 #     - SECRET_KEY
 #     - AWS_CREDENTIALS
-from local_settings import *
+from local_settings import *  # noqa # pylint: disable=wildcard-import, import-error

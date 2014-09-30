@@ -1,9 +1,12 @@
+"""Handle inbound requests and callbacks."""
+
 import messaging
 from messaging import tasks
 from django.http import HttpResponse
 
 
 def callback(request):
+    # TODO # pylint: disable=redefined-outer-name
     """Callback URL for Nexmo."""
     status_id = None
     if 'status' in request.GET:

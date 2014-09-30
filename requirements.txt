@@ -1,0 +1,14 @@
+# Only keep development requirements here.  Actual dependencies belong
+# in setup.py.
+#
+# Maintain manulally, avoid `pip freeze > requirements.py`.
+-e .
+flake8>=2.2.3
+mock>=1.0.1
+pep257>=0.3.2
+py3kwarn>=0.4.4
+pylint-django>=0.5.4
+pylint>=1.3.1
+pytest-mock>=0.4.0
+pytest>=2.6.3
+tox>=1.7.2

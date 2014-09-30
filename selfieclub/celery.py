@@ -5,19 +5,20 @@ from django.conf import settings
 import os
 import sys
 
-base_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 if 'SELFIECLUB_CONFIG_DIR' in os.environ:
-    config_dir = os.environ.get('SELFIECLUB_CONFIG_DIR')
+    CONFIG_DIR = os.environ.get('SELFIECLUB_CONFIG_DIR')
 else:
-    config_dir = os.path.join(os.path.dirname(base_dir), 'selfieclub-config')
+    CONFIG_DIR = os.path.join(os.path.dirname(BASE_DIR), 'selfieclub-config')
 
-sys.path.append(config_dir)
+sys.path.append(CONFIG_DIR)
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'selfieclub.settings')
 
-app = Celery('selfieclub')
+# TODO - Investigate 'invalid-name' on 'app'.  Might be required?
+app = Celery('selfieclub')  # pylint: disable=invalid-name
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
@@ -27,4 +28,6 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 @app.task(bind=True)
 def debug_task(self):
-        print('Request: {0!r}'.format(self.request))
+    # TODO - Switch to logging, print is a bad idea!
+    # superfluous-parens - py3 compatability
+    print('Request: {0!r}'.format(self.request))  # noqa pylint: disable=superfluous-parens

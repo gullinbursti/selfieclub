@@ -8,11 +8,12 @@ import hmac
 
 
 class UploadInstructionsService(object):
-
+    # pylint: disable=too-few-public-methods
     UPLOAD_FORM_FIELD = 'file'
     DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
-    def process(self, member_id, content_type, file_name, size, club_id=None):
+    def process(self, content_type, file_name, size):
+        # TODO # pylint: disable=too-many-locals
         # Pull in configuration information
         aws_key = settings.AWS_CREDENTIALS['key']
         aws_secret = settings.AWS_CREDENTIALS['secret']
@@ -22,7 +23,8 @@ class UploadInstructionsService(object):
         expiry_minutes = settings.AWS_S3_DIRECT_CLIENT_UPLOAD['expiry_minutes']
 
         # Prepare
-        expiry = datetime.datetime.utcnow() + datetime.timedelta(minutes=expiry_minutes)
+        expiry = datetime.datetime.utcnow() \
+            + datetime.timedelta(minutes=expiry_minutes)
         expiry_iso = expiry.strftime(self.DATETIME_FORMAT)
 
         policy = {
