@@ -94,13 +94,6 @@ def joined(club_id, actor_member_id, when):
 
 
 @shared_task
-def quit(club_id, actor_member_id, when):
-    # TODO # pylint: disable=unused-argument
-    # (TODO: pt-79656686) # pylint: disable=redefined-builtin
-    LOGGER.info("Event received: quit")
-
-
-@shared_task
 def post_status_update(club_id, actor_member_id, selfie_id, when):
     # TODO # pylint: disable=unused-argument
     LOGGER.info("Event received: post_status_update")
