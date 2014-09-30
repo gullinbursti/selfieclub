@@ -5,6 +5,7 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
 from string import Template
+# TODO: Per ticket 79759826, figure out how to make this import pass tox tests
 from urllib import quote_plus
 from .nexmo import send_sms_message, send_unicode_message
 from .amazon import send_push_message
