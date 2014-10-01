@@ -48,6 +48,7 @@ Add the following to you `~/.vimrc` file:
 ```
 let g:syntastic_python_checkers = ['python', 'flake8', 'pylint', 'py3kwarn', 'pep257']
 let g:syntastic_python_pep257_args="--ignore D100,D101,D102,D103"
+let g:syntastic_python_py3kwarn_args="--nofix=urllib"
 ```
 
 Note that the checkers are executed in order.  Feel free to modify as you like.
@@ -232,18 +233,46 @@ For more information:
   - [pep257 - documentation][PEP257-RTD]
 
 
+## Code analysis exceptions
+
+This section covers global exceptions made with the code analysis tools.  It is
+important to document these exceptions so that we remember the reasoning
+behind it.  :-)
+
+### py3kwarn
+
+#### urllib
+
+Covered in [Pivotal Tracker ticket 79759826][PT79759826].  The location of
+*urllib* changes from *Python 2* to *Python 3*.  To "correct" this issue would
+result in broken *Python 2* code.
+
+> Tox (really py3kwarn) complains about line 8 of this file, saying:
+> `./messaging/tasks.py:8:1: PY3K (FixUrllib) from urllib import quote_plus; ->
+> from urllib.parse import quote_plus;` However, py3kwarn is incorrect. While
+> Python 3 may store quote_plus in urllib.parse, Python 2.7.6 does not, so
+> following py3kwarn's suggestion results in an error: `ImportError: No module
+> named parse`
+
+This has check has been turned off in `tox.ini` as follows:
+
+```
+py3kwarn2to3 --nofix=urllib
+```
 
 
-[TOX-PYPI]: https://pypi.python.org/pypi/tox
-[TOX-RTD]: https://tox.readthedocs.org/en/latest/
-[PEP8]: http://legacy.python.org/dev/peps/pep-0008/
 [FLAKE8-PYPI]: https://pypi.python.org/pypi/flake8
 [FLAKE8-RTD]: https://flake8.readthedocs.org/en/
-[PYLINE-PYPI]: https://pypi.python.org/pypi/pylint
-[PYLINE-RTD]: http://www.pylint.org/
-[PY3KWARN-PYPI]: https://pypi.python.org/pypi/py3kwarn
-[PY3KWARN-RTD]: https://github.com/liamcurry/py3kwarn
-[PEP257]: http://legacy.python.org/dev/peps/pep-0257/
 [PEP257-PYPI]: https://pypi.python.org/pypi/pep257
 [PEP257-RTD]: https://github.com/GreenSteam/pep257/
+[PEP257]: http://legacy.python.org/dev/peps/pep-0257/
+[PEP8]: http://legacy.python.org/dev/peps/pep-0008/
+[PY3KWARN-PYPI]: https://pypi.python.org/pypi/py3kwarn
+[PY3KWARN-RTD]: https://github.com/liamcurry/py3kwarn
+[PYLINE-PYPI]: https://pypi.python.org/pypi/pylint
+[PYLINE-RTD]: http://www.pylint.org/
 [SYNTASTIC]: https://github.com/scrooloose/syntastic (Syntastic)
+[TOX-PYPI]: https://pypi.python.org/pypi/tox
+[TOX-RTD]: https://tox.readthedocs.org/en/latest/
+
+[PT79759826]: https://www.pivotaltracker.com/story/show/79759826
