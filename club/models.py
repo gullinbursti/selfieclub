@@ -5,7 +5,6 @@ from django.db import models
 
 # TODO - Comb through and confirm against DB table!!
 class ClubType(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     club_type = models.CharField(unique=True, max_length=16)
     description = models.CharField(max_length=64)
@@ -15,10 +14,13 @@ class ClubType(models.Model):
         managed = False
         db_table = 'tblClubTypeEnum'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'%s' % (self.id)
+
 
 # TODO - Comb through and confirm against DB table!!
 class Club(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=255)
     club_type = models.ForeignKey('ClubType')
@@ -31,9 +33,12 @@ class Club(models.Model):
         managed = False
         db_table = 'club'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'%s %s' % (self.id, self.name)
+
 
 class ClubLabel(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     name = models.CharField(unique=True, max_length=32)
     description = models.CharField(max_length=64)
     club = models.ManyToManyField('Club', related_name='label')
@@ -42,3 +47,7 @@ class ClubLabel(models.Model):
 
     class Meta(object):
         db_table = 'tbl_club_label'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'%s' % (self.name)

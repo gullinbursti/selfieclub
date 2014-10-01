@@ -9,7 +9,6 @@ from django.db import models
 #      ForeignKey(s) here and in the DB.
 #    - Need to double check many other things
 class StatusUpdate(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     status_id = models.IntegerField()
     subject_id = models.IntegerField()
@@ -32,3 +31,7 @@ class StatusUpdate(models.Model):
     class Meta:
         managed = False
         db_table = 'tblChallenges'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'%s' % (self.id)

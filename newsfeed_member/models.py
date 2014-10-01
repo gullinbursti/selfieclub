@@ -2,7 +2,6 @@ from django.db import models
 
 
 class NewsfeedType(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     name = models.CharField(max_length=64, unique=True)
     description = models.CharField(max_length=256)
     updated = models.DateTimeField(auto_now=True)
@@ -11,10 +10,13 @@ class NewsfeedType(models.Model):
     class Meta:
         db_table = 'tbl_newsfeed_member_event_type'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'%s' % (self.name)
+
 
 # TODO - ForeignKey on club_id not created in DB
 class Newsfeed(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     member = models.ForeignKey('member.Member')
     club = models.ForeignKey('club.Club')
     event_type = models.ForeignKey('NewsfeedType')
@@ -30,3 +32,7 @@ class Newsfeed(models.Model):
     class Meta:
         ordering = ['time']
         db_table = 'tbl_newsfeed_member_event'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'%s' % (self.time)
