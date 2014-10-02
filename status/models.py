@@ -34,4 +34,4 @@ class StatusUpdate(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s' % (self.id)
+        return u'{}'.format(self.id)

@@ -12,7 +12,7 @@ class NewsfeedType(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s' % (self.name)
+        return u'{}'.format(self.name)
 
 
 # TODO - ForeignKey on club_id not created in DB
@@ -35,4 +35,4 @@ class Newsfeed(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s' % (self.time)
+        return u'{}'.format(self.time)

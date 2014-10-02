@@ -16,7 +16,7 @@ class ClubType(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s' % (self.id)
+        return u'{}'.format(self.id)
 
 
 # TODO - Comb through and confirm against DB table!!
@@ -35,7 +35,7 @@ class Club(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s %s' % (self.id, self.name)
+        return u'{} {}'.format(self.id, self.name)
 
 
 class ClubLabel(models.Model):
@@ -50,4 +50,4 @@ class ClubLabel(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s' % (self.name)
+        return u'{}'.format(self.name)
