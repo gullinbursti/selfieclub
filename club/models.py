@@ -15,6 +15,10 @@ class ClubType(models.Model):
         managed = False
         db_table = 'tblClubTypeEnum'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.id)
+
 
 # TODO - Comb through and confirm against DB table!!
 class Club(models.Model):
@@ -31,6 +35,10 @@ class Club(models.Model):
         managed = False
         db_table = 'club'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{} {}'.format(self.id, self.name)
+
 
 class ClubLabel(models.Model):
     # TODO # pylint: disable=model-missing-unicode
@@ -42,3 +50,7 @@ class ClubLabel(models.Model):
 
     class Meta(object):
         db_table = 'tbl_club_label'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.name)

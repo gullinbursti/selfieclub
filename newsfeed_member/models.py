@@ -11,6 +11,10 @@ class NewsfeedType(models.Model):
     class Meta:
         db_table = 'tbl_newsfeed_member_event_type'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.name)
+
 
 # TODO - ForeignKey on club_id not created in DB
 class Newsfeed(models.Model):
@@ -30,3 +34,7 @@ class Newsfeed(models.Model):
     class Meta:
         ordering = ['time']
         db_table = 'tbl_newsfeed_member_event'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.time)

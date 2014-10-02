@@ -32,6 +32,10 @@ class Member(models.Model):
         managed = False
         db_table = 'tblUsers'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{} {}'.format(self.id, self.name)
+
 
 class MemberPhone(models.Model):
     # TODO # pylint: disable=model-missing-unicode
@@ -50,3 +54,7 @@ class MemberPhone(models.Model):
     class Meta:
         managed = False
         db_table = 'tblUserPhones'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.id)
