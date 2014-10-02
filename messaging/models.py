@@ -25,7 +25,7 @@ class Callback(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s' % (self.message_id)
+        return u'{}'.format(self.message_id)
 
 
 class SourceNumber(models.Model):
@@ -43,7 +43,7 @@ class SourceNumber(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s' % (self.phone_number)
+        return u'{}'.format(self.phone_number)
 
 
 class PoolCounter(models.Model):
@@ -61,4 +61,4 @@ class PoolCounter(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'%s %s' % (self.name, self.counter)
+        return u'{} {}'.format(self.name, self.counter)

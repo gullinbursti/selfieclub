@@ -32,3 +32,7 @@ class StatusUpdate(models.Model):
     class Meta:
         managed = False
         db_table = 'tblChallenges'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.id)
