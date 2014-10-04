@@ -19,19 +19,18 @@ def send_push_message(device_token, message_text, payload=None):
     response = None
     # idempotent call to create/retrieve device_arn for this token
     try:
-        d_rspnse = AMAZONSNS.create_platform_endpoint(PLATFORM_ARN,
-                                                      device_token, None,
-                                                      {u'Token': device_token,
-                                                       u'Enabled': True})
+        d_response = AMAZONSNS.create_platform_endpoint(
+            PLATFORM_ARN, device_token, None,
+            {u'Token': device_token, u'Enabled': True})
     except boto.exception.BotoServerError as exception:
         match = re.match(".*Endpoint (?P<arn>.*?) already.*",
                          exception.message)
         AMAZONSNS.delete_endpoint(match.group('arn'))
-    d_rspnse = AMAZONSNS.create_platform_endpoint(
+    d_response = AMAZONSNS.create_platform_endpoint(
         PLATFORM_ARN, device_token, None,
         {u'Token': device_token, u'Enabled': True})
-    if 'CreatePlatformEndpointResponse' in d_rspnse:
-        device_arn = d_rspnse['CreatePlatformEndpointResponse'][
+    if 'CreatePlatformEndpointResponse' in d_response:
+        device_arn = d_response['CreatePlatformEndpointResponse'][
             'CreatePlatformEndpointResult']['EndpointArn']
         apns_dict = {'aps': {'alert': message_text, 'sound': 'default'}}
         for key, value in payload.items():

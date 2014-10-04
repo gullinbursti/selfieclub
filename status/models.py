@@ -9,7 +9,6 @@ from django.db import models
 #      ForeignKey(s) here and in the DB.
 #    - Need to double check many other things
 class StatusUpdate(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     status_id = models.IntegerField()
     subject_id = models.IntegerField()

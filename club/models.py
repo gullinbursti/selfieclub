@@ -5,7 +5,6 @@ from django.db import models
 
 # TODO - Comb through and confirm against DB table!!
 class ClubType(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     club_type = models.CharField(unique=True, max_length=16)
     description = models.CharField(max_length=64)
@@ -22,7 +21,6 @@ class ClubType(models.Model):
 
 # TODO - Comb through and confirm against DB table!!
 class Club(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=255)
     club_type = models.ForeignKey('ClubType')
@@ -41,7 +39,6 @@ class Club(models.Model):
 
 
 class ClubLabel(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     name = models.CharField(unique=True, max_length=32)
     description = models.CharField(max_length=64)
     club = models.ManyToManyField('Club', related_name='label')

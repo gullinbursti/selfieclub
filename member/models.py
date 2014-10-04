@@ -6,7 +6,6 @@ from django.db import models
 # TODO - seriously need to comb through this to make sure it marches
 # with MySQL schema
 class Member(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=255, db_column='username')
     device_token = models.CharField(max_length=64, blank=True)
@@ -38,7 +37,6 @@ class Member(models.Model):
 
 
 class MemberPhone(models.Model):
-    # TODO # pylint: disable=model-missing-unicode
     id = models.IntegerField(primary_key=True)
     user = models.ForeignKey('member.Member')
     phone_number_enc = models.CharField(unique=True, max_length=64)
