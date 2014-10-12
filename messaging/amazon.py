@@ -33,8 +33,9 @@ def send_push_message(device_token, message_text, payload=None):
         device_arn = d_response['CreatePlatformEndpointResponse'][
             'CreatePlatformEndpointResult']['EndpointArn']
         apns_dict = {'aps': {'alert': message_text, 'sound': 'default'}}
-        for key, value in payload.items():
-            apns_dict['aps'][key] = value
+        if payload:
+            for key, value in payload.items():
+                apns_dict['aps'][key] = value
         apns_string = json.dumps(apns_dict, ensure_ascii=False)
         message = {'default': message_text, ENVIRONMENT: apns_string}
         message_json = json.dumps(message, ensure_ascii=False)

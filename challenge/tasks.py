@@ -12,9 +12,9 @@ LOGGER = get_task_logger(__name__)
 
 
 @shared_task
-def post_status_update(club_id, actor_member_id, invitee_member_id, when):
-    LOGGER.info("Event received: invitation_sent(%s, %s, %s, %s)",
-                club_id, actor_member_id, invitee_member_id, when)
+def post_status_update(club_id, actor_member_id, receiver_member_id, when):
+    LOGGER.info("Event received: post_status_update(%s, %s, %s, %s)",
+                club_id, actor_member_id, receiver_member_id, when)
 
     if not club_exists(club_id):
         LOGGER.debug("Club '%s' does not exist", (club_id))
@@ -24,15 +24,15 @@ def post_status_update(club_id, actor_member_id, invitee_member_id, when):
         LOGGER.debug("Actor '%s' does not exist", (actor_member_id))
         return
 
-    receiving_member = member.models.Member.objects.get(pk=invitee_member_id)
+    receiving_member = member.models.Member.objects.get(pk=receiver_member_id)
     if not receiving_member:
-        LOGGER.debug("Invitee '%s' does not exist", (invitee_member_id))
+        LOGGER.debug("Invitee '%s' does not exist", (receiver_member_id))
         return
 
     # TODO - Check datetime
 
     event = newsfeed_member.models.Newsfeed(
-        member_id=invitee_member_id,
+        member_id=receiver_member_id,
         subject_member_id=actor_member_id,
         club_id=club_id,
         event_type_id=4,  # TODO - STATUS_UPDATE_CREATED
@@ -43,8 +43,8 @@ def post_status_update(club_id, actor_member_id, invitee_member_id, when):
     # Celery's .delay() just means .queue() or .submit() immediately
     if receiving_member.device_token:
         messaging.tasks.send_push_status_update.delay(
-            club_id, actor_member_id, invitee_member_id, when)
-        LOGGER.info("sending push notification to %s", invitee_member_id)
+            club_id, actor_member_id, receiver_member_id, when)
+        LOGGER.info("sending push notification to %s", receiver_member_id)
 
 
 def user_exists(user_id):
