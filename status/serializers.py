@@ -9,7 +9,7 @@ class StatusUpdate(serializers.ModelSerializer):
         fields = ('id', 'creator_id', 'is_private', 'votes', 'added')
 
 
-class StatusUpdateViewer(serializers.ModelSerializer):
+class StatusUpdateViewerSerializer(serializers.ModelSerializer):
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdateViewer
