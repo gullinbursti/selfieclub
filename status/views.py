@@ -18,12 +18,12 @@ class StatusUpdateViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset
 
 
-class StatusUpdateTraffic(viewsets.ReadOnlyModelViewSet):
+class StatusUpdateTraffic(viewsets.ModelViewSet):
     # pylint exception - inherited from Django parent
-    # pylint: disable=too-many-public-methods, too-many-ancestors
-    serializer_class = serializers.StatusUpdate
-    model = models.StatusUpdate
+    serializer_class = serializers.StatusUpdateViewer
+    model = models.StatusUpdateViewer
 
     def get_queryset(self):
         update_id = self.kwargs['update_id']
-        return models.StatusUpdate.objects.filter(id=update_id)
+        return models.StatusUpdateViewer.objects.filter(
+            status_update=update_id)
