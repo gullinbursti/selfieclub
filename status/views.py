@@ -20,7 +20,7 @@ class StatusUpdateViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset
 
 
-class StatusUpdateTraffic(viewsets.ModelViewSet):
+class StatusUpdateViewers(viewsets.ModelViewSet):
     # pylint exception - inherited from Django parent
     # pylint: disable=too-many-public-methods, too-many-ancestors
     serializer_class = serializers.StatusUpdateViewerSerializer
