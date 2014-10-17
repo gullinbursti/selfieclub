@@ -13,9 +13,10 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 if 'SELFIECLUB_CONFIG_DIR' in os.environ:
     CONFIG_DIR = os.environ.get('SELFIECLUB_CONFIG_DIR')
+elif os.path.isdir('/opt/built-in-menlo/selfieclub-config'):
+    CONFIG_DIR = '/opt/built-in-menlo/selfieclub-config'
 else:
     CONFIG_DIR = os.path.join(os.path.dirname(BASE_DIR), 'selfieclub-config')
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
