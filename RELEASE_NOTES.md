@@ -1,8 +1,15 @@
 # Release notes
 
+## v01.05.00
+
+- **TODO** - Fill me in...
+
+
 ## v01.04.00
 
-- **TODO** - FIll me in...
+- In MySQL, hotornot-dev, run this script to create a new table:
+
+        bin/db-update-v1.0.0-03.sql
 
 
 ## v01.03.00
