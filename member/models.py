@@ -33,7 +33,7 @@ class Member(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'{} {}'.format(self.id, self.name)
+        return u'{}'.format(self.id)
 
 
 class MemberPhone(models.Model):

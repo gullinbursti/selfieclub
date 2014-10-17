@@ -25,7 +25,7 @@ class StatusUpdate(models.Model):
     is_verify = models.IntegerField()
     is_explore = models.IntegerField(blank=True, null=True)
     recent_likes = models.TextField()
-    club_id = models.IntegerField()
+    club = models.ForeignKey('club.Club')
     added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -35,3 +35,18 @@ class StatusUpdate(models.Model):
     def __unicode__(self):
         """Return unicode representation."""
         return u'{}'.format(self.id)
+
+
+class StatusUpdateViewer(models.Model):
+    id = models.IntegerField(primary_key=True)
+    member = models.ForeignKey('member.Member')
+    status_update = models.ForeignKey('StatusUpdate')
+    viewed_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tbl_status_update_viewer'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{} {}'.format(self.member, self.status_update)
