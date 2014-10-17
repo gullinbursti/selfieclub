@@ -56,3 +56,24 @@ class MemberPhone(models.Model):
     def __unicode__(self):
         """Return unicode representation."""
         return u'{}'.format(self.id)
+
+
+class ClubMember(models.Model):
+    club = models.ForeignKey('club.Club')
+    user = models.ForeignKey('member.Member', null=True, db_column='user_id')
+    extern_name = models.CharField(max_length=255, null=True)
+    mobile_number = models.CharField(max_length=25, null=True)
+    email = models.CharField(max_length=255, null=True)
+    pending = models.IntegerField()
+    blocked = models.IntegerField()
+    invited = models.DateTimeField()
+    joined = models.DateTimeField()
+    blocked_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'club_member'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{} {}'.format(self.club, self.user)
