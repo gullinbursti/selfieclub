@@ -12,8 +12,8 @@ class StatusUpdateViewSet(viewsets.ReadOnlyModelViewSet):
     model = models.StatusUpdate
 
     def get_queryset(self):
-        if 'pk' in self.kwargs:
-            update_id = self.kwargs['pk']
+        if 'status_update_id' in self.kwargs:
+            update_id = self.kwargs['status_update_id']
             queryset = models.StatusUpdate.objects.filter(id=update_id)
         else:
             queryset = models.StatusUpdate.objects.all()
@@ -25,25 +25,31 @@ class StatusUpdateViewers(viewsets.ModelViewSet):
     # pylint: disable=too-many-public-methods, too-many-ancestors
     serializer_class = serializers.StatusUpdateViewerSerializer
     model = models.StatusUpdateViewer
+    lookup_field = 'id'
 
     def get_queryset(self):
-        update_id = self.kwargs['update_id']
+        # TODO: validate status_update_id
+        status_update_id = self.kwargs['status_update_id']
         return models.StatusUpdateViewer.objects.filter(
-            status_update=update_id)
+            status_update=status_update_id)
 
     def create(self, request, *args, **kwargs):
-        update_id = self.kwargs['update_id']
-        data = request.DATA
-        if 'member_id' not in data:
-            return False
-        member_id = data['member_id']
-        viewer = models.StatusUpdateViewer(status_update_id=update_id,
-                                           member_id=member_id)
-        viewer.save()
-        return Response(viewer, status=status.HTTP_201_CREATED)
-        # serializer = serializers.StatusUpdateViewerSerializer(viewer)
-        # if serializer.is_valid():
-        #     viewer.save()
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors,
-        #                 status=status.HTTP_400_BAD_REQUEST)
+        # Always validate first!!!  This lets the serializer do the work.
+        member_id = request.DATA['member_id'] \
+            if 'member_id' in request.DATA else None
+        status_update_id = self.kwargs['status_update_id'] \
+            if 'status_update_id' in self.kwargs else None
+        serializer = self.get_serializer(
+            data={
+                'member_id': member_id,
+                'status_update_id': status_update_id})
+        if not serializer.is_valid():
+            return Response(data=serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+        # Check for dups
+        # TODO: make sure that status updates exists first
+        if self.get_queryset().filter(member=member_id):
+            return Response(status=status.HTTP_409_CONFLICT)
+        # Save!
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

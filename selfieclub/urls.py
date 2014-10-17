@@ -12,7 +12,9 @@ admin.autodiscover()
 # Keep in mind that order is relavant, more exact names should be at the top
 ROUTER = DefaultRouter()
 ROUTER.register(r'^status/update', status_views.StatusUpdateViewSet)
-ROUTER.register(r'^status/update/(?P<update_id>\d+)/viewers',
+ROUTER.register(r'^status/update/(?P<status_update_id>\d+)/$',
+                status_views.StatusUpdateViewSet)
+ROUTER.register(r'^status/update/(?P<status_update_id>\d+)/viewers',
                 status_views.StatusUpdateViewers)
 ROUTER.register(r'^club/labeled/(?P<label>[^/]+)',
                 club_views.ClubsWithLabelByLabelName)
