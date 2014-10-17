@@ -17,7 +17,7 @@ def convert_invitations(member_id, member_phone, when):
         member_id, member_phone, when)
 
     user = Member.objects.get(pk=member_id)
-    if not user.exists():
+    if not user:
         LOGGER.debug("Member '%s' does not exist", member_id)
         return
 
