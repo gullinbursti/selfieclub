@@ -90,8 +90,12 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
         if self.get_queryset().filter(member=member_id):
             return Response(status=status.HTTP_409_CONFLICT)
         serializer.save()
+        status_update = models.StatusUpdate.objects.get(id=status_update_id)
         if serializer.data['vote'] == -1:
+            status_update.votes = status_update.votes - 1
             serializer.data['vote'] = 'down'
         else:
+            status_update.votes = status_update.votes + 1
             serializer.data['vote'] = 'up'
+        status_update.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
