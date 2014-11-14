@@ -14,6 +14,8 @@ ROUTER = DefaultRouter()
 ROUTER.register(r'^statusupdate', status_views.StatusUpdateViewSet)
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/$',
                 status_views.StatusUpdateViewSet)
+ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/voters',
+                status_views.StatusUpdateVoters)
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/viewers',
                 status_views.StatusUpdateViewers)
 ROUTER.register(r'^club/labeled/(?P<label>[^/]+)',

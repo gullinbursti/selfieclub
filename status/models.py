@@ -50,3 +50,19 @@ class StatusUpdateViewer(models.Model):
     def __unicode__(self):
         """Return unicode representation."""
         return u'{} {}'.format(self.member, self.status_update)
+
+
+class StatusUpdateVoter(models.Model):
+    id = models.IntegerField(primary_key=True)
+    member = models.ForeignKey('member.Member')
+    status_update = models.ForeignKey('StatusUpdate')
+    vote = models.IntegerField()
+    voted_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tbl_status_update_voter'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{} {}'.format(self.member, self.vote, self.status_update)
