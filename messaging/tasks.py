@@ -174,6 +174,30 @@ def send_push_status_update(club_id, sender_member_id, receiver_member_id,
 
 
 @shared_task
+def send_push_voted(voter_member_id, receiver_member_id):
+    """Send 'voted' push message."""
+    LOGGER.info("Event received: send_push_voted(%s, %s)",
+                voter_member_id, receiver_member_id)
+    sending_member = member.models.Member.obejcts.get(pk=voter_member_id)
+    if not sending_member:
+        LOGGER.debug("Voter '%s' does not exist", voter_member_id)
+        return
+
+    receiving_member = member.models.Member.objects.get(pk=receiver_member_id)
+    if not receiving_member:
+        LOGGER.debug("Receiver '%s' does not exist", receiver_member_id)
+        return
+
+    recipient = receiving_member.device_token
+    template = Template(settings.PUSH_VOTED_TEXT)
+    message = template.substitute(senderName=sending_member.name)
+    payload = {'voter_name': sending_member.name}
+    result = send_push_message(recipient, message, payload)
+    LOGGER.info("Event handled: send_push_message(%s, %s, %s) = %s",
+                recipient, message, payload, result)
+
+
+@shared_task
 def send_moji_sms_invitation(actor_member_id, emoji, invitee_sms_number, when):
     """Send moji invitation via SMS."""
     LOGGER.info("Event received: send_moji_sms_invitation(%s, %s, %s, %s)",
