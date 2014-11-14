@@ -68,7 +68,12 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
             status_update=status_update_id)
 
     def create(self, request, *args, **kwargs):
+        """
+        Sadly ugly voting code
+        """
+        # Defaulting to upvotes
         vote = request.DATA['vote'] if 'vote' in request.DATA else 'up'
+        # Client specifies text, we store numeric
         if vote == 'up':
             vote = 1
         elif vote == 'down':
@@ -79,23 +84,37 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
             if 'member_id' in request.DATA else None
         status_update_id = self.kwargs['status_update_id'] \
             if 'status_update_id' in self.kwargs else None
-        serializer = self.get_serializer(
-            data={
-                'member_id': member_id,
-                'vote': vote,
-                'status_update_id': status_update_id})
+        # Do we need to update an existing vote, or create a new one?
+        try:
+            voter = self.model.objects.get(member=member_id,
+                                           status_update_id=status_update_id)
+        except self.model.DoesNotExist:
+            voter = None
+        if voter:
+            existing_vote = voter.vote
+            serializer = self.get_serializer(
+                voter,
+                data={
+                    'member_id': member_id,
+                    'vote': vote,
+                    'status_update_id': status_update_id})
+        else:
+            existing_vote = 0
+            serializer = self.get_serializer(
+                data={
+                    'member_id': member_id,
+                    'vote': vote,
+                    'status_update_id': status_update_id})
+        # Check data validity
         if not serializer.is_valid():
             return Response(data=serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
-        if self.get_queryset().filter(member=member_id):
-            return Response(status=status.HTTP_409_CONFLICT)
         serializer.save()
         status_update = models.StatusUpdate.objects.get(id=status_update_id)
-        if serializer.data['vote'] == -1:
-            status_update.votes = status_update.votes - 1
-            serializer.data['vote'] = 'down'
+        # We allow votes to change, and keep track
+        if serializer.data['vote'] == 'down':
+            status_update.votes = status_update.votes - existing_vote - 1
         else:
-            status_update.votes = status_update.votes + 1
-            serializer.data['vote'] = 'up'
+            status_update.votes = status_update.votes - existing_vote + 1
         status_update.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
