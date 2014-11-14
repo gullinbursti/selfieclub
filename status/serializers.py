@@ -40,6 +40,13 @@ class StatusUpdateVoterSerializer(serializers.ModelSerializer):
         source='status_update_id',
         help_text='This value is ignored in POSTs, pulled from URL.')
 
+    def transform_vote(self, obj, value):
+        # pylint: disable=no-self-use, unused-argument
+        if value == -1:
+            return 'down'
+        else:
+            return 'up'
+
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdateVoter
