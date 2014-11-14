@@ -1,5 +1,6 @@
 from status import serializers
 from status import models
+from messaging import tasks
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -112,6 +113,7 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
         if serializer.data['vote'] == 'down':
             status_update.votes = status_update.votes - existing_vote - 1
         else:
+            tasks.send_push_voted.delay(member_id, status_update.creator_id)
             status_update.votes = status_update.votes - existing_vote + 1
         status_update.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
