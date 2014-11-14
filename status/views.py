@@ -68,9 +68,6 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
             status_update=status_update_id)
 
     def create(self, request, *args, **kwargs):
-        """
-        Sadly ugly voting code
-        """
         # Defaulting to upvotes
         vote = request.DATA['vote'] if 'vote' in request.DATA else 'up'
         # Client specifies text, we store numeric
