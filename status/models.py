@@ -65,4 +65,4 @@ class StatusUpdateVoter(models.Model):
 
     def __unicode__(self):
         """Return unicode representation."""
-        return u'{} {}'.format(self.member, self.vote, self.status_update)
+        return u'{} {} {}'.format(self.member, self.vote, self.status_update)
