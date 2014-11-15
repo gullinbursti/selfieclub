@@ -1,9 +1,11 @@
+from datetime import datetime
 from status import serializers
 from status import models
 from messaging import tasks
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
+import newsfeed_member
 
 
 class StatusUpdateViewSet(viewsets.ReadOnlyModelViewSet):
@@ -113,7 +115,16 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
         if serializer.data['vote'] == 'down':
             status_update.votes = status_update.votes - existing_vote - 1
         else:
-            tasks.send_push_voted.delay(member_id, status_update.creator_id)
             status_update.votes = status_update.votes - existing_vote + 1
+            # Create newsfeed activity on upvote only
+            event = newsfeed_member.models.Newsfeed(
+                member_id=status_update.creator_id,
+                club_id=status_update.club_id,
+                event_type_id=5,  # TODO - STATUS_UPVOTED
+                time=datetime.utcnow()
+            )
+            event.save()
+            # Send push on upvote only
+            tasks.send_push_voted.delay(member_id, status_update.creator_id)
         status_update.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
