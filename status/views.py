@@ -119,6 +119,8 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
             # Create newsfeed activity on upvote only
             event = newsfeed_member.models.Newsfeed(
                 member_id=status_update.creator_id,
+                subject_member=member_id,
+                status_update_id=status_update_id,
                 club_id=status_update.club_id,
                 event_type_id=5,  # TODO - STATUS_UPVOTED
                 time=timezone.now()
