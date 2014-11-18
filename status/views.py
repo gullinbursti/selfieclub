@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 from status import serializers
 from status import models
 from messaging import tasks
@@ -121,7 +121,7 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
                 member_id=status_update.creator_id,
                 club_id=status_update.club_id,
                 event_type_id=5,  # TODO - STATUS_UPVOTED
-                time=datetime.utcnow()
+                time=timezone.now()
             )
             event.save()
             # Send push on upvote only
