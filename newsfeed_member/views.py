@@ -20,5 +20,5 @@ class Newsfeed(viewsets.ReadOnlyModelViewSet):
         queryset = models.Newsfeed.objects.all()
         member_id = self.request.QUERY_PARAMS.get('member_id', None)
         if member_id is not None:
-            queryset = queryset.filter(member_id=member_id)
+            queryset = queryset.filter(member_id=member_id).order_by('-time')
         return queryset
