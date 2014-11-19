@@ -31,6 +31,8 @@ class StatusUpdateVoterSerializer(serializers.ModelSerializer):
         widget=widgets.TextInput,
         source='member_id',
         help_text='Enter member_id.')
+    member = serializers.SlugRelatedField(read_only=True,
+                                          slug_field='name')
     vote = serializers.IntegerField(
         widget=widgets.TextInput,
         source='vote',
@@ -50,4 +52,4 @@ class StatusUpdateVoterSerializer(serializers.ModelSerializer):
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdateVoter
-        fields = ('member_id', 'vote', 'status_update_id')
+        fields = ('member_id', 'member', 'vote', 'status_update_id')
