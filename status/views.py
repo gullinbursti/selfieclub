@@ -128,6 +128,7 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
                 )
                 event.save()
                 # Send push on upvote only
-                tasks.send_push_voted.delay(member_id, status_update.creator_id)
+                tasks.send_push_voted.delay(member_id,
+                                            status_update.creator_id)
         status_update.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
