@@ -17,6 +17,7 @@ setup(
         'djangorestframework>=2.3.14',
         'drf-compound-fields>=0.2.1',
         'nexmomessage>=0.1.1',
+        'pyrabbit>=1.1.0',
         'requests>=2.4.1'],
     # It is because of this we have to use `--process-dependency-links` with
     # `pip install`.  Although pip 1.5.x says that `--process-dependency-links`
