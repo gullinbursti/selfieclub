@@ -10,7 +10,7 @@ import newsfeed_member
 
 class StatusUpdateViewSet(viewsets.ReadOnlyModelViewSet):
     # pylint exception - inherited from Django parent
-    # pylint: disable=too-many-public-methods, too-many-ancestors
+    # pylint: disable=too-many-ancestors, too-few-public-methods
     serializer_class = serializers.StatusUpdate
     model = models.StatusUpdate
 

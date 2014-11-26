@@ -4,6 +4,7 @@ from django.db import models
 
 
 class Callback(models.Model):
+    # pylint: disable=too-few-public-methods
 
     """Record of inboun SMS message."""
 
@@ -29,6 +30,7 @@ class Callback(models.Model):
 
 
 class SourceNumber(models.Model):
+    # pylint: disable=too-few-public-methods
 
     """Source number to use for SMS."""
 
@@ -47,6 +49,7 @@ class SourceNumber(models.Model):
 
 
 class PoolCounter(models.Model):
+    # pylint: disable=too-few-public-methods
 
     """Not the best place for this, but so far this is the only counter."""
 

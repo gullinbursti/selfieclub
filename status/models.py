@@ -9,6 +9,7 @@ from django.db import models
 #      ForeignKey(s) here and in the DB.
 #    - Need to double check many other things
 class StatusUpdate(models.Model):
+    # pylint: disable=too-few-public-methods
     id = models.IntegerField(primary_key=True)
     status_id = models.IntegerField()
     subject_id = models.IntegerField()
@@ -38,6 +39,7 @@ class StatusUpdate(models.Model):
 
 
 class StatusUpdateViewer(models.Model):
+    # pylint: disable=too-few-public-methods
     id = models.IntegerField(primary_key=True)
     member = models.ForeignKey('member.Member')
     status_update = models.ForeignKey('StatusUpdate')
@@ -53,6 +55,7 @@ class StatusUpdateViewer(models.Model):
 
 
 class StatusUpdateVoter(models.Model):
+    # pylint: disable=too-few-public-methods
     id = models.IntegerField(primary_key=True)
     member = models.ForeignKey('member.Member')
     status_update = models.ForeignKey('StatusUpdate')

@@ -6,6 +6,7 @@ from django.db import models
 # TODO - seriously need to comb through this to make sure it marches
 # with MySQL schema
 class Member(models.Model):
+    # pylint: disable=too-few-public-methods
     id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=255, db_column='username')
     device_token = models.CharField(max_length=64, blank=True)
@@ -37,6 +38,7 @@ class Member(models.Model):
 
 
 class MemberPhone(models.Model):
+    # pylint: disable=too-few-public-methods
     id = models.IntegerField(primary_key=True)
     user = models.ForeignKey('member.Member')
     phone_number_enc = models.CharField(unique=True, max_length=64)
@@ -59,6 +61,7 @@ class MemberPhone(models.Model):
 
 
 class ClubMember(models.Model):
+    # pylint: disable=too-few-public-methods
     club = models.ForeignKey('club.Club')
     user = models.ForeignKey('member.Member', null=True, db_column='user_id')
     extern_name = models.CharField(max_length=255, null=True)

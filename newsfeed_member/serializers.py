@@ -4,6 +4,7 @@ from member import serializers as member_serializers
 
 
 class NewsfeedType(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.NewsfeedType
@@ -11,6 +12,7 @@ class NewsfeedType(serializers.ModelSerializer):
 
 
 class Newsfeed(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     event_type = serializers.SlugRelatedField(
         source='event_type',
         slug_field='name',

@@ -36,6 +36,7 @@ class BaseDbRouter(object):
 
 
 class SelfieClubDbRouter(BaseDbRouter):
+    # pylint: disable=too-few-public-methods
     CONFIG_NAME = 'selfieclub'
     APP_LABELS = (
         'media',
@@ -49,6 +50,7 @@ class SelfieClubDbRouter(BaseDbRouter):
 
 class DjangoDbRouter(BaseDbRouter):
     # (TODO: pt-79657238) # pylint: disable=protected-access
+    # pylint: disable=too-few-public-methods
     CONFIG_NAME = 'django'
     APP_LABELS = (
         'admin',

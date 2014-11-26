@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 
 class StatusUpdate(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
@@ -11,6 +12,7 @@ class StatusUpdate(serializers.ModelSerializer):
 
 
 class StatusUpdateViewerSerializer(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     member_id = serializers.IntegerField(
         widget=widgets.TextInput,
         source='member_id',
@@ -27,6 +29,7 @@ class StatusUpdateViewerSerializer(serializers.ModelSerializer):
 
 
 class StatusUpdateVoterSerializer(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     member_id = serializers.IntegerField(
         widget=widgets.TextInput,
         source='member_id',

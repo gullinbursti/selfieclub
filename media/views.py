@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 class UploadInstructions(APIView):
     # pylint exception - inherited from Django parent
-    # pylint: disable=too-many-public-methods, too-many-ancestors
+    # pylint: disable=too-many-ancestors, too-few-public-methods
     #
     # The following is a mess and will get cleaned up when we start using this
     # endpoint for image uploads:

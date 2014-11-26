@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 # TODO - Pull avatar_url
 class Member(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     avatar_url = serializers.URLField(source='img_url', read_only=True)
 
     class Meta(object):

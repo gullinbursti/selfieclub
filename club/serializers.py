@@ -19,6 +19,7 @@ class Club(serializers.ModelSerializer):
 
 
 class ClubSummary(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.Club
@@ -26,6 +27,7 @@ class ClubSummary(serializers.ModelSerializer):
 
 
 class ClubLabel(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
     club_ids = serializers.SlugRelatedField(
         source='club',
         slug_field='id',
