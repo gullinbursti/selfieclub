@@ -1,8 +1,49 @@
 # Release notes
 
-## v01.05.00
+## v01.06.00
 
 - **TODO** - Fill me in...
+
+
+## v01.05.00
+
+- On celery server, update `selfieclub-celery-config/localsettings.py`, replacing the Messaging section with these values:
+
+        # -----------------------------------------------------------------------------
+        # Messaging
+        STRINGS = {
+            'en_US': {
+                'selfieclub': {
+                    'SMS_INVITE': u'$senderName has invited you to a club.' +
+                                  u'http://sel.club Reply YES to receive SMS alerts.',
+                    'SMS_THANKS': u'Thanks for signing up. Download Selfieclub now' +
+                                  u' http://sel.club',
+                    'PUSH_INVITE': u'$senderName has invited you to a club.',
+                    'PUSH_JOIN': u'$senderName has joined your $clubName club!',
+                    'PUSH_UPDATE': u'$senderName has updated their status.',
+                    'PUSH_VOTED': u'Up vote from $senderName',
+                    },
+                'last24': {
+                    'SMS_INVITE': u'$senderName has invited you to Last 24' +
+                                  u' http:taps.io/last24',
+                },
+                'moji': {
+                    'SMS_INVITE': u'$senderName: $emoji - getmoji.me',
+                },
+            },
+            'ko_KR': {
+                'moji': {
+                    'SMS_INVITE': u'$senderName: $emoji - getmoji.me',
+                },
+            },
+        }
+        MOJI_SMS_INVITE_TEXT = STRINGS['en_US']['moji']['SMS_INVITE']
+        SMS_INVITE_TEXT = STRINGS['en_US']['selfieclub']['SMS_INVITE']
+        SMS_THANKS_TEXT = STRINGS['en_US']['selfieclub']['SMS_THANKS']
+        PUSH_INVITE_TEXT = STRINGS['en_US']['selfieclub']['PUSH_INVITE']
+        PUSH_JOIN_TEXT = STRINGS['en_US']['selfieclub']['PUSH_JOIN']
+        PUSH_UPDATE_TEXT = STRINGS['en_US']['selfieclub']['PUSH_UPDATE']
+        PUSH_VOTED_TEXT = STRINGS['en_US']['selfieclub']['PUSH_VOTED']
 
 
 ## v01.04.00
