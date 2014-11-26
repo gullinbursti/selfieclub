@@ -114,10 +114,21 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
         # We allow votes to change, and keep track
         if serializer.data['vote'] == 'down':
             status_update.votes = status_update.votes - existing_vote - 1
+            if existing_vote > -1:
+                # Create newsfeed activity on change only
+                event = newsfeed_member.models.Newsfeed(
+                    member_id=status_update.creator_id,
+                    subject_member_id=member_id,
+                    status_update_id=status_update_id,
+                    club_id=status_update.club_id,
+                    event_type_id=6,  # TODO - STATUS_DOWNVOTED
+                    time=timezone.now()
+                )
+                event.save()
         else:
             status_update.votes = status_update.votes - existing_vote + 1
             if existing_vote < 1:
-                # Create newsfeed activity on upvote only
+                # Create newsfeed activity on change only
                 event = newsfeed_member.models.Newsfeed(
                     member_id=status_update.creator_id,
                     subject_member_id=member_id,
