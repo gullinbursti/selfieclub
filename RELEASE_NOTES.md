@@ -1,11 +1,11 @@
 # Release notes
 
-## v01.06.00
+## v01.03.00
 
 - **TODO** - Fill me in...
 
 
-## v01.05.00
+## v01.02.00
 
 - On celery server, update `selfieclub-celery-config/localsettings.py`, replacing the Messaging section with these values:
 
@@ -45,15 +45,9 @@
         PUSH_UPDATE_TEXT = STRINGS['en_US']['selfieclub']['PUSH_UPDATE']
         PUSH_VOTED_TEXT = STRINGS['en_US']['selfieclub']['PUSH_VOTED']
 
-
-## v01.04.00
-
 - In MySQL, hotornot-dev, run this script to create a new table:
 
         bin/db-update-v1.0.0-03.sql
-
-
-## v01.03.00
 
 - In MySQL, hotornot-dev, insert a new row:
 
@@ -71,9 +65,6 @@
         PUSH_JOIN_TEXT = '$senderName has joined your $clubName club!'
         PUSH_UPDATE_TEXT = '$senderName has updated their status.'
         MOJI_SMS_INVITE_TEXT = u'$senderName: $emoji - getmoji.me'
-
-
-## v01.02.00
 
 - On api server, pip install requests
 
