@@ -16,7 +16,7 @@ class Newsfeed(serializers.ModelSerializer):
     event_type = serializers.SlugRelatedField(
         source='event_type',
         slug_field='name',
-        read_only=False)
+        read_only=True)
     member = member_serializers.Member(source='member')  # noqa # pylint: disable=no-value-for-parameter, unexpected-keyword-arg
     club_id = serializers.Field(source='club.id')
     status_update_id = serializers.Field(source='status_update.id')
