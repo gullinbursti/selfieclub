@@ -178,7 +178,7 @@ def send_push_voted(voter_member_id, receiver_member_id):
     """Send 'voted' push message."""
     LOGGER.info("Event received: send_push_voted(%s, %s)",
                 voter_member_id, receiver_member_id)
-    sending_member = member.models.Member.obejcts.get(pk=voter_member_id)
+    sending_member = member.models.Member.objects.get(pk=voter_member_id)
     if not sending_member:
         LOGGER.debug("Voter '%s' does not exist", voter_member_id)
         return
