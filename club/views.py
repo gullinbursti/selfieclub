@@ -15,8 +15,18 @@ class ClubType(viewsets.ModelViewSet):
 class Club(viewsets.ReadOnlyModelViewSet):
     # pylint exception - inherited from Django parent
     # pylint: disable=too-many-ancestors, too-few-public-methods
-    queryset = models.Club.objects.all()
     serializer_class = serializers.Club
+    model = models.Club
+
+    def get_queryset(self):
+        lat = self.request.QUERY_PARAMS.get('lat', None)
+        lon = self.request.QUERY_PARAMS.get('lon', None)
+        if lat and lon:
+            # TODO: Do geo-search here rather than a simple filter
+            queryset = models.Club.objects.filter(lat=lat, lon=lon)
+        else:
+            queryset = models.Club.objects.all()
+        return queryset
 
 
 class ClubLabel(viewsets.ModelViewSet):

@@ -15,7 +15,7 @@ class Club(serializers.ModelSerializer):
     class Meta(object):
         model = models.Club
         fields = ('id', 'name', 'club_type', 'owner', 'description', 'img',
-                  'added')
+                  'lat', 'lon', 'added')
 
 
 class ClubSummary(serializers.ModelSerializer):

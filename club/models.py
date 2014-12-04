@@ -29,6 +29,8 @@ class Club(models.Model):
     owner = models.ForeignKey('member.Member')
     description = models.CharField(max_length=160)
     img = models.CharField(max_length=255)
+    lat = models.CharField(max_length=9)
+    lon = models.CharField(max_length=9)
     added = models.DateTimeField(auto_now_add=True)
 
     class Meta(object):
