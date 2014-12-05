@@ -19,14 +19,25 @@ class NestedSerializer(serializers.ModelSerializer):
         fields = ('lat', 'lon')
 
 
+class GeoCoordinateSerializer(serializers.Serializer):
+    # pylint: disable=too-few-public-methods
+    lat = serializers.FloatField
+    lon = serializers.FloatField
+
+
 class Club(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
-    coords = NestedSerializer()
+    coords = GeoCoordinateSerializer(
+        read_only=True)
+
+    def transform_coords(self, obj, value):
+        return {'lat': obj.lat,
+                'lon': obj.lon}
 
     class Meta(object):
         model = models.Club
         fields = ('id', 'name', 'club_type', 'owner', 'description', 'img',
-                  'coords', 'lat', 'lon', 'added')
+                  'coords', 'added')
 
 
 class ClubSummary(serializers.ModelSerializer):
