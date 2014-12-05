@@ -24,16 +24,21 @@ class Club(viewsets.ReadOnlyModelViewSet):
         lon = self.request.QUERY_PARAMS.get('lon', None)
         # Default to 10 miles
         radius = int(self.request.QUERY_PARAMS.get('radius', 10))
+
+        def bounding(flat, flon, radius):
+            # We'll draw a box to search within, with lat1/lon1 as one corner,
+            # and lat2/lon2 as the opposite corner.
+            lat1 = flat - (radius / 69.172)
+            lat2 = flat + (radius / 69.172)
+            lon1 = flon - radius / abs(cos(radians(flat)) * 69.172)
+            lon2 = flon + radius / abs(cos(radians(flat)) * 69.172)
+            return (lat1, lat2, lon1, lon2)
+
         if lat and lon:
             # Geo-search requires float values
             flat = float(lat)
             flon = float(lon)
-            # We'll draw a box to search within, with lat1/lon1 as one corner,
-            # and lat2/lon2 as the opposite corner.
-            lat1 = flat - (radius / 69.172)
-            lon1 = flon - radius / abs(cos(radians(flat)) * 69.172)
-            lat2 = flat + (radius / 69.172)
-            lon2 = flon + radius / abs(cos(radians(flat)) * 69.172)
+            (lat1, lat2, lon1, lon2) = bounding(flat, flon, radius)
             # Pythagorean theorem FTW!
             queryset = models.Club.objects \
                 .filter(lat__range=(lat1, lat2),
