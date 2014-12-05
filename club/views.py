@@ -3,6 +3,7 @@ from club import models
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework import permissions
+from math import cos, radians
 
 
 class ClubType(viewsets.ModelViewSet):
@@ -21,9 +22,28 @@ class Club(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         lat = self.request.QUERY_PARAMS.get('lat', None)
         lon = self.request.QUERY_PARAMS.get('lon', None)
+        # Default to 10 miles
+        radius = int(self.request.QUERY_PARAMS.get('radius', 10))
         if lat and lon:
-            # TODO: Do geo-search here rather than a simple filter
-            queryset = models.Club.objects.filter(lat=lat, lon=lon)
+            # Geo-search requires float values
+            flat = float(lat)
+            flon = float(lon)
+            # We'll draw a box to search within, with lat1/lon1 as one corner,
+            # and lat2/lon2 as the opposite corner.
+            lat1 = flat - (radius / 69.172)
+            lon1 = flon - radius / abs(cos(radians(flat)) * 69.172)
+            lat2 = flat + (radius / 69.172)
+            lon2 = flon + radius / abs(cos(radians(flat)) * 69.172)
+            # Pythagorean theorem FTW!
+            queryset = models.Club.objects \
+                .filter(lat__range=(lat1, lat2),
+                        lon__range=(lon1, lon2)) \
+                .extra(select={'distance': '\
+3956 * 2 * ASIN(SQRT(POWER(SIN((%s - lat) * PI()/180 / 2), 2) + \
+COS(%s * PI()/180) * COS(lat * PI()/180) * \
+POWER(SIN((%s - lon) * PI()/180 / 2), 2) ))'},
+                       select_params=(flat, flat, flon)) \
+                .order_by('distance')[:1]
         else:
             queryset = models.Club.objects.all()
         return queryset
