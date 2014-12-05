@@ -1,6 +1,8 @@
 from club import models
 from django.forms import widgets
+# from django.forms.models import model_to_dict
 from rest_framework import serializers
+# import json
 
 
 class ClubType(serializers.ModelSerializer):
@@ -10,12 +12,21 @@ class ClubType(serializers.ModelSerializer):
         fields = ('id', 'club_type', 'description', 'added')
 
 
-class Club(serializers.ModelSerializer):
+class NestedSerializer(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
     class Meta(object):
         model = models.Club
+        fields = ('lat', 'lon')
+
+
+class Club(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+    coords = NestedSerializer()
+
+    class Meta(object):
+        model = models.Club
         fields = ('id', 'name', 'club_type', 'owner', 'description', 'img',
-                  'lat', 'lon', 'added')
+                  'coords', 'lat', 'lon', 'added')
 
 
 class ClubSummary(serializers.ModelSerializer):
