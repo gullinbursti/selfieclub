@@ -12,13 +12,6 @@ class ClubType(serializers.ModelSerializer):
         fields = ('id', 'club_type', 'description', 'added')
 
 
-class NestedSerializer(serializers.ModelSerializer):
-    # pylint: disable=too-few-public-methods
-    class Meta(object):
-        model = models.Club
-        fields = ('lat', 'lon')
-
-
 class GeoCoordinateSerializer(serializers.Serializer):
     # pylint: disable=too-few-public-methods
     lat = serializers.FloatField
@@ -27,12 +20,11 @@ class GeoCoordinateSerializer(serializers.Serializer):
 
 class Club(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
-    coords = GeoCoordinateSerializer(
-        read_only=True)
+    coords = GeoCoordinateSerializer(read_only=True)
 
     def transform_coords(self, obj, value):
-        return {'lat': obj.lat,
-                'lon': obj.lon}
+        # pylint: disable=no-self-use,unused-argument
+        return {'lat': obj.lat, 'lon': obj.lon}
 
     class Meta(object):
         model = models.Club
