@@ -1,8 +1,13 @@
 # Release notes
 
+## v01.04.00
+
+- Nothing to do here...
+
+
 ## v01.03.00
 
-- **TODO** - Fill me in...
+- Nothing to do here...
 
 
 ## v01.02.00
