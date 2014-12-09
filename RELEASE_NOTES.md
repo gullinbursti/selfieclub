@@ -1,5 +1,10 @@
 # Release notes
 
+## v01.05.00
+
+- Nothing to do here...
+
+
 ## v01.04.00
 
 - Nothing to do here...
