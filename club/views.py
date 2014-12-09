@@ -101,7 +101,7 @@ class ClubStatusupdates(mixins.ListModelMixin,
         queryset = status_models.StatusUpdate.objects
         club_id = self.kwargs['club_id']
         if club_id:
-            response = queryset.filter(club=club_id)
+            response = queryset.filter(club=club_id).filter(parent=0)
         else:
             response = Response(status=status.HTTP_400_BAD_REQUEST)
         return response
