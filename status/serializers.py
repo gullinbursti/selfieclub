@@ -11,6 +11,19 @@ class StatusUpdate(serializers.ModelSerializer):
         fields = ('id', 'creator_id', 'is_private', 'votes', 'added')
 
 
+class ExpandedStatusUpdate(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+    owner_member_id = serializers.IntegerField(source='creator_id')
+    img = serializers.CharField(source='creator_img')
+    text = serializers.CharField(source='subject')
+    subjects = serializers.SlugRelatedField(many=True, slug_field='title')
+
+    class Meta(object):
+        # pylint: disable=too-few-public-methods
+        model = models.StatusUpdate
+        fields = ('id', 'owner_member_id', 'img', 'text', 'subjects', 'added')
+
+
 class StatusUpdateViewerSerializer(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
     member_id = serializers.IntegerField(

@@ -1,9 +1,13 @@
-from club import serializers
 from club import models
-from rest_framework import viewsets
+from club import serializers
+from math import cos, radians
 from rest_framework import mixins
 from rest_framework import permissions
-from math import cos, radians
+from rest_framework import status
+from rest_framework import viewsets
+from rest_framework.response import Response
+from status import models as status_models
+from status import serializers as status_serializers
 
 
 class ClubType(viewsets.ModelViewSet):
@@ -84,3 +88,20 @@ class ClubsWithLabelByLabelName(mixins.ListModelMixin,
         if member_id is not None:
             queryset = queryset.filter(label__name=member_id)
         return queryset
+
+
+class ClubStatusupdates(mixins.ListModelMixin,
+                        viewsets.GenericViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-ancestors, too-few-public-methods
+    queryset = status_models.StatusUpdate.objects
+    serializer_class = status_serializers.ExpandedStatusUpdate
+
+    def get_queryset(self):
+        queryset = status_models.StatusUpdate.objects
+        club_id = self.kwargs['club_id']
+        if club_id:
+            response = queryset.filter(club=club_id)
+        else:
+            response = Response(status=status.HTTP_400_BAD_REQUEST)
+        return response
