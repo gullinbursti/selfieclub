@@ -1,6 +1,7 @@
-from status import models
+from django.db.models import Q, Sum
 from django.forms import widgets
 from rest_framework import serializers
+from status import models
 
 
 class StatusUpdate(serializers.ModelSerializer):
@@ -17,11 +18,24 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     img = serializers.CharField(source='creator_img')
     text = serializers.CharField(source='subject')
     subjects = serializers.SlugRelatedField(many=True, slug_field='title')
+    net_vote_score = serializers.IntegerField(read_only=True, source='*')
+
+    def transform_net_vote_score(self, obj, value):
+        queryset = models.StatusUpdateVoter.objects
+        if not obj.parent_id:
+            queryset = queryset.filter(
+                Q(status_update=obj.id)
+                | Q(status_update__parent_id=obj.id))
+        else:
+            queryset = queryset.filter(status_update=obj.id)
+        result = queryset.aggregate(net_vote_score=Sum('vote'))
+        return result['net_vote_score']
 
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
-        fields = ('id', 'owner_member_id', 'img', 'text', 'subjects', 'added')
+        fields = ('id', 'owner_member_id', 'img', 'text', 'subjects', 'added',
+                  'net_vote_score')
 
 
 class StatusUpdateViewerSerializer(serializers.ModelSerializer):
