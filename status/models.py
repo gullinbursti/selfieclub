@@ -11,6 +11,7 @@ from django.db import models
 class StatusUpdate(models.Model):
     # pylint: disable=too-few-public-methods
     id = models.IntegerField(primary_key=True)
+    parent_id = models.IntegerField()
     status_id = models.IntegerField()
     subject_id = models.IntegerField()
     creator_id = models.IntegerField()

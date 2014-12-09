@@ -1,10 +1,11 @@
 from django.utils import timezone
-from status import serializers
-from status import models
 from messaging import tasks
+from rest_framework import mixins
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
+from status import models
+from status import serializers
 import newsfeed_member
 
 
@@ -143,3 +144,20 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
                                             status_update.creator_id)
         status_update.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class StatusUpdateChildren(mixins.ListModelMixin,
+                           viewsets.GenericViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-ancestors, too-few-public-methods
+    queryset = models.StatusUpdate.objects
+    serializer_class = serializers.ExpandedStatusUpdate
+
+    def get_queryset(self):
+        queryset = models.StatusUpdate.objects
+        status_update_id = self.kwargs['status_update_id']
+        if status_update_id:
+            response = queryset.filter(parent_id=status_update_id)
+        else:
+            response = Response(status=status.HTTP_400_BAD_REQUEST)
+        return response

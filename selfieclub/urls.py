@@ -12,6 +12,8 @@ admin.autodiscover()
 # Keep in mind that order is relavant, more exact names should be at the top
 ROUTER = DefaultRouter()
 ROUTER.register(r'^statusupdate', status_views.StatusUpdateViewSet)
+ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/children',
+                status_views.StatusUpdateChildren)
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/$',
                 status_views.StatusUpdateViewSet)
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/voters',
