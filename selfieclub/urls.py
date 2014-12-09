@@ -26,6 +26,8 @@ ROUTER.register(r'^club/type', club_views.ClubType)
 ROUTER.register(r'^club', club_views.Club)
 ROUTER.register(r'^newsfeed/member/type', newsfeed_member_views.NewsfeedType)
 ROUTER.register(r'^newsfeed/member', newsfeed_member_views.Newsfeed)
+ROUTER.register(r'^member/(?P<member_id>\d+)/clubs',
+                member_views.MemberClubs)
 ROUTER.register(r'^member', member_views.Member)
 
 
