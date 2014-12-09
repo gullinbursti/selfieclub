@@ -7,6 +7,8 @@ from rest_framework import mixins
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
+from datetime import datetime
+
 
 
 class Member(viewsets.ReadOnlyModelViewSet):
@@ -28,8 +30,14 @@ class MemberClubs(mixins.ListModelMixin, viewsets.GenericViewSet):
         queryset = club_model.Club.objects
         member_id = self.kwargs['member_id']
         if member_id is not None:
+            # Note that club_member.joined is set to '0000-00-00 00:00:00' if
+            # the member has not actually joined the club.  '0000-00-00
+            # 00:00:00' is an invalid date and time.  Searching greater then
+            # '0001-01-01'.
             response = queryset.filter(
-                Q(clubmember__user=member_id) | Q(owner=member_id))
+                (Q(clubmember__user=member_id)
+                 & Q(clubmember__joined__gte=datetime(1, 1, 1)))
+                | Q(owner=member_id))
         else:
             response = Response(status=status.HTTP_400_BAD_REQUEST)
         return response
