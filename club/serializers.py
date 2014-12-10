@@ -23,7 +23,7 @@ class Club(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
     coords = GeoCoordinateSerializer(read_only=True, source='*')
     total_members = serializers.IntegerField(read_only=True, source='*')
-    total_status_updates = serializers.IntegerField(read_only=True, source='*')
+    total_activity = serializers.IntegerField(read_only=True, source='*')
 
     def transform_total_members(self, obj, value):
         # pylint: disable=no-self-use,unused-argument
@@ -35,10 +35,13 @@ class Club(serializers.ModelSerializer):
         # +1 to include the owner
         return count + 1
 
-    def transform_total_status_updates(self, obj, value):
+    def transform_total_activity(self, obj, value):
         # pylint: disable=no-self-use,unused-argument
-        count = status_models.StatusUpdate.objects.filter(club=obj.id).count()
-        return count
+        status_updates = status_models.StatusUpdate.objects \
+            .filter(club=obj.id).count()
+        votes = status_models.StatusUpdateVoter.objects \
+            .filter(status_update__club=obj.id).count()
+        return status_updates + votes
 
     def transform_coords(self, obj, value):
         # pylint: disable=no-self-use,unused-argument
@@ -47,7 +50,7 @@ class Club(serializers.ModelSerializer):
     class Meta(object):
         model = models.Club
         fields = ('id', 'name', 'club_type', 'owner', 'description', 'img',
-                  'total_members', 'total_status_updates', 'coords', 'added')
+                  'total_members', 'total_activity', 'coords', 'added')
 
 
 class ClubSummary(serializers.ModelSerializer):
