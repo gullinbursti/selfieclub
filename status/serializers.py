@@ -34,8 +34,8 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
-        fields = ('id', 'owner_member_id', 'img', 'text', 'subjects', 'added',
-                  'net_vote_score')
+        fields = ('id', 'owner_member_id', 'img', 'text', 'subjects',
+                  'net_vote_score', 'added', 'updated')
 
 
 class StatusUpdateViewerSerializer(serializers.ModelSerializer):

@@ -21,7 +21,7 @@ ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/voters',
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/viewers',
                 status_views.StatusUpdateViewers)
 ROUTER.register(r'^club/(?P<club_id>\d+)/statusupdates',
-                club_views.ClubStatusupdates)
+                club_views.ClubStatusUpdates)
 ROUTER.register(r'^club/labeled/(?P<label>[^/]+)',
                 club_views.ClubsWithLabelByLabelName)
 ROUTER.register(r'^club/label/name', club_views.ClubLabelByName)

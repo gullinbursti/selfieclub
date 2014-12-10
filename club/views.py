@@ -90,7 +90,7 @@ class ClubsWithLabelByLabelName(mixins.ListModelMixin,
         return queryset
 
 
-class ClubStatusupdates(mixins.ListModelMixin,
+class ClubStatusUpdates(mixins.ListModelMixin,
                         viewsets.GenericViewSet):
     # pylint exception - inherited from Django parent
     # pylint: disable=too-many-ancestors, too-few-public-methods
@@ -101,7 +101,8 @@ class ClubStatusupdates(mixins.ListModelMixin,
         queryset = status_models.StatusUpdate.objects
         club_id = self.kwargs['club_id']
         if club_id:
-            response = queryset.filter(club=club_id).filter(parent=0)
+            response = queryset.filter(club=club_id).filter(parent=0) \
+                .order_by('-updated')
         else:
             response = Response(status=status.HTTP_400_BAD_REQUEST)
         return response

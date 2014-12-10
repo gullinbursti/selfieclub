@@ -157,7 +157,8 @@ class StatusUpdateChildren(mixins.ListModelMixin,
         queryset = models.StatusUpdate.objects
         status_update_id = self.kwargs['status_update_id']
         if status_update_id:
-            response = queryset.filter(parent=status_update_id)
+            response = queryset.filter(parent=status_update_id) \
+                .order_by('-updated')
         else:
             response = Response(status=status.HTTP_400_BAD_REQUEST)
         return response
