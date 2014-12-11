@@ -40,7 +40,7 @@ class StatusUpdate(models.Model):
         db_table = 'tblChallenges'
 
     def emotions(self):
-        emotions_json = self.statusupdateemotion.emotion_id_json
+        emotions_json = self.statusupdateemotion.emotion_id_json  # NOQA - pylint: disable=no-member
         result = []
         if emotions_json:
             emotion_ids = json.loads(emotions_json)
@@ -58,6 +58,7 @@ class StatusUpdate(models.Model):
 
 
 class Emotion(models.Model):
+    # pylint: disable=too-few-public-methods
     id = models.IntegerField(primary_key=True)
     title = models.CharField(unique=True, max_length=32)
     created = models.DateTimeField()
@@ -67,8 +68,13 @@ class Emotion(models.Model):
         managed = False
         db_table = 'tbl_emotion'
 
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.id)
+
 
 class StatusUpdateEmotion(models.Model):
+    # pylint: disable=too-few-public-methods
     status_update = models.OneToOneField(StatusUpdate, primary_key=True)
     emotion_id_count = models.IntegerField()
     emotion_id_json = models.TextField()
@@ -76,6 +82,10 @@ class StatusUpdateEmotion(models.Model):
     class Meta:
         managed = False
         db_table = 'tbl_status_update_emotion'
+
+    def __unicode__(self):
+        """Return unicode representation."""
+        return u'{}'.format(self.status_update)
 
 
 class StatusUpdateViewer(models.Model):

@@ -21,6 +21,7 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     net_vote_score = serializers.IntegerField(read_only=True, source='*')
 
     def transform_net_vote_score(self, obj, value):
+        # pylint: disable=no-self-use, unused-argument
         queryset = models.StatusUpdateVoter.objects
         if not obj.parent_id:
             queryset = queryset.filter(

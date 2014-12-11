@@ -10,7 +10,6 @@ from rest_framework.response import Response
 from datetime import datetime
 
 
-
 class Member(viewsets.ReadOnlyModelViewSet):
     # pylint exception - inherited from Django parent
     # pylint: disable=too-many-ancestors, too-few-public-methods
