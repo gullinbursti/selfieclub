@@ -17,7 +17,7 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     owner_member_id = serializers.IntegerField(source='creator_id')
     img = serializers.CharField(source='creator_img')
     text = serializers.CharField(source='subject')
-    subjects = serializers.SlugRelatedField(many=True, slug_field='title')
+    emotions = serializers.CharField(source='emotions', read_only=True)
     net_vote_score = serializers.IntegerField(read_only=True, source='*')
 
     def transform_net_vote_score(self, obj, value):
@@ -34,7 +34,7 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
-        fields = ('id', 'owner_member_id', 'img', 'text', 'subjects',
+        fields = ('id', 'owner_member_id', 'img', 'text', 'emotions',
                   'net_vote_score', 'added', 'updated')
 
 
