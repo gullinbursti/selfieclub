@@ -46,8 +46,6 @@ class Club(models.Model):
         # member has not actually joined the club.  '0000-00-00 00:00:00' is an
         # invalid date and time.  Searching greater then '0001-01-01'.
 
-        # count = member_models.ClubMember.objects.filter(club=self.id) \
-        #     .filter(joined__gte=datetime(1, 1, 1)).count()
         count = self.clubmember_set.filter(joined__gte=datetime(1, 1, 1)) \
             .count()
         return count + 1
