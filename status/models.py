@@ -39,7 +39,7 @@ class StatusUpdate(models.Model):
         managed = False
         db_table = 'tblChallenges'
 
-    def emotions(self):
+    def get_emotions(self):
         emotions_json = self.statusupdateemotion.emotion_id_json  # NOQA - pylint: disable=no-member
         result = []
         if emotions_json:

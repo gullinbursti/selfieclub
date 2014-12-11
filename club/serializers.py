@@ -1,8 +1,5 @@
 from club import models
-from datetime import datetime
 from django.forms import widgets
-from member import models as member_models
-from status import models as status_models
 from rest_framework import serializers
 
 
@@ -22,26 +19,10 @@ class GeoCoordinateSerializer(serializers.Serializer):
 class Club(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
     coords = GeoCoordinateSerializer(read_only=True, source='*')
-    total_members = serializers.IntegerField(read_only=True, source='*')
-    total_activity = serializers.IntegerField(read_only=True, source='*')
-
-    def transform_total_members(self, obj, value):
-        # pylint: disable=no-self-use,unused-argument
-        # Note that club_member.joined is set to '0000-00-00 00:00:00' if the
-        # member has not actually joined the club.  '0000-00-00 00:00:00' is an
-        # invalid date and time.  Searching greater then '0001-01-01'.
-        count = member_models.ClubMember.objects.filter(club=obj.id) \
-            .filter(joined__gte=datetime(1, 1, 1)).count()
-        # +1 to include the owner
-        return count + 1
-
-    def transform_total_activity(self, obj, value):
-        # pylint: disable=no-self-use,unused-argument
-        status_updates = status_models.StatusUpdate.objects \
-            .filter(club=obj.id).count()
-        votes = status_models.StatusUpdateVoter.objects \
-            .filter(status_update__club=obj.id).count()
-        return status_updates + votes
+    total_members = serializers.IntegerField(read_only=True,
+                                             source='get_total_members')
+    total_activity = serializers.IntegerField(read_only=True,
+                                              source='get_total_activity')
 
     def transform_coords(self, obj, value):
         # pylint: disable=no-self-use,unused-argument

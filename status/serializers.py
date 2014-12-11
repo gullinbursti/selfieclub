@@ -17,7 +17,7 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     owner_member_id = serializers.IntegerField(source='creator_id')
     img = serializers.CharField(source='creator_img')
     text = serializers.CharField(source='subject')
-    emotions = serializers.CharField(source='emotions', read_only=True)
+    emotions = serializers.CharField(source='get_emotions', read_only=True)
     net_vote_score = serializers.IntegerField(read_only=True, source='*')
 
     def transform_net_vote_score(self, obj, value):
