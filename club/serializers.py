@@ -1,8 +1,7 @@
 from club import models
 from django.forms import widgets
-# from django.forms.models import model_to_dict
+from drf_compound_fields.fields import DictField
 from rest_framework import serializers
-# import json
 
 
 class ClubType(serializers.ModelSerializer):
@@ -12,24 +11,18 @@ class ClubType(serializers.ModelSerializer):
         fields = ('id', 'club_type', 'description', 'added')
 
 
-class GeoCoordinateSerializer(serializers.Serializer):
-    # pylint: disable=too-few-public-methods
-    lat = serializers.FloatField
-    lon = serializers.FloatField
-
-
 class Club(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
-    coords = GeoCoordinateSerializer(read_only=True)
-
-    def transform_coords(self, obj, value):
-        # pylint: disable=no-self-use,unused-argument
-        return {'lat': obj.lat, 'lon': obj.lon}
+    coords = DictField(read_only=True, source='get_coords')
+    total_members = serializers.IntegerField(read_only=True,
+                                             source='get_total_members')
+    total_activity = serializers.IntegerField(read_only=True,
+                                              source='get_total_activity')
 
     class Meta(object):
         model = models.Club
         fields = ('id', 'name', 'club_type', 'owner', 'description', 'img',
-                  'coords', 'added')
+                  'total_members', 'total_activity', 'coords', 'added')
 
 
 class ClubSummary(serializers.ModelSerializer):
