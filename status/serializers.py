@@ -1,6 +1,7 @@
-from status import models
+from django.db.models import Q, Sum
 from django.forms import widgets
 from rest_framework import serializers
+from status import models
 
 
 class StatusUpdate(serializers.ModelSerializer):
@@ -9,6 +10,33 @@ class StatusUpdate(serializers.ModelSerializer):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
         fields = ('id', 'creator_id', 'is_private', 'votes', 'added')
+
+
+class ExpandedStatusUpdate(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+    owner_member_id = serializers.IntegerField(source='creator_id')
+    img = serializers.CharField(source='creator_img')
+    text = serializers.CharField(source='subject')
+    emotions = serializers.CharField(source='get_emotions', read_only=True)
+    net_vote_score = serializers.IntegerField(read_only=True, source='*')
+
+    def transform_net_vote_score(self, obj, value):
+        # pylint: disable=no-self-use, unused-argument
+        queryset = models.StatusUpdateVoter.objects
+        if not obj.parent_id:
+            queryset = queryset.filter(
+                Q(status_update=obj.id)
+                | Q(status_update__parent_id=obj.id))
+        else:
+            queryset = queryset.filter(status_update=obj.id)
+        result = queryset.aggregate(net_vote_score=Sum('vote'))
+        return result['net_vote_score']
+
+    class Meta(object):
+        # pylint: disable=too-few-public-methods
+        model = models.StatusUpdate
+        fields = ('id', 'owner_member_id', 'img', 'text', 'emotions',
+                  'net_vote_score', 'added', 'updated')
 
 
 class StatusUpdateViewerSerializer(serializers.ModelSerializer):

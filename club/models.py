@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
+from datetime import datetime
 from django.db import models
+from django.db.models import Count
 
 
 # TODO - Comb through and confirm against DB table!!
@@ -37,6 +39,27 @@ class Club(models.Model):
     class Meta(object):
         managed = False
         db_table = 'club'
+
+    def get_total_members(self):
+        # pylint: disable=no-self-use,unused-argument
+        # Note that club_member.joined is set to '0000-00-00 00:00:00' if the
+        # member has not actually joined the club.  '0000-00-00 00:00:00' is an
+        # invalid date and time.  Searching greater then '0001-01-01'.
+
+        count = self.clubmember_set.filter(joined__gte=datetime(1, 1, 1)) \
+            .count()
+        return count + 1
+
+    def get_total_activity(self):
+        # pylint: disable=no-self-use,unused-argument
+        status_updates = self.statusupdate_set.count()
+        votes = self.statusupdate_set \
+            .aggregate(count=Count('statusupdatevoter'))['count']
+        return status_updates + votes
+
+    def get_coords(self):
+        # pylint: disable=no-self-use,unused-argument
+        return {'lat': self.lat, 'lon': self.lon}
 
     def __unicode__(self):
         """Return unicode representation."""

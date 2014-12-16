@@ -12,12 +12,16 @@ admin.autodiscover()
 # Keep in mind that order is relavant, more exact names should be at the top
 ROUTER = DefaultRouter()
 ROUTER.register(r'^statusupdate', status_views.StatusUpdateViewSet)
+ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/children',
+                status_views.StatusUpdateChildren)
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/$',
                 status_views.StatusUpdateViewSet)
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/voters',
                 status_views.StatusUpdateVoters)
 ROUTER.register(r'^statusupdate/(?P<status_update_id>\d+)/viewers',
                 status_views.StatusUpdateViewers)
+ROUTER.register(r'^club/(?P<club_id>\d+)/statusupdates',
+                club_views.ClubStatusUpdates)
 ROUTER.register(r'^club/labeled/(?P<label>[^/]+)',
                 club_views.ClubsWithLabelByLabelName)
 ROUTER.register(r'^club/label/name', club_views.ClubLabelByName)
@@ -26,6 +30,8 @@ ROUTER.register(r'^club/type', club_views.ClubType)
 ROUTER.register(r'^club', club_views.Club)
 ROUTER.register(r'^newsfeed/member/type', newsfeed_member_views.NewsfeedType)
 ROUTER.register(r'^newsfeed/member', newsfeed_member_views.Newsfeed)
+ROUTER.register(r'^member/(?P<member_id>\d+)/clubs',
+                member_views.MemberClubs)
 ROUTER.register(r'^member', member_views.Member)
 
 
