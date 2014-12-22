@@ -102,7 +102,7 @@ class ClubStatusUpdates(mixins.ListModelMixin,
         club_id = self.kwargs['club_id']
         if club_id:
             response = queryset.filter(club=club_id).filter(parent=0) \
-                .order_by('-updated')
+                .exclude(subject='__FLAG__').order_by('-updated')
         else:
             response = Response(status=status.HTTP_400_BAD_REQUEST)
         return response

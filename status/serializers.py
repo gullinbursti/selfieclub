@@ -29,7 +29,8 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
                 | Q(status_update__parent_id=obj.id))
         else:
             queryset = queryset.filter(status_update=obj.id)
-        result = queryset.aggregate(net_vote_score=Sum('vote'))
+        result = queryset.exclude(status_update__subject='__FLAG__') \
+            .aggregate(net_vote_score=Sum('vote'))
         return result['net_vote_score']
 
     class Meta(object):

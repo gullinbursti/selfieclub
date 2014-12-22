@@ -52,8 +52,9 @@ class Club(models.Model):
 
     def get_total_activity(self):
         # pylint: disable=no-self-use,unused-argument
-        status_updates = self.statusupdate_set.count()
-        votes = self.statusupdate_set \
+        status_updates = self.statusupdate_set.exclude(subject='__FLAG__') \
+            .count()
+        votes = self.statusupdate_set.exclude(subject='__FLAG__') \
             .aggregate(count=Count('statusupdatevoter'))['count']
         return status_updates + votes
 
