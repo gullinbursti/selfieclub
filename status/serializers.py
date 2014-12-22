@@ -19,6 +19,7 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     text = serializers.CharField(source='subject')
     emotions = serializers.CharField(source='get_emotions', read_only=True)
     net_vote_score = serializers.IntegerField(read_only=True, source='*')
+    vote_score = serializers.IntegerField(read_only=True, source='vote_score')
 
     def transform_net_vote_score(self, obj, value):
         # pylint: disable=no-self-use, unused-argument
@@ -37,7 +38,7 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
         fields = ('id', 'owner_member_id', 'img', 'text', 'emotions',
-                  'net_vote_score', 'added', 'updated')
+                  'vote_score', 'net_vote_score', 'added', 'updated')
 
 
 class StatusUpdateViewerSerializer(serializers.ModelSerializer):

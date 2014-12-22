@@ -1,11 +1,11 @@
 from club import models
 from club import serializers
+from django.db.models import Sum
 from math import cos, radians
 from rest_framework import mixins
 from rest_framework import permissions
-from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.response import Response
+from selfieclub.exceptions import BadRequestException
 from status import models as status_models
 from status import serializers as status_serializers
 
@@ -100,9 +100,12 @@ class ClubStatusUpdates(mixins.ListModelMixin,
     def get_queryset(self):
         queryset = status_models.StatusUpdate.objects
         club_id = self.kwargs['club_id']
-        if club_id:
+        sort_by = self.request.QUERY_PARAMS.get('sort_by', 'updated')
+        if club_id and sort_by in ('updated', 'vote_score'):
             response = queryset.filter(club=club_id).filter(parent=0) \
-                .exclude(subject='__FLAG__').order_by('-updated')
+                .exclude(subject='__FLAG__') \
+                .annotate(vote_score=Sum('statusupdatevoter__vote')) \
+                .order_by('-{}'.format(sort_by))
         else:
-            response = Response(status=status.HTTP_400_BAD_REQUEST)
+            raise BadRequestException()
         return response
