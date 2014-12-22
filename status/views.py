@@ -20,8 +20,8 @@ class StatusUpdateViewSet(viewsets.ReadOnlyModelViewSet):
             update_id = self.kwargs['status_update_id']
             queryset = models.StatusUpdate.objects.filter(id=update_id)
         else:
-            queryset = models.StatusUpdate.objects.all()
-        return queryset
+            queryset = models.StatusUpdate.objects
+        return queryset.exclude(subject='__FLAG__')
 
 
 class StatusUpdateViewers(viewsets.ModelViewSet):
@@ -34,8 +34,9 @@ class StatusUpdateViewers(viewsets.ModelViewSet):
     def get_queryset(self):
         # TODO: validate status_update_id
         status_update_id = self.kwargs['status_update_id']
-        return models.StatusUpdateViewer.objects.filter(
-            status_update=status_update_id)
+        return models.StatusUpdateViewer.objects \
+            .filter(status_update=status_update_id) \
+            .exclude(status_update__subject='__FLAG__')
 
     def create(self, request, *args, **kwargs):
         # Always validate first!!!  This lets the serializer do the work.
@@ -68,8 +69,9 @@ class StatusUpdateVoters(viewsets.ModelViewSet):
 
     def get_queryset(self):
         status_update_id = self.kwargs['status_update_id']
-        return models.StatusUpdateVoter.objects.filter(
-            status_update=status_update_id)
+        return models.StatusUpdateVoter.objects \
+            .filter(status_update=status_update_id) \
+            .exclude(status_update__subject='__FLAG__')
 
     def create(self, request, *args, **kwargs):
         # Defaulting to upvotes
@@ -158,7 +160,7 @@ class StatusUpdateChildren(mixins.ListModelMixin,
         status_update_id = self.kwargs['status_update_id']
         if status_update_id:
             response = queryset.filter(parent=status_update_id) \
-                .order_by('-updated')
+                .exclude(subject='__FLAG__').order_by('-updated')
         else:
             response = Response(status=status.HTTP_400_BAD_REQUEST)
         return response
