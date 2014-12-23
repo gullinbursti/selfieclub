@@ -26,6 +26,7 @@ ROUTER.register(r'^club/labeled/(?P<label>[^/]+)',
                 club_views.ClubsWithLabelByLabelName)
 ROUTER.register(r'^club/label/name', club_views.ClubLabelByName)
 ROUTER.register(r'^club/label', club_views.ClubLabel)
+ROUTER.register(r'^club/search', club_views.ClubSearch)
 ROUTER.register(r'^club/type', club_views.ClubType)
 ROUTER.register(r'^club', club_views.Club)
 ROUTER.register(r'^newsfeed/member/type', newsfeed_member_views.NewsfeedType)

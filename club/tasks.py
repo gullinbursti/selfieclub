@@ -6,7 +6,8 @@ import member
 import club
 import messaging
 import newsfeed_member
-
+import calendar
+from club import search
 
 LOGGER = get_task_logger(__name__)
 
@@ -91,6 +92,26 @@ def joined(club_id, actor_member_id, when):
     # Celery's .delay() just means .queue() or .submit() immediately
     messaging.tasks.send_push_joined.delay(
         club_id, actor_member_id, joined_club.owner.id)
+
+
+@shared_task
+def index_club(club_id):
+    LOGGER.info("Event received: index_club(%s)", club_id)
+    club_to_index = club.models.Club.objects.get(pk=club_id)
+    if not club_to_index:
+        LOGGER.debug("Club '%s' does not exist", club_id)
+    params = {'club_id': str(club_to_index.id),
+              'type': club_to_index.club_type.club_type,
+              'added': calendar.timegm(club_to_index.added.utctimetuple()),
+              'lat': club_to_index.lat,
+              'lon': club_to_index.lon,
+              'owner_id': str(club_to_index.owner.id),
+              'username': club_to_index.owner.name,
+              'gender': club_to_index.owner.gender,
+              'name': club_to_index.name,
+              'description': club_to_index.description,
+              'tags': club_to_index.tags}
+    search.add_club(club_id, params)
 
 
 @shared_task
