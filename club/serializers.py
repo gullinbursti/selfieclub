@@ -2,6 +2,7 @@ from club import models
 from django.forms import widgets
 from drf_compound_fields.fields import DictField
 from rest_framework import serializers
+import member
 
 
 class ClubType(serializers.ModelSerializer):
@@ -18,11 +19,15 @@ class Club(serializers.ModelSerializer):
                                              source='get_total_members')
     total_activity = serializers.IntegerField(read_only=True,
                                               source='get_total_activity')
+    # TODO - Depricate 'owner' in favor of 'owner_member'.
+    owner_member = member.serializers.MemberSummary(read_only=True,
+                                                    source='owner')
 
     class Meta(object):
         model = models.Club
-        fields = ('id', 'name', 'club_type', 'owner', 'description', 'img',
-                  'total_members', 'total_activity', 'coords', 'added')
+        fields = ('id', 'name', 'club_type', 'owner', 'owner_member',
+                  'description', 'img', 'total_members', 'total_activity',
+                  'coords', 'added')
 
 
 class ClubSummary(serializers.ModelSerializer):
