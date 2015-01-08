@@ -2,10 +2,13 @@ from django.db.models import Q, Sum
 from django.forms import widgets
 from rest_framework import serializers
 from status import models
+import member
 
 
 class StatusUpdate(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
+    creator_id = serializers.IntegerField(source='creator_id')
+
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
@@ -14,7 +17,11 @@ class StatusUpdate(serializers.ModelSerializer):
 
 class ExpandedStatusUpdate(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
+    # TODO: Note that owner_member_id is being depricated in favor of
+    # owner_member.  Leaving in place to not break the client.
     owner_member_id = serializers.IntegerField(source='creator_id')
+    owner_member = member.serializers.MemberSummary(read_only=True,
+                                                    source='creator')
     img = serializers.CharField(source='creator_img')
     text = serializers.CharField(source='subject')
     emotions = serializers.CharField(source='get_emotions', read_only=True)
@@ -37,8 +44,9 @@ class ExpandedStatusUpdate(serializers.ModelSerializer):
     class Meta(object):
         # pylint: disable=too-few-public-methods
         model = models.StatusUpdate
-        fields = ('id', 'owner_member_id', 'img', 'text', 'emotions',
-                  'vote_score', 'net_vote_score', 'added', 'updated')
+        fields = ('id', 'owner_member_id', 'owner_member', 'img', 'text',
+                  'emotions', 'vote_score', 'net_vote_score', 'added',
+                  'updated')
 
 
 class StatusUpdateViewerSerializer(serializers.ModelSerializer):

@@ -11,3 +11,11 @@ class Member(serializers.ModelSerializer):
         # pylint: disable=too-few-public-methods
         model = models.Member
         fields = ('id', 'avatar_url', 'name')
+
+
+class MemberSummary(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+    class Meta(object):
+        # pylint: disable=too-few-public-methods
+        model = models.Member
+        fields = ('id', 'name')

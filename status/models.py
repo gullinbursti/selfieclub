@@ -15,7 +15,7 @@ class StatusUpdate(models.Model):
     parent = models.ForeignKey('self')
     status_id = models.IntegerField()
     subject_id = models.IntegerField()
-    creator_id = models.IntegerField()
+    creator = models.ForeignKey('member.Member')
     creator_img = models.CharField(max_length=255)
     has_previewed = models.CharField(db_column='hasPreviewed', max_length=1)
     votes = models.IntegerField()
