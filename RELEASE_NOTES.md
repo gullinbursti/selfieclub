@@ -1,5 +1,10 @@
 # Release notes
 
+## v01.06.00
+
+- **TODO**
+
+
 ## v01.05.00
 
 - Nothing to do here...
