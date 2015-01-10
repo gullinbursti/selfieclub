@@ -33,6 +33,8 @@ ROUTER.register(r'^newsfeed/member', newsfeed_member_views.Newsfeed)
 ROUTER.register(r'^member/(?P<member_id>\d+)/clubs',
                 member_views.MemberClubs)
 ROUTER.register(r'^member', member_views.Member)
+ROUTER.register(r'^member/(?P<member_id>\d+)/statusupdates',
+                member_views.MemberStatusUpdates)
 
 
 # 'urlpatterns' is required by Django lib.
