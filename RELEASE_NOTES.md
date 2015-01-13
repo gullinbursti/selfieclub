@@ -2,7 +2,7 @@
 
 ## v01.06.00
 
-- **TODO**
+- Nothing to do here...
 
 
 ## v01.05.00
