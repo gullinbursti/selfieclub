@@ -1,4 +1,5 @@
 from club import models
+from club import search
 from club import serializers
 from django.db.models import Sum
 from math import cos, radians
@@ -88,6 +89,24 @@ class ClubsWithLabelByLabelName(mixins.ListModelMixin,
         if member_id is not None:
             queryset = queryset.filter(label__name=member_id)
         return queryset
+
+
+class ClubSearch(viewsets.ReadOnlyModelViewSet):
+    # pylint exception - inherited from Django parent
+    # pylint: disable=too-many-ancestors, too-few-public-methods
+    model = models.Club
+    serializer_class = serializers.ClubSearch
+
+    def get_queryset(self):
+        results = None
+        tags = self.request.QUERY_PARAMS.get('q', None)
+        lat = self.request.QUERY_PARAMS.get('lat', None)
+        lon = self.request.QUERY_PARAMS.get('lon', None)
+        radius = self.request.QUERY_PARAMS.get('radius', None)
+        page_size = self.request.QUERY_PARAMS.get('page_size', 5)
+        if tags is not None:
+            results = search.prefix_search(tags, lat, lon, radius, page_size)
+        return results
 
 
 class ClubStatusUpdates(mixins.ListModelMixin,

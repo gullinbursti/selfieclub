@@ -35,6 +35,7 @@ class Club(models.Model):
     lon = models.FloatField(max_length=9)
     coords = {'lat': None, 'lon': None}
     added = models.DateTimeField(auto_now_add=True)
+    tags = models.CharField(max_length=255)
 
     class Meta(object):
         managed = False

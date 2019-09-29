@@ -30,6 +30,16 @@ class Club(serializers.ModelSerializer):
                   'coords', 'added')
 
 
+class ClubSearch(serializers.ModelSerializer):
+    # pylint: disable=too-few-public-methods
+    coords = DictField(read_only=True, source='get_coords')
+
+    class Meta(object):
+        # pylint: disable=too-few-public-methods
+        model = models.Club
+        fields = ('id', 'name', 'coords', 'added', 'tags')
+
+
 class ClubSummary(serializers.ModelSerializer):
     # pylint: disable=too-few-public-methods
     class Meta(object):
